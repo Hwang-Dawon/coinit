@@ -159,7 +159,7 @@ const getPieChartStyle = () => {
 
 /* 카테고리별 지출현황 */
 .category-summary {
-  background-color: yellow;
+  background-color: yellowgreen;
   width: 200px;
   height: 200px;
   border-radius: 50%;
