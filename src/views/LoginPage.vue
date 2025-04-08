@@ -11,7 +11,7 @@ const login = async () => {
     const response = await axios.get('http://localhost:3001/LoginInfo');
     const userList = response.data;
     const user = userList.find(
-      (use) => use.userID === userID.value && use.password === password.value
+      (use) => use.userID === user.ID.value && use.password === password.value
     );
 
     if (user) {
