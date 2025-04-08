@@ -1,6 +1,6 @@
 <template>
   <div class="record-container">
-    <h2>지출 / 수입 기록</h2>
+    <h2>{{ titleText }}</h2>
 
     <div class="button-row">
       <button @click="onClear">삭제</button>
@@ -22,6 +22,7 @@
       </select>
 
       <select v-model="form.category">
+        <option disabled value="">카테고리 선택</option>
         <option v-for="cat in categories" :key="cat.id" :value="cat.name">
           {{ cat.name }}
         </option>
@@ -33,7 +34,7 @@
     <hr />
     <h3>최근 거래내역 (지출, 수입)</h3>
     <ul class="recent-list">
-      <li v-for="item in recent" :key="item.id">
+      <li v-for="item in recent.slice().reverse()" :key="item.id">
         <span>{{ item.date }}</span>
         <span class="type">{{ typeLabel[item.type] }}</span>
         <span>{{ item.category }}</span>
@@ -44,9 +45,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import axios from 'axios';
 
+// 기본 입력값
 const form = ref({
   description: '',
   amount: 0,
@@ -64,6 +66,12 @@ const typeLabel = {
   expense: '지출',
 };
 
+// 상단 제목 동적 변경
+const titleText = computed(() => {
+  return form.value.type === 'income' ? '수입 기록' : '지출 기록';
+});
+
+// 카테고리 불러오기
 const fetchCategories = async () => {
   const url =
     form.value.type === 'income' ? '/incomeCategory' : '/expenseCategory';
@@ -71,6 +79,7 @@ const fetchCategories = async () => {
   categories.value = res.data;
 };
 
+// 최근 거래 불러오기
 const fetchRecent = async () => {
   const res = await axios.get(
     'http://localhost:3001/transactions?_sort=id&_order=desc&_limit=5'
@@ -78,7 +87,13 @@ const fetchRecent = async () => {
   recent.value = res.data;
 };
 
+// 기록 저장
 const onSubmit = async () => {
+  if (!form.value.category) {
+    alert('카테고리를 선택해주세요.');
+    return;
+  }
+
   await axios.post('http://localhost:3001/transactions', {
     ...form.value,
   });
@@ -86,6 +101,7 @@ const onSubmit = async () => {
   fetchRecent();
 };
 
+// 입력 초기화
 const onClear = () => {
   form.value = {
     description: '',
@@ -95,13 +111,16 @@ const onClear = () => {
     category: '',
     memo: '',
   };
+  fetchCategories();
 };
 
+// 금액 포맷
 const formatAmount = (num) => {
   return Number(num).toLocaleString() + '원';
 };
 
 watch(() => form.value.type, fetchCategories);
+
 onMounted(() => {
   fetchCategories();
   fetchRecent();
@@ -115,7 +134,7 @@ onMounted(() => {
   font-family: 'Segoe UI', sans-serif;
 }
 
-.record-container h2 {
+h2 {
   text-align: center;
   margin-top: 16px;
 }
@@ -144,7 +163,7 @@ textarea {
   box-sizing: border-box;
 }
 
-/* 거래 리스트 */
+/* 최근 거래내역 스타일 */
 .recent-list {
   list-style: none;
   padding: 0;
