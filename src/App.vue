@@ -1,12 +1,19 @@
+<script setup>
+import { RouterLink, RouterView } from 'vue-router';
+</script>
+
 <template>
   <div id="app">
     <header>
       <h1>나의 가계부</h1>
-      <nav><router-link to="/transactions">거래 조회</router-link> |</nav>
+      <nav>
+        <RouterLink to="/record">기록</RouterLink> |
+        <RouterLink to="/transactions">거래 조회</RouterLink>
+      </nav>
     </header>
 
     <main>
-      <router-view />
+      <RouterView />
     </main>
 
     <footer>
@@ -14,11 +21,5 @@
     </footer>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'App',
-};
-</script>
 
 <style scoped></style>
