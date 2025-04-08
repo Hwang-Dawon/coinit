@@ -43,8 +43,8 @@ import { ref } from 'vue';
 .income,
 .expense {
   border: 1px solid;
-  padding: 10px 20px;
-  border-radius: 5px;
+  padding: 50px 50px;
+  border-radius: 10px;
   width: 150px;
 }
 .summary-title,
@@ -54,8 +54,8 @@ import { ref } from 'vue';
 
 /* 카테고리별 지출현황 */
 .category-summary {
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   margin: 20px auto;
   background-color: yellow;
@@ -65,6 +65,6 @@ import { ref } from 'vue';
   border: 1px solid;
   padding: 20px;
   margin-top: 30px;
-  min-height: 150px;
+  min-height: 100px;
 }
 </style>

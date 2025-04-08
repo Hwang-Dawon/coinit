@@ -29,7 +29,7 @@
   "LoginInfo": [
     {
       "id": 1,
-      "userID": "testuser",
+      "userID": "test.user",
       "password": "1234",
       "birth": "1995-08-21",
       "phone": "010-1234-5678"
@@ -56,6 +56,17 @@
     }
   ],
 
-  "incomeCategory": ["월급", "용돈", "이자", "기타"],
-  "expenseCategory": ["식비", "교통비", "유흥", "공과금", "기타"]
+  "incomeCategory": [
+    { "id": 1, "name": "월급" },
+    { "id": 2, "name": "용돈" },
+    { "id": 3, "name": "이자" },
+    { "id": 4, "name": "기타" }
+  ],
+  "expenseCategory": [
+    { "id": 1, "name": "식비" },
+    { "id": 2, "name": "교통비" },
+    { "id": 3, "name": "유흥" },
+    { "id": 4, "name": "공과금" },
+    { "id": 5, "name": "기타" }
+  ]
 }
