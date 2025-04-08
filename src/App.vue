@@ -1,26 +1,7 @@
-// App.vue
 <script setup>
-
-import LoginPage from '@/components/LoginPage.vue';
-</script>
-
-<template>
-  <LoginPage />
-</template>
-
-
-<script setup>
-import Summary from '@/views/Summary.vue';
-</script>
-
-<template>
-  <RouterView />
-  <!-- <Summary /> -->
-  <!-- Summary 컴포넌트 추가 -->
-</template>
-
-<script setup>
-import { RouterLink, RouterView } from 'vue-router';
+import LoginPage from '@/views/LoginPage.vue'
+import Summary from '@/views/Summary.vue'
+import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
@@ -28,21 +9,21 @@ import { RouterLink, RouterView } from 'vue-router';
     <header>
       <h1>나의 가계부</h1>
       <nav>
-
         <RouterLink to="/record">기록</RouterLink> |
         <RouterLink to="/transactions">거래 조회</RouterLink>
       </nav>
     </header>
 
     <main>
+      <LoginPage />
       <RouterView />
+      <!-- <Summary /> -->
     </main>
 
     <footer>
       <p>&copy; 2025 나의 가계부</p>
     </footer>
   </div>
-
 </template>
 
 <style scoped></style>
