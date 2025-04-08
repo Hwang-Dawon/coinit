@@ -6,8 +6,10 @@ import LoginPage from '@/components/LoginPage.vue';
 
 <template>
   <LoginPage />
+</template>
 
 
+<script setup>
 import Summary from '@/views/Summary.vue';
 </script>
 
@@ -15,7 +17,9 @@ import Summary from '@/views/Summary.vue';
   <RouterView />
   <!-- <Summary /> -->
   <!-- Summary 컴포넌트 추가 -->
+</template>
 
+<script setup>
 import { RouterLink, RouterView } from 'vue-router';
 </script>
 
