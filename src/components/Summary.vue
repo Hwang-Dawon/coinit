@@ -1,13 +1,18 @@
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
+
+const totalIncome = ref(0);
+const totalExpense = ref(0);
+const transactions = ref([]);
 </script>
 
 <template>
   <div class="summary">
     <h2 class="title">월별 요약</h2>
     <div class="month-summary">
-      <p class="income">총 수입</p>
-      <p class="expense">총 지출</p>
+      <p class="income">총 수입: {{ totalIncome }}</p>
+      <p class="expense">총 지출: {{ totalExpense }}</p>
     </div>
 
     <h2 class="summary-title">카테고리별 지출 현황</h2>
@@ -46,6 +51,12 @@ import { ref } from 'vue';
   padding: 50px 50px;
   border-radius: 10px;
   width: 150px;
+  margin: 0 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  text-align: center;
+  margin: 0;
 }
 .summary-title,
 .detail-title {
