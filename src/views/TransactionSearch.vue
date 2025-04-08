@@ -25,7 +25,7 @@
     <ul class="list">
       <li v-for="tx in filteredTransactions" :key="tx.id">
         {{ tx.date }} | {{ tx.type }} | {{ tx.category }} | {{ tx.amount }}원 |
-        {{ tx.description }}
+        {{ tx.memo }}
       </li>
     </ul>
   </div>
