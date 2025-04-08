@@ -127,6 +127,7 @@ const getPieChartStyle = () => {
   top: 0;
   text-align: center;
   left: 37%;
+  font-weight: bold;
 }
 
 /* 월별 요약 */
@@ -153,6 +154,7 @@ const getPieChartStyle = () => {
 .summary-title,
 .detail-title {
   font-size: 14px;
+  font-weight: bold;
 }
 
 /* 카테고리별 지출현황 */

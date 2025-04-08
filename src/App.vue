@@ -1,6 +1,6 @@
 // App.vue
 <script setup>
-import Summary from '@/components/Summary.vue';
+import Summary from '@/views/Summary.vue';
 </script>
 
 <template>
