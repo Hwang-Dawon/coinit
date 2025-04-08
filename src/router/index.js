@@ -14,6 +14,7 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginPage,
+      // children: [{ path: 'join', name: 'join', component: JoinPage }],
     },
   ],
 });
