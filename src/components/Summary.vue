@@ -5,6 +5,8 @@ import axios from 'axios';
 const totalIncome = ref(0);
 const totalExpense = ref(0);
 const transactions = ref([]);
+const categorySummary = ref({});
+const categoryDetails = ref([]);
 </script>
 
 <template>
