@@ -1,6 +1,13 @@
 // App.vue
 <script setup>
-<<<<<<< HEAD
+
+import LoginPage from '@/components/LoginPage.vue';
+</script>
+
+<template>
+  <LoginPage />
+
+
 import Summary from '@/views/Summary.vue';
 </script>
 
@@ -8,7 +15,7 @@ import Summary from '@/views/Summary.vue';
   <RouterView />
   <!-- <Summary /> -->
   <!-- Summary 컴포넌트 추가 -->
-=======
+
 import { RouterLink, RouterView } from 'vue-router';
 </script>
 
@@ -31,7 +38,7 @@ import { RouterLink, RouterView } from 'vue-router';
       <p>&copy; 2025 나의 가계부</p>
     </footer>
   </div>
->>>>>>> Develop
+
 </template>
 
 <style scoped></style>
