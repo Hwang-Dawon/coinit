@@ -1,7 +1,7 @@
 
 import { createRouter, createWebHistory } from 'vue-router';
 
-import LoginPage from '@/components/LoginPage.vue';
+import LoginPage from '@/views/LoginPage.vue';
 
 
 // index.js
