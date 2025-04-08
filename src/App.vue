@@ -4,7 +4,8 @@ import Summary from '@/components/Summary.vue';
 </script>
 
 <template>
-  <Summary />
+  <RouterView />
+  <!-- <Summary /> -->
   <!-- Summary 컴포넌트 추가 -->
 </template>
 
