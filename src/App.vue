@@ -2,7 +2,10 @@
   <div id="app">
     <header>
       <h1>나의 가계부</h1>
-      <nav><router-link to="/transactions">거래 조회</router-link> |</nav>
+      <nav>
+        <router-link to="/">홈</router-link> |
+        <router-link to="/transactions">거래 조회</router-link> |
+      </nav>
     </header>
 
     <main>
