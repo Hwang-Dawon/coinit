@@ -1,13 +1,61 @@
 {
-  "posts": [
-    { "id": "1", "title": "a title", "views": 100 },
-    { "id": "2", "title": "another title", "views": 200 }
+  "transactions": [
+    {
+      "id": 1,
+      "date": "2025-04-01",
+      "type": "income",
+      "category": "월급",
+      "amount": 3000000,
+      "description": "4월 급여"
+    },
+    {
+      "id": 2,
+      "date": "2025-04-02",
+      "type": "expense",
+      "category": "식비",
+      "amount": 12000,
+      "description": "점심"
+    },
+    {
+      "id": 3,
+      "date": "2025-04-03",
+      "type": "expense",
+      "category": "교통",
+      "amount": 2500,
+      "description": "지하철"
+    }
   ],
-  "comments": [
-    { "id": "1", "text": "a comment about post 1", "postId": "1" },
-    { "id": "2", "text": "another comment about post 1", "postId": "1" }
+
+  "LoginInfo": [
+    {
+      "id": 1,
+      "userID": "testuser",
+      "password": "1234",
+      "birth": "1995-08-21",
+      "phone": "010-1234-5678"
+    }
   ],
-  "profile": {
-    "name": "typicode"
-  }
+
+  "periodicExpense": [
+    {
+      "id": 1,
+      "date": "2025-04-01",
+      "type": "expense",
+      "category": "공과금",
+      "amount": 80000,
+      "memo": "전기요금"
+    }
+  ],
+
+  "users": [
+    {
+      "id": 1,
+      "username": "철수",
+      "email": "chulsoo@example.com",
+      "password": "chulsoo_password"
+    }
+  ],
+
+  "incomeCategory": ["월급", "용돈", "이자", "기타"],
+  "expenseCategory": ["식비", "교통비", "유흥", "공과금", "기타"]
 }
