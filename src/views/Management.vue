@@ -5,7 +5,7 @@
         <h1>재정관리, 예산</h1>
         <p>{{ today }}</p>
       </header>
-  
+      <!-- 예산관리 -->
       <section class="budget-status">
         <p>예산: {{ budget.toLocaleString() }}원</p>
         <p>보유 금액: {{ balance.toLocaleString() }}원</p>
