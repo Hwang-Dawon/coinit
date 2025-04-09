@@ -35,15 +35,15 @@ const validataPassword = () => {
 };
 const validataName = () => {};
 if (!nameRegex.test(name.value)) {
-  nameError.value = '비밀번호는 6자 이상 입니다.';
+  nameError.value = '이름은 한글 또는 영문자만 입력 가능합니다.';
 }
 const validataPhone = () => {};
 if (!phoneRegex.test(name.value)) {
-  phoneError.value = '비밀번호는 6자 이상 입니다.';
+  phoneError.value = '000-0000-0000 형식으로 입력해야 합니다.';
 }
 const validataEmail = () => {};
 if (!emailRegex.test(name.value)) {
-  emailError.value = '000-0000-0000 형식으로 입력해야 합니다.';
+  emailError.value = '올바른 이메일 형식이 아닙니다.';
 }
 
 //JSON 형태로 변환
@@ -68,27 +68,48 @@ email.value = '';
 </script>
 
 <template>
-  <div class="LoginPage">
-    <h2>COINIT <i class="fa-solid fa-coins"></i></h2>
-
+  <div class="JoinPage">
     <form class="join-container">
-      <input type="text" placeholder="아이디를 입력하세요" v-model="userId" />
+      <h2>COINIT <i class="fa-solid fa-coins"></i></h2>
+      <input
+        type="text"
+        placeholder="아이디를 입력하세요"
+        v-model="userId"
+        @input="validataId"
+      />
+      <span class="error" v-if="passwordError">{{ passwordError }}</span>
       <br />
       <input
         type="password"
         placeholder="비밀번호를 입력하세요"
         v-model="password"
+        @input="validataPassword"
       />
+      <span class="error" v-if="userIdError">{{ userIdError }}</span>
       <br />
-      <input type="text" placeholder="이름을 입력하세요" v-model="name" />
+      <input
+        type="text"
+        placeholder="이름을 입력하세요"
+        v-model="name"
+        @input="validataName"
+      />
+      <span class="error" v-if="nameError">{{ nameError }}</span>
       <br />
       <input
         type="text"
         placeholder="휴대폰 번호를 입력하세요"
         v-model="phone"
+        @input="validataPhone"
       />
+      <span class="error" v-if="userIdError">{{ phoneError }}</span>
       <br />
-      <input type="text" placeholder="이메일 입력하세요" v-model="email" />
+      <input
+        type="text"
+        placeholder="이메일 입력하세요"
+        v-model="email"
+        @input="validataEmail"
+      />
+      <span class="error" v-if="emailError">{{ emailError }}</span>
       <button class="joinBtn" @click="handleJoin">회원가입</button>
       <button class="backBtn">홈</button>
     </form>
@@ -135,6 +156,11 @@ input {
 input:focus {
   border-color: #5c7cfa;
   outline: none;
+}
+.error {
+  color: red;
+  font-size: 13px;
+  margin: 4px 0;
 }
 
 button {
