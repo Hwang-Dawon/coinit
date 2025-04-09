@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-
+import Home from '@/views/HomeView.vue';
 import LoginPage from '@/views/LoginPage.vue';
 import Summary from '@/views/Summary.vue';
 import TransactionSearch from '@/views/TransactionSearch.vue';
@@ -19,7 +19,7 @@ const router = createRouter({
       component: Summary,
     },
 
-    // { path: '/Home', name: 'Home', component: Home },
+    { path: '/Home', name: 'Home', component: Home },
 
     {
       path: '/transactions',
