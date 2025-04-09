@@ -69,15 +69,36 @@
   </script>
   
   <style scoped>
+
   .management {
-    padding: 1rem;
-    font-family: sans-serif;
-  }
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+  .card {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+}
   
   h1 {
     font-size: 24px;
     margin-bottom: 0.5rem;
   }
+
+  h3 {
+  font-size: 18px;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.25rem;
+  color: #333;
+}
   
   section, .fixed-expense, .monthly-status, .daily-status {
     margin-bottom: 1.5rem;
@@ -88,7 +109,22 @@
     padding-left: 0;
   }
   
+  .income {
+  color: #007bff;
+  }
+.expense {
+  color: #dc3545;
+  } 
+  
   li {
     margin-bottom: 0.3rem;
   }
+
+  header p {
+  font-size: 14px;
+  color: #666;
+  margin-top: -0.5rem;
+  }
+
+
   </style>
