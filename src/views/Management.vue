@@ -1,93 +1,199 @@
 <template>
   <div class="management">
-    <header>
-      <h1>재정관리, 예산</h1>
-      <p>{{ today }}</p>
-    </header>
-    <!-- 예산관리 -->
-    <section class="budget-status">
-      <p>예산: {{ budget.toLocaleString() }}원</p>
-      <p>보유 금액: {{ balance.toLocaleString() }}원</p>
-    </section>
+    <h2>총 예산</h2>
 
-    <div class="fixed-expense">
-      <h3>고정 지출내역</h3>
-      <ul>
-        <li v-for="item in expenses" :key="item.name">
-          {{ item.name }}: {{ item.amount.toLocaleString() }}원
-        </li>
-      </ul>
+    <!-- 잔액 요약 카드 -->
+    <div class="summary-card">
+      <p>실제 총 금액: ₩{{ actualBalance.toLocaleString() }}</p>
     </div>
 
-    <div class="monthly-status">
-      <h3>월별 재정상태</h3>
-      <ul>
-        <li v-for="m in monthly" :key="m.month">
-          {{ m.month }}월 수입: {{ m.income.toLocaleString() }}원 / 지출:
-          {{ m.expense.toLocaleString() }}원
-        </li>
-      </ul>
-    </div>
+    <!-- 고정 지출 내역 -->
+    <h3>📌 고정 지출 내역</h3>
+    <table class="budget-table">
+      <thead>
+        <tr>
+          <th>항목</th>
+          <th>지출 내역</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in housing" :key="'fixed' + index">
+          <td>{{ item.name }}</td>
+          <td>₩{{ item.actual.toLocaleString() }}</td>
+        </tr>
+      </tbody>
+    </table>
 
-    <div class="daily-status">
-      <h3>일별 재정상태</h3>
-      <ul>
-        <li v-for="t in transactions" :key="t.id">
-          {{ t.desc }} - {{ t.amount.toLocaleString() }}원
-        </li>
-      </ul>
-    </div>
+    <!-- 실제 월별 수입 -->
+    <h3>실제 월별 수입</h3>
+    <table class="budget-table">
+      <thead>
+        <tr>
+          <th>항목</th>
+          <th>금액</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in actualIncome" :key="'income' + index">
+          <td>{{ item.name }}</td>
+          <td>₩{{ item.amount.toLocaleString() }}</td>
+        </tr>
+        <tr class="total-row">
+          <td><strong>총 수입</strong></td>
+          <td>
+            <strong>₩{{ actualIncomeTotal.toLocaleString() }}</strong>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 실제 월별 지출 -->
+    <h3>실제 월별 지출</h3>
+    <table class="budget-table">
+      <thead>
+        <tr>
+          <th>항목</th>
+          <th>금액</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in actualSpending" :key="'spend' + index">
+          <td>{{ item.name }}</td>
+          <td>₩{{ item.amount.toLocaleString() }}</td>
+        </tr>
+        <tr class="total-row">
+          <td><strong>총 지출</strong></td>
+          <td>
+            <strong>₩{{ actualSpendingTotal.toLocaleString() }}</strong>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 일별 재정 상태 -->
+    <h3>📅 일별 재정 상태</h3>
+    <table class="budget-table">
+      <thead>
+        <tr>
+          <th>날짜</th>
+          <th>항목</th>
+          <th>금액</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in transactions" :key="item.id">
+          <td>{{ item.date }}</td>
+          <td>{{ item.desc }}</td>
+          <td :class="{ negative: item.amount < 0 }">₩{{ item.amount.toLocaleString() }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
-const today = new Date().toISOString().slice(0, 10);
+const actualIncome = ref([
+  { name: '월급', amount: 4000000 },
+  { name: '투잡 수입', amount: 300000 },
+]);
 
-const budget = ref(1000000);
-const balance = ref(500000);
+const actualSpending = ref([
+  { name: '식비', amount: 420000 },
+  { name: '교통비', amount: 80000 },
+  { name: '문화생활', amount: 160000 },
+]);
 
-const expenses = [
-  { name: '통신비', amount: 50000 },
-  { name: '월세', amount: 500000 },
-];
+const housing = ref([
+  { name: '통신비', actual: 70000 },
+  { name: '교통비', actual: 80000 },
+  { name: '월세', actual: 400000 },
+]);
 
-const monthly = [
-  { month: 1, income: 2500000, expense: 1200000 },
-  { month: 2, income: 2500000, expense: 1350000 },
-];
+const transactions = ref([
+  { id: 1, date: new Date().toISOString().slice(0, 10), desc: '커피', amount: -4500 },
+  { id: 2, date: new Date().toISOString().slice(0, 10), desc: '지하철', amount: -1250 },
+]);
 
-const transactions = [
-  { id: 1, desc: '아이스크림', amount: -10000 },
-  { id: 2, desc: '치킨', amount: -20000 },
-];
+const actualIncomeTotal = computed(() => actualIncome.value.reduce((sum, item) => sum + item.amount, 0));
+
+const actualSpendingTotal = computed(() => actualSpending.value.reduce((sum, item) => sum + item.amount, 0));
+
+const actualHousingTotal = computed(() => housing.value.reduce((sum, item) => sum + item.actual, 0));
+
+const actualBalance = computed(() => actualIncomeTotal.value - actualHousingTotal.value);
 </script>
 
 <style scoped>
 .management {
+  max-width: 900px;
+  margin: 2rem auto;
+  font-family: 'Segoe UI', sans-serif;
   padding: 1rem;
-  font-family: sans-serif;
 }
 
-h1 {
-  font-size: 24px;
-  margin-bottom: 0.5rem;
+h2 {
+  font-size: 28px;
+  color: #003366;
+  margin-bottom: 1rem;
 }
 
-section,
-.fixed-expense,
-.monthly-status,
-.daily-status {
+h3 {
+  margin-top: 2rem;
+  color: #003366;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 0.5rem;
+}
+
+.summary-card {
+  background-color: #e3f2fd;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.summary-card p {
+  margin: 0.5rem 0;
+  font-weight: 500;
+  color: #004d80;
+}
+
+.summary-card .diff {
+  color: #d32f2f;
+}
+
+.budget-table {
+  width: 100%;
+  border-collapse: collapse;
   margin-bottom: 1.5rem;
 }
 
-ul {
-  list-style: none;
-  padding-left: 0;
+.budget-table th {
+  background-color: #bbdefb;
+  padding: 10px;
+  text-align: center;
+  color: #003366;
+  font-weight: bold;
+  border: 1px solid #ccc;
 }
 
-li {
-  margin-bottom: 0.3rem;
+.budget-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: right;
+}
+
+.budget-table td:first-child {
+  text-align: left;
+}
+
+.total-row {
+  background-color: #e3f2fd;
+}
+
+.negative {
+  color: #d32f2f;
 }
 </style>
