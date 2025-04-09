@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-
 import Homeview from '@/views/HomeView.vue';
 import LoginPage from '@/views/LoginPage.vue';
 import Summary from '@/views/Summary.vue';
@@ -13,7 +12,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/login',
+      path: '/', // 기본 경로를 로그인 페이지로 설정
       name: 'login',
       component: LoginPage,
     },
