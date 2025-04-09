@@ -25,8 +25,9 @@
     <!-- 거래목록 -->
     <ul class="list">
       <li v-for="tx in paginatedList" :key="tx.id">
-        {{ tx.date }} | {{ tx.type }} | {{ tx.category }} | {{ tx.amount }}원 |
-        {{ tx.description }} | {{ tx.memo }}
+        {{ tx.date }} | {{ tx.type === 'income' ? '수입' : '지출' }} |
+        {{ tx.category }} | {{ tx.amount }}원 | {{ tx.description }} |
+        {{ tx.memo }}
       </li>
     </ul>
     <!-- 페이지번호 -->
