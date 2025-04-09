@@ -1,6 +1,9 @@
 
-import { createRouter, createWebHistory } from 'vue-router';
 
+
+
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '@/views/HomeView.vue';
 import LoginPage from '@/views/LoginPage.vue';
 
 
@@ -44,8 +47,18 @@ const router = createRouter({
     { path: '/', name: 'Home', component: Home },
     { path: '/transactions', name: 'TransactionSearch', component: TransactionSearch },
     { path: '/record', name: 'record', component: RecordPage },
+    
+     {
+    path: '/',
+    name: 'Home',
+    component: HomeView,
+  },
 
   ],
+  
+  
+];
+
 });
 
 export default router;

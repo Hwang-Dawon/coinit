@@ -1,4 +1,16 @@
 {
+
+  "posts": [
+    { "id": "1", "title": "a title", "views": 100 },
+    { "id": "2", "title": "another title", "views": 200 }
+  ],
+  "comments": [
+    { "id": "1", "text": "a comment about post 1", "postId": "1" },
+    { "id": "2", "text": "another comment about post 1", "postId": "1" }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
   "transactions": [
     {
       "id": 1,
@@ -82,20 +94,6 @@ n
       "password": "chulsoo_password"
     }
   ],
-
-  "incomeCategory": [
-
-    { "id": 1, "name": "월급" },
-    { "id": 2, "name": "용돈" },
-    { "id": 3, "name": "이자" },
-    { "id": 4, "name": "기타" }
-  ],
-  "expenseCategory": [
-    { "id": 1, "name": "식비" },
-    { "id": 2, "name": "교통비" },
-    { "id": 3, "name": "유흥" },
-    { "id": 4, "name": "공과금" },
-    { "id": 5, "name": "기타" }
 
     {
       "id": 1,
