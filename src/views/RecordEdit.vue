@@ -1,6 +1,6 @@
 <template>
   <div class="record-container">
-    <form @submit.prevent="onSubmit">
+    <form @submit.prevent="updateRecord">
       <!-- 지출/수입 선택 버튼 -->
       <div class="type-buttons">
         <button
@@ -19,15 +19,19 @@
         </button>
       </div>
 
-      <!-- 완료 버튼 -->
+      <!-- 상단 수정/삭제 버튼 -->
       <div class="top-bar">
         <div></div>
-        <button type="submit">완료</button>
+        <div class="btn-group">
+          <button type="submit">수정하기</button>
+          <button type="button" class="delete-btn" @click="deleteRecord">
+            삭제하기
+          </button>
+        </div>
       </div>
 
-      <!-- ✅ 라벨과 함께 -->
       <label class="form-label">항목</label>
-      <input v-model="form.description" required />
+      <input v-model="form.description" type="text" required />
 
       <label class="form-label">금액</label>
       <input v-model.number="form.amount" type="number" min="1" required />
@@ -37,7 +41,7 @@
 
       <label class="form-label">카테고리</label>
       <select v-model="form.category" required>
-        <option disabled value="">카테고리</option>
+        <option disabled value="">카테고리 선택</option>
         <option v-for="cat in categories" :key="cat.id" :value="cat.name">
           {{ cat.name }}
         </option>
@@ -46,43 +50,16 @@
       <label class="form-label">메모</label>
       <textarea v-model="form.memo" placeholder="메모"></textarea>
     </form>
-
-    <hr />
-    <h3>최근 거래내역 (지출, 수입)</h3>
-    <table class="transaction-table">
-      <thead>
-        <tr>
-          <th>날짜</th>
-          <th>유형</th>
-          <th>카테고리</th>
-          <th>금액</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in recent" :key="item.id">
-          <td>{{ item.date }}</td>
-          <td>
-            <strong>{{ item.type === 'income' ? '수입' : '지출' }}</strong>
-          </td>
-          <td>{{ item.category || '-' }}</td>
-          <td>
-            <strong>{{ item.amount.toLocaleString() }}원</strong>
-          </td>
-          <td>
-            <router-link :to="`/record/${item.id}`" style="color: blue"
-              >[수정]</router-link
-            >
-          </td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
+
+const route = useRoute();
+const router = useRouter();
 
 const form = ref({
   description: '',
@@ -94,12 +71,23 @@ const form = ref({
 });
 
 const categories = ref([]);
-const recent = ref([]);
 
-const getNextId = async () => {
-  const res = await axios.get('http://localhost:3001/transactions');
-  const ids = res.data.map((item) => item.id || 0);
-  return Math.max(...ids, 0) + 1;
+const fetchRecord = async () => {
+  try {
+    const { id } = route.params;
+    const res = await axios.get(`http://localhost:3001/transactions/${id}`);
+    form.value = {
+      description: res.data.description,
+      amount: res.data.amount,
+      date: res.data.date,
+      type: res.data.type,
+      category: res.data.category,
+      memo: res.data.memo || '',
+    };
+  } catch (err) {
+    alert('데이터를 불러오는 데 실패했습니다.');
+    console.error(err);
+  }
 };
 
 const fetchCategories = async () => {
@@ -107,24 +95,6 @@ const fetchCategories = async () => {
     form.value.type === 'income' ? '/incomeCategory' : '/expenseCategory';
   const res = await axios.get(`http://localhost:3001${url}`);
   categories.value = res.data;
-};
-
-const fetchRecent = async () => {
-  const res = await axios.get('http://localhost:3001/transactions');
-  recent.value = res.data
-    .sort((a, b) => b.date.localeCompare(a.date))
-    .slice(0, 5);
-};
-
-const resetForm = () => {
-  form.value = {
-    description: '',
-    amount: 0,
-    date: '',
-    type: 'expense',
-    category: '',
-    memo: '',
-  };
 };
 
 const isValidDate = (dateStr) => {
@@ -135,7 +105,9 @@ const isValidDate = (dateStr) => {
   return inputDate <= today;
 };
 
-const onSubmit = async () => {
+const updateRecord = async () => {
+  const { id } = route.params;
+
   if (form.value.amount <= 0) {
     alert('금액은 0보다 커야 합니다.');
     return;
@@ -146,22 +118,31 @@ const onSubmit = async () => {
     return;
   }
 
-  const nextId = await getNextId();
+  await axios.put(`http://localhost:3001/transactions/${id}`, form.value);
+  alert('수정 완료!');
+  router.push('/record');
+};
 
-  await axios.post('http://localhost:3001/transactions', {
-    id: nextId,
-    ...form.value,
-  });
+const deleteRecord = async () => {
+  const { id } = route.params;
+  const confirmDelete = confirm('정말 삭제하시겠습니까?');
+  if (!confirmDelete) return;
 
-  alert('기록 완료!');
-  resetForm();
-  fetchRecent();
+  try {
+    await axios.delete(`http://localhost:3001/transactions/${id}`);
+    alert('삭제 완료!');
+    router.push('/record');
+  } catch (err) {
+    alert('삭제 중 오류가 발생했습니다.');
+    console.error(err);
+  }
 };
 
 watch(() => form.value.type, fetchCategories);
-onMounted(() => {
-  fetchCategories();
-  fetchRecent();
+
+onMounted(async () => {
+  await fetchRecord();
+  await fetchCategories();
 });
 </script>
 
@@ -178,6 +159,11 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10px;
 }
 
 form input,
@@ -247,31 +233,17 @@ button[type='submit']:hover {
   background-color: #f0f0f0;
 }
 
-hr {
-  margin: 30px 0;
+.delete-btn {
+  border: 1px solid #dc3545;
+  background-color: white;
+  color: #dc3545;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-h3 {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.transaction-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-.transaction-table th,
-.transaction-table td {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  text-align: center;
-}
-
-.transaction-table th {
-  font-weight: bold;
-  background-color: #f9f9f9;
+.delete-btn:hover {
+  background-color: #f8d7da;
 }
 </style>
