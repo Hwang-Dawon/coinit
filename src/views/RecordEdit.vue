@@ -1,38 +1,55 @@
 <template>
-  <div class="record-edit-container">
-    <h2>기록 수정</h2>
-
+  <div class="record-container">
     <form @submit.prevent="updateRecord">
-      <label>항목</label>
+      <!-- 지출/수입 선택 버튼 -->
+      <div class="type-buttons">
+        <button
+          type="button"
+          :class="{ active: form.type === 'expense' }"
+          @click="form.type = 'expense'"
+        >
+          지출
+        </button>
+        <button
+          type="button"
+          :class="{ active: form.type === 'income' }"
+          @click="form.type = 'income'"
+        >
+          수입
+        </button>
+      </div>
+
+      <!-- 상단 수정/삭제 버튼 -->
+      <div class="top-bar">
+        <div></div>
+        <div class="btn-group">
+          <button type="submit">수정하기</button>
+          <button type="button" class="delete-btn" @click="deleteRecord">
+            삭제하기
+          </button>
+        </div>
+      </div>
+
+      <label class="form-label">항목</label>
       <input v-model="form.description" type="text" required />
 
-      <label>금액</label>
-      <input v-model.number="form.amount" type="number" required />
+      <label class="form-label">금액</label>
+      <input v-model.number="form.amount" type="number" min="1" required />
 
-      <label>날짜</label>
+      <label class="form-label">날짜</label>
       <input v-model="form.date" type="date" required />
 
-      <label>유형</label>
-      <select v-model="form.type">
-        <option value="income">수입</option>
-        <option value="expense">지출</option>
-      </select>
-
-      <label>카테고리</label>
-      <select v-model="form.category">
+      <label class="form-label">카테고리</label>
+      <select v-model="form.category" required>
         <option disabled value="">카테고리 선택</option>
         <option v-for="cat in categories" :key="cat.id" :value="cat.name">
           {{ cat.name }}
         </option>
       </select>
 
-      <label>메모</label>
-      <textarea v-model="form.memo"></textarea>
-
-      <button type="submit">수정하기</button>
+      <label class="form-label">메모</label>
+      <textarea v-model="form.memo" placeholder="메모"></textarea>
     </form>
-
-    <button @click="deleteRecord" class="delete-btn">삭제하기</button>
   </div>
 </template>
 
@@ -55,23 +72,24 @@ const form = ref({
 
 const categories = ref([]);
 
-// ✅ 기존 데이터 불러오기
 const fetchRecord = async () => {
-  const { id } = route.params;
-  const res = await axios.get(`http://localhost:3001/transactions/${id}`);
-  const data = res.data;
-
-  form.value = {
-    description: data.description,
-    amount: data.amount,
-    date: data.date,
-    type: data.type,
-    category: data.category,
-    memo: data.memo || '',
-  };
+  try {
+    const { id } = route.params;
+    const res = await axios.get(`http://localhost:3001/transactions/${id}`);
+    form.value = {
+      description: res.data.description,
+      amount: res.data.amount,
+      date: res.data.date,
+      type: res.data.type,
+      category: res.data.category,
+      memo: res.data.memo || '',
+    };
+  } catch (err) {
+    alert('데이터를 불러오는 데 실패했습니다.');
+    console.error(err);
+  }
 };
 
-// ✅ 카테고리 불러오기 (유형에 따라 분기)
 const fetchCategories = async () => {
   const url =
     form.value.type === 'income' ? '/incomeCategory' : '/expenseCategory';
@@ -79,26 +97,47 @@ const fetchCategories = async () => {
   categories.value = res.data;
 };
 
-// ✅ 수정 요청
+const isValidDate = (dateStr) => {
+  const today = new Date();
+  const inputDate = new Date(dateStr);
+  today.setHours(0, 0, 0, 0);
+  inputDate.setHours(0, 0, 0, 0);
+  return inputDate <= today;
+};
+
 const updateRecord = async () => {
   const { id } = route.params;
+
+  if (form.value.amount <= 0) {
+    alert('금액은 0보다 커야 합니다.');
+    return;
+  }
+
+  if (!isValidDate(form.value.date)) {
+    alert('날짜는 오늘보다 같거나 이전 날짜만 가능합니다.');
+    return;
+  }
+
   await axios.put(`http://localhost:3001/transactions/${id}`, form.value);
   alert('수정 완료!');
   router.push('/record');
 };
 
-// ✅ 삭제 요청
 const deleteRecord = async () => {
   const { id } = route.params;
   const confirmDelete = confirm('정말 삭제하시겠습니까?');
-  if (confirmDelete) {
+  if (!confirmDelete) return;
+
+  try {
     await axios.delete(`http://localhost:3001/transactions/${id}`);
     alert('삭제 완료!');
     router.push('/record');
+  } catch (err) {
+    alert('삭제 중 오류가 발생했습니다.');
+    console.error(err);
   }
 };
 
-// ✅ 유형 바뀌면 카테고리 다시 불러오기
 watch(() => form.value.type, fetchCategories);
 
 onMounted(async () => {
@@ -108,39 +147,103 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.record-edit-container {
+.record-container {
   max-width: 600px;
-  margin: 30px auto;
-  padding: 10px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
-label {
-  display: block;
-  margin-top: 10px;
-  font-weight: bold;
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-input,
-select,
-textarea {
+.btn-group {
+  display: flex;
+  gap: 10px;
+}
+
+form input,
+form select,
+form textarea {
   display: block;
   width: 100%;
-  margin-top: 4px;
-  padding: 6px;
+  margin-bottom: 10px;
+  padding: 10px;
   font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
   box-sizing: border-box;
 }
 
-button {
-  margin-top: 15px;
-  padding: 8px 12px;
+form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-label {
+  font-weight: 600;
+  font-size: 15px;
+  margin: 6px 0 4px;
+  display: block;
+}
+
+.type-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.type-buttons button {
+  padding: 10px 20px;
   font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.type-buttons button.active {
+  background-color: #333;
+  color: white;
+  font-weight: bold;
+  border-color: #333;
+}
+
+.type-buttons button:hover {
+  background-color: #eee;
+}
+
+button[type='submit'] {
+  padding: 8px 14px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+button[type='submit']:hover {
+  background-color: #f0f0f0;
 }
 
 .delete-btn {
-  background-color: red;
-  color: white;
-  border: none;
-  margin-top: 10px;
+  border: 1px solid #dc3545;
+  background-color: white;
+  color: #dc3545;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.delete-btn:hover {
+  background-color: #f8d7da;
 }
 </style>

@@ -15,26 +15,18 @@
     {
       "id": "1",
       "text": "a comment about post 1",
-      "postId": "1"
+      "postId": 1
     },
     {
       "id": "2",
       "text": "another comment about post 1",
-      "postId": "1"
+      "postId": 1
     }
   ],
   "profile": {
     "name": "typicode"
   },
   "transactions": [
-    {
-      "id": "1",
-      "date": "2025-04-01",
-      "type": "income",
-      "category": "월급",
-      "amount": 3000000,
-      "description": "4월 급여"
-    },
     {
       "id": "2",
       "date": "2025-04-02",
@@ -44,21 +36,13 @@
       "description": "점심"
     },
     {
-      "id": "3",
+      "description": "지하철",
+      "amount": 2500,
       "date": "2025-04-03",
       "type": "expense",
-      "category": "교통",
-      "amount": 2500,
-      "description": "지하철"
-    },
-    {
-      "id": 4,
-      "description": "테스트1",
-      "amount": 20000,
-      "date": "2025-04-08",
-      "type": "expense",
-      "category": "교통비",
-      "memo": ""
+      "category": "공과금",
+      "memo": "",
+      "id": "3"
     }
   ],
   "LoginInfo": [
