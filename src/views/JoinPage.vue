@@ -93,7 +93,7 @@ const handleJoin = async (e) => {
 </script>
 
 <template>
-  <div class="JoinPage">
+  <div class="joinPage">
     <form class="join-container" @submit.prevent="handleJoin">
       <h2>COINIT <i class="fa-solid fa-coins"></i></h2>
 
@@ -153,7 +153,7 @@ const handleJoin = async (e) => {
 </template>
 
 <style scoped>
-.LoginPage {
+.joinPage {
   display: flex;
   justify-content: center;
   align-items: center;

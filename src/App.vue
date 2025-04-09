@@ -1,6 +1,4 @@
 <script setup>
-import LoginPage from '@/views/LoginPage.vue';
-import JoinPage from './views/JoinPage.vue';
 import Summary from '@/views/Summary.vue';
 import { RouterLink, RouterView } from 'vue-router';
 </script>
@@ -11,13 +9,13 @@ import { RouterLink, RouterView } from 'vue-router';
       <h1>나의 가계부</h1>
       <nav>
         <RouterLink to="/record">기록</RouterLink> |
-        <RouterLink to="/transactions">거래 조회</RouterLink>
+        <RouterLink to="/transactions">거래 조회</RouterLink>|
+        <RouterLink to="/login">로그인</RouterLink> |
+        <RouterLink to="/join">회원가입</RouterLink>|
       </nav>
     </header>
 
     <main>
-      <LoginPage />
-      <JoinPage />
       <RouterView />
       <!-- <Summary /> -->
     </main>

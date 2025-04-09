@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-// import JoinPage from '@/router/JoinPage.vue';
+import { RouterLink } from 'vue-router';
 
 // 로그인할 아이디 비밀번호를 db에서 확인
 const userID = ref('');
@@ -28,9 +28,8 @@ const login = async () => {
 
 <template>
   <div class="LoginPage">
-    <h2>COINIT <i class="fa-solid fa-coins"></i></h2>
-
-    <form class="login-contants">
+    <form class="login-container">
+      <h2>COINIT <i class="fa-solid fa-coins"></i></h2>
       <input type="text" placeholder="아이디를 입력하세요" v-model="userID" />
       <br />
       <input
@@ -40,47 +39,78 @@ const login = async () => {
       />
       <br />
       <button class="loginBtn" @click="login">로그인</button>
-      <button class="joinBtn">회원가입</button>
-      <!-- <router-link to="/login/join"></router-link> -->
+      <router-link to="/join" class="joinBtn">회원가입</router-link>
     </form>
   </div>
 </template>
 
 <style scoped>
 .LoginPage {
-  border: 1px solid lightgray;
-  width: 35rem;
-  margin-top: 3rem;
-  position: relative;
-  left: 200px;
-
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
+  background-color: #f8f9fa;
 }
-.LoginPage h2 {
+.login-container {
+  background-color: #ffffff;
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.login-container h2 {
   text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 24px;
+  color: #5d3a00;
 }
-.LoginPage h2 i {
+.login-container h2 i {
   text-align: center;
   color: #ffd338;
 }
 .LoginPage input {
-  padding: 2px;
-  margin: 1rem;
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  transition: border-color 0.2s ease;
 }
-button {
-  border: none;
+
+.LoginPage input:focus {
+  border-color: #5c7cfa;
   outline: none;
-  margin: 1rem;
-  padding: 5px;
-  border-radius: 8px;
-  cursor: pointer;
-  background-color: #ffd338;
 }
-.loginBtn {
-}
+
+.loginBtn,
 .joinBtn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: #ffd338;
+  color: #5d3a00;
+  margin-bottom: 12px;
+}
+
+.loginBtn:hover,
+.joinBtn:hover {
+  background-color: #e6bc2e;
+}
+
+.joinBtn {
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
 }
 </style>
