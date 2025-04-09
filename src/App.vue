@@ -1,7 +1,7 @@
 <script setup>
-import LoginPage from '@/views/LoginPage.vue'
-import Summary from '@/views/Summary.vue'
-import { RouterLink, RouterView } from 'vue-router'
+import LoginPage from '@/views/LoginPage.vue';
+import Summary from '@/views/Summary.vue';
+import { RouterLink, RouterView } from 'vue-router';
 </script>
 
 <template>
@@ -15,9 +15,7 @@ import { RouterLink, RouterView } from 'vue-router'
     </header>
 
     <main>
-      <LoginPage />
       <RouterView />
-      <!-- <Summary /> -->
     </main>
 
     <footer>
@@ -27,4 +25,3 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style scoped></style>
-

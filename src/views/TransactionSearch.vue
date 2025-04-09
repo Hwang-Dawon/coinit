@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h2>거래 내역 조회</h2>
-
+    <!-- 필터기능 -->
     <div class="filters">
       <input v-model="filter.from" type="date" />
       <input v-model="filter.to" type="date" />
@@ -18,18 +18,18 @@
           {{ cat }}
         </option>
       </select>
-
+      <!-- 조회버튼 -->
       <button @click="applyFilter">조회</button>
       <button @click="toggleSort">날짜순 정렬: {{ sortOrder }}</button>
     </div>
-
+    <!-- 거래목록 -->
     <ul class="list">
       <li v-for="tx in paginatedList" :key="tx.id">
         {{ tx.date }} | {{ tx.type }} | {{ tx.category }} | {{ tx.amount }}원 |
-        {{ tx.description }}
+        {{ tx.description }} | {{ tx.memo }}
       </li>
     </ul>
-
+    <!-- 페이지번호 -->
     <div class="pagination">
       <button @click="prevPage" :disabled="currentPage === 1">이전</button>
       <span>{{ currentPage }} / {{ totalPages }}</span>
