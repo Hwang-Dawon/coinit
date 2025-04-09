@@ -1,47 +1,82 @@
 <template>
   <div class="record-container">
-    <div class="top-bar">
-      <h2>지출 / 수입 기록</h2>
-      <div class="btn-group">
-        <button @click="resetForm">삭제</button>
-        <button @click="onSubmit">완료</button>
-      </div>
-    </div>
-
     <form @submit.prevent="onSubmit">
-      <input v-model="form.description" placeholder="지출명" />
-      <input
-        v-model.number="form.amount"
-        type="number"
-        placeholder="지출 금액"
-      />
-      <input v-model="form.date" type="date" placeholder="지출 일시" />
+      <!-- 지출/수입 선택 버튼 -->
+      <div class="type-buttons">
+        <button
+          type="button"
+          :class="{ active: form.type === 'expense' }"
+          @click="form.type = 'expense'"
+        >
+          지출
+        </button>
+        <button
+          type="button"
+          :class="{ active: form.type === 'income' }"
+          @click="form.type = 'income'"
+        >
+          수입
+        </button>
+      </div>
 
-      <select v-model="form.type">
-        <option value="expense">지출</option>
-        <option value="income">수입</option>
-      </select>
+      <!-- 완료 버튼 -->
+      <div class="top-bar">
+        <div></div>
+        <button type="submit">완료</button>
+      </div>
 
-      <select v-model="form.category">
+      <!-- ✅ 라벨과 함께 -->
+      <label class="form-label">항목</label>
+      <input v-model="form.description" required />
+
+      <label class="form-label">금액</label>
+      <input v-model.number="form.amount" type="number" min="1" required />
+
+      <label class="form-label">날짜</label>
+      <input v-model="form.date" type="date" required />
+
+      <label class="form-label">카테고리</label>
+      <select v-model="form.category" required>
         <option disabled value="">카테고리</option>
         <option v-for="cat in categories" :key="cat.id" :value="cat.name">
           {{ cat.name }}
         </option>
       </select>
 
+      <label class="form-label">메모</label>
       <textarea v-model="form.memo" placeholder="메모"></textarea>
     </form>
 
     <hr />
     <h3>최근 거래내역 (지출, 수입)</h3>
-    <ul class="transaction-list">
-      <li v-for="item in recent" :key="item.id">
-        {{ item.date }} -
-        <strong>{{ item.type === 'income' ? '수입' : '지출' }}</strong> -
-        {{ item.category }} -
-        <strong>{{ item.amount.toLocaleString() }}원</strong>
-      </li>
-    </ul>
+    <table class="transaction-table">
+      <thead>
+        <tr>
+          <th>날짜</th>
+          <th>유형</th>
+          <th>카테고리</th>
+          <th>금액</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in recent" :key="item.id">
+          <td>{{ item.date }}</td>
+          <td>
+            <strong>{{ item.type === 'income' ? '수입' : '지출' }}</strong>
+          </td>
+          <td>{{ item.category || '-' }}</td>
+          <td>
+            <strong>{{ item.amount.toLocaleString() }}원</strong>
+          </td>
+          <td>
+            <router-link :to="`/record/${item.id}`" style="color: blue"
+              >[수정]</router-link
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -61,7 +96,6 @@ const form = ref({
 const categories = ref([]);
 const recent = ref([]);
 
-// 🟢 id 중복 방지
 const getNextId = async () => {
   const res = await axios.get('http://localhost:3001/transactions');
   const ids = res.data.map((item) => item.id || 0);
@@ -77,9 +111,8 @@ const fetchCategories = async () => {
 
 const fetchRecent = async () => {
   const res = await axios.get('http://localhost:3001/transactions');
-  // 날짜 기준 내림차순 정렬 후 상위 5개
   recent.value = res.data
-    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .sort((a, b) => b.date.localeCompare(a.date))
     .slice(0, 5);
 };
 
@@ -94,7 +127,25 @@ const resetForm = () => {
   };
 };
 
+const isValidDate = (dateStr) => {
+  const today = new Date();
+  const inputDate = new Date(dateStr);
+  today.setHours(0, 0, 0, 0);
+  inputDate.setHours(0, 0, 0, 0);
+  return inputDate <= today;
+};
+
 const onSubmit = async () => {
+  if (form.value.amount <= 0) {
+    alert('금액은 0보다 커야 합니다.');
+    return;
+  }
+
+  if (!isValidDate(form.value.date)) {
+    alert('날짜는 오늘보다 같거나 이전 날짜만 가능합니다.');
+    return;
+  }
+
   const nextId = await getNextId();
 
   await axios.post('http://localhost:3001/transactions', {
@@ -117,18 +168,16 @@ onMounted(() => {
 <style scoped>
 .record-container {
   max-width: 600px;
-  margin: 30px auto;
-  padding: 10px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 .top-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.btn-group button {
-  margin-left: 5px;
+  margin-bottom: 20px;
 }
 
 form input,
@@ -136,19 +185,93 @@ form select,
 form textarea {
   display: block;
   width: 100%;
-  margin: 8px 0;
-  padding: 6px;
+  margin-bottom: 10px;
+  padding: 10px;
   font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box;
 }
 
-.transaction-list {
-  margin-top: 10px;
-  padding-left: 0;
-  list-style: none;
+form textarea {
+  resize: vertical;
+  min-height: 80px;
 }
 
-.transaction-list li {
-  padding: 6px 0;
-  border-bottom: 1px dotted #ccc;
+.form-label {
+  font-weight: 600;
+  font-size: 15px;
+  margin: 6px 0 4px;
+  display: block;
+}
+
+.type-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.type-buttons button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.type-buttons button.active {
+  background-color: #333;
+  color: white;
+  font-weight: bold;
+  border-color: #333;
+}
+
+.type-buttons button:hover {
+  background-color: #eee;
+}
+
+button[type='submit'] {
+  padding: 8px 14px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+button[type='submit']:hover {
+  background-color: #f0f0f0;
+}
+
+hr {
+  margin: 30px 0;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.transaction-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.transaction-table th,
+.transaction-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+.transaction-table th {
+  font-weight: bold;
+  background-color: #f9f9f9;
 }
 </style>
