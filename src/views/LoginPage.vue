@@ -3,9 +3,9 @@ import { ref } from 'vue';
 import axios from 'axios';
 // import JoinPage from '@/router/JoinPage.vue';
 
+// 로그인할 아이디 비밀번호를 db에서 확인
 const userID = ref('');
 const password = ref('');
-
 const login = async () => {
   try {
     const response = await axios.get('http://localhost:3001/LoginInfo');

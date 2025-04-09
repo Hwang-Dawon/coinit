@@ -4,14 +4,17 @@
   <div class="LoginPage">
     <h2>COINIT <i class="fa-solid fa-coins"></i></h2>
 
-    <form class="login-contants">
+    <form class="join-container">
       <input type="text" placeholder="아이디를 입력하세요" id="id" />
       <br />
       <input type="password" placeholder="비밀번호를 입력하세요" pw="pw" />
       <br />
-      <input type="text" placeholder="이메일 입력하세요" id="email" />
+      <input type="text" placeholder="이름을 입력하세요" id="name" />
+      <br />
       <input type="text" placeholder="휴대폰 번호를 입력하세요" id="phone" />
-      <button class="oinBtn">회원가입</button>
+      <br />
+      <input type="text" placeholder="이메일 입력하세요" id="email" />
+      <button class="joinBtn">회원가입</button>
       <button class="backBtn">홈</button>
     </form>
   </div>
@@ -19,39 +22,71 @@
 
 <style scoped>
 .LoginPage {
-  border: 1px solid lightgray;
-  width: 35rem;
-  margin-top: 3rem;
-  position: relative;
-  left: 200px;
-
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
+  background: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.LoginPage h2 {
+
+.join-container {
+  background-color: #ffffff;
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+h2 {
   text-align: center;
+  font-size: 28px;
+  margin-bottom: 24px;
+  color: #333;
 }
-.LoginPage h2 i {
-  text-align: center;
-  color: #ffd338;
+
+input {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  transition: border-color 0.2s ease;
 }
-.LoginPage input {
-  padding: 2px;
-  margin: 1rem;
-}
-button {
-  border: none;
+
+input:focus {
+  border-color: #5c7cfa;
   outline: none;
-  margin: 1rem;
-  padding: 5px;
-  border-radius: 8px;
+}
+
+button {
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 12px;
   cursor: pointer;
-  background-color: #ffd338;
+  transition: background-color 0.3s ease;
 }
-.loginBtn {
-}
+
 .joinBtn {
+  background-color: #ffd338;
+  color: #5d3a00;
+  margin-top: 12px;
+}
+
+.joinBtn:hover {
+  background-color: #e6bc2e;
+}
+
+.backBtn {
+  background-color: #ffd338;
+  color: #5d3a00;
+}
+
+.backBtn:hover {
+  background-color: #e6bc2e;
 }
 </style>

@@ -42,7 +42,6 @@
     {
       "id": 1,
       "userID": "test.user",
-
       "password": "1234",
       "birth": "1995-08-21",
       "phone": "010-1234-5678"
