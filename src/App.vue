@@ -1,5 +1,5 @@
 <script setup>
-import LoginPage from '@/views/LoginPage.vue';
+// import LoginPage from '@/views/LoginPage.vue';
 import Summary from '@/views/Summary.vue';
 import { RouterLink, RouterView } from 'vue-router';
 </script>
