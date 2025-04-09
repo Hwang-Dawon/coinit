@@ -1,57 +1,246 @@
-<script setup></script>
+<script setup>
+import { ref, watch } from 'vue';
+import axios from 'axios';
+
+//입력값
+const userId = ref('');
+const password = ref('');
+const name = ref('');
+const phone = ref('');
+const email = ref('');
+
+//에러 메세지 상태
+const userIdError = ref('');
+const passwordError = ref('');
+const nameError = ref('');
+const phoneError = ref('');
+const emailError = ref('');
+
+//정규식
+const userIdRegex = /^[a-zA-Z0-9]{6,}$/;
+const passwordRegex = /^[a-zA-Z0-9]{6,}$/;
+const nameRegex = /^[가-힣]{6}$/;
+const phoneRegex = /^\d{3}-\d{4}-\d{4}$/;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+//실시간 유효성 검사
+const validataId = () => {
+  if (!userIdRegex.test(userId.value)) {
+    userIdError.value = '아이디는 6자 이상 입니다.';
+  } else {
+    userIdError.value = '';
+  }
+};
+const validataPassword = () => {
+  if (!passwordRegex.test(password.value)) {
+    passwordError.value = '비밀번호는 6자 이상 입니다.';
+  } else {
+    passwordError.value = '';
+  }
+};
+const validataName = () => {
+  if (!nameRegex.test(name.value)) {
+    nameError.value = '이름은 한글만 입력 가능합니다.';
+  } else {
+    nameError.value = '';
+  }
+};
+const validataPhone = () => {
+  if (!phoneRegex.test(name.value)) {
+    phoneError.value = '000-0000-0000 형식으로 입력해야 합니다.';
+  } else {
+    phoneError.value = '';
+  }
+};
+const validataEmail = () => {
+  if (!emailRegex.test(name.value)) {
+    emailError.value = '올바른 이메일 형식이 아닙니다.';
+  } else {
+    emailError.value = '';
+  }
+};
+
+//회원가입 처리함수
+const handleJoin = async (e) => {
+  e.preventDefault();
+
+  //JSON 형태로 변환
+  const newUser = {
+    id: Date.now(),
+    userId: userId.value,
+    password: password.value,
+    name: name.value,
+    phone: phone.value,
+    email: email.value,
+  };
+
+  try {
+    // POST 요청으로 db.json(LoginInfo)에 저장
+    await axios.post('http://localhost:3001/LoginInfo', newUser);
+    alert('회원가입이 완료되었습니다!');
+  } catch (err) {
+    alert('저장 중 오류가 발생했습니다.');
+    console.error(err);
+  }
+
+  //초기화
+  userId.value = '';
+  password.value = '';
+  name.value = '';
+  phone.value = '';
+  email.value = '';
+};
+</script>
 
 <template>
-  <div class="LoginPage">
-    <h2>COINIT <i class="fa-solid fa-coins"></i></h2>
+  <div class="joinPage">
+    <form class="join-container" @submit.prevent="handleJoin">
+      <h2>COINIT <i class="fa-solid fa-coins"></i></h2>
 
-    <form class="login-contants">
-      <input type="text" placeholder="아이디를 입력하세요" id="id" />
-      <br />
-      <input type="password" placeholder="비밀번호를 입력하세요" pw="pw" />
-      <br />
-      <input type="text" placeholder="이메일 입력하세요" id="email" />
-      <input type="text" placeholder="휴대폰 번호를 입력하세요" id="phone" />
-      <button class="oinBtn">회원가입</button>
+      <div class="form-group">
+        <input
+          type="text"
+          placeholder="아이디를 입력하세요"
+          v-model="userId"
+          @input="validataId"
+        />
+        <span class="error" v-if="userIdError">{{ userIdError }}</span>
+      </div>
+
+      <div class="form-group">
+        <input
+          type="password"
+          placeholder="비밀번호를 입력하세요"
+          v-model="password"
+          @input="validataPassword"
+        />
+        <span class="error" v-if="passwordError">{{ passwordError }}</span>
+      </div>
+
+      <div class="form-group">
+        <input
+          type="text"
+          placeholder="이름을 입력하세요"
+          v-model="name"
+          @input="validataName"
+        />
+        <span class="error" v-if="nameError">{{ nameError }}</span>
+      </div>
+
+      <div class="form-group">
+        <input
+          type="text"
+          placeholder="휴대폰 번호를 입력하세요"
+          v-model="phone"
+          @input="validataPhone"
+        />
+        <span class="error" v-if="userIdError">{{ phoneError }}</span>
+      </div>
+      <div class="form-group">
+        <input
+          type="text"
+          placeholder="이메일 입력하세요"
+          v-model="email"
+          @input="validataEmail"
+        />
+        <span class="error" v-if="emailError">{{ emailError }}</span>
+      </div>
+
+      <button class="joinBtn" type="submit">회원가입</button>
       <button class="backBtn">홈</button>
     </form>
   </div>
 </template>
 
 <style scoped>
-.LoginPage {
-  border: 1px solid lightgray;
-  width: 35rem;
-  margin-top: 3rem;
-  position: relative;
-  left: 200px;
-
+.joinPage {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
+  background: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.LoginPage h2 {
+
+.join-container {
+  background-color: #ffffff;
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.form-group input {
+  margin-bottom: 0px;
+}
+
+.error {
+  height: 18px; /* 항상 일정 높이 확보 */
+  font-size: 13px;
+  color: red;
+  margin-top: 2px;
+  padding-left: 4px;
+  line-height: 18px;
+}
+
+h2 {
   text-align: center;
+  font-size: 28px;
+  margin-bottom: 24px;
+  color: #333;
 }
-.LoginPage h2 i {
-  text-align: center;
-  color: #ffd338;
+
+input {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  transition: border-color 0.2s ease;
 }
-.LoginPage input {
-  padding: 2px;
-  margin: 1rem;
-}
-button {
-  border: none;
+
+input:focus {
+  border-color: #5c7cfa;
   outline: none;
-  margin: 1rem;
-  padding: 5px;
-  border-radius: 8px;
+}
+.error {
+  color: red;
+  font-size: 13px;
+  margin: 4px 0;
+}
+
+button {
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 12px;
   cursor: pointer;
-  background-color: #ffd338;
+  transition: background-color 0.3s ease;
 }
-.loginBtn {
-}
+
 .joinBtn {
+  background-color: #ffd338;
+  color: #5d3a00;
+  margin-top: 12px;
+}
+
+.joinBtn:hover {
+  background-color: #e6bc2e;
+}
+
+.backBtn {
+  background-color: #ffd338;
+  color: #5d3a00;
+}
+
+.backBtn:hover {
+  background-color: #e6bc2e;
 }
 </style>

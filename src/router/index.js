@@ -1,11 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
+import Homeview from '@/views/HomeView.vue';
 import LoginPage from '@/views/LoginPage.vue';
 import Summary from '@/views/Summary.vue';
 import TransactionSearch from '@/views/TransactionSearch.vue';
 import RecordPage from '../views/RecordPage.vue';
 import Home from '@/views/HomeView.vue';
 import Management from '@/views/Management.vue';
+
 
 const router = createRouter({
   history: createWebHistory(),
@@ -14,6 +16,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginPage,
+    },
+    {
+      path: '/join',
+      name: 'join',
+      component: JoinPage,
     },
     {
       path: '/summary',
@@ -26,6 +33,7 @@ const router = createRouter({
       name: 'Home', 
       component: Home 
     },
+                            
     {
       path: '/transactions',
       name: 'TransactionSearch',

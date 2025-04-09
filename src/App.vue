@@ -1,7 +1,8 @@
 <script setup>
-import LoginPage from '@/views/LoginPage.vue'
-import Summary from '@/views/Summary.vue'
-import { RouterLink, RouterView } from 'vue-router'
+
+import LoginPage from '@/views/LoginPage.vue';
+import Summary from '@/views/Summary.vue';
+import { RouterLink, RouterView } from 'vue-router';
 </script>
 
 <template>
@@ -12,11 +13,11 @@ import { RouterLink, RouterView } from 'vue-router'
         <RouterLink to="/record">기록</RouterLink> |
         <RouterLink to="/transactions">거래 조회</RouterLink> |
         <RouterLink to="/Management">재정관리</RouterLink>
+
       </nav>
     </header>
 
     <main>
-      <LoginPage />
       <RouterView />
       <!-- <Summary /> -->
     </main>
@@ -28,4 +29,3 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style scoped></style>
-

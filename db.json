@@ -1,16 +1,31 @@
 {
   "posts": [
-    { "id": "1", "title": "a title", "views": 100 },
-    { "id": "2", "title": "another title", "views": 200 }
+    {
+      "id": "1",
+      "title": "a title",
+      "views": 100
+    },
+    {
+      "id": "2",
+      "title": "another title",
+      "views": 200
+    }
   ],
   "comments": [
-    { "id": "1", "text": "a comment about post 1", "postId": "1" },
-    { "id": "2", "text": "another comment about post 1", "postId": "1" }
+    {
+      "id": "1",
+      "text": "a comment about post 1",
+      "postId": "1"
+    },
+    {
+      "id": "2",
+      "text": "another comment about post 1",
+      "postId": "1"
+    }
   ],
   "profile": {
     "name": "typicode"
   },
-
   "transactions": [
     {
       "id": 1,
@@ -35,19 +50,7 @@
       "category": "교통",
       "amount": 2500,
       "description": "지하철"
-    }
-  ],
-
-  "LoginInfo": [
-    {
-      "id": 1,
-      "userID": "test.user",
-
-      "password": "1234",
-      "birth": "1995-08-21",
-      "phone": "010-1234-5678"
     },
-
     {
       "id": 4,
       "description": "추가테스트",
@@ -58,7 +61,43 @@
       "memo": "ㄴㅇㄹㄴㅇㄴ"
     }
   ],
+  "LoginInfo": [
+    {
+      "id": 1,
+      "userID": "test.user",
 
+      "password": "chulsoo_password",
+      "username": "철수",
+      "phone": "010-1234-5678",
+      "email": "chulsoo@example.com"
+    },
+    {
+      "id": 4,
+      "description": "추가테스트",
+      "amount": 20000,
+      "date": "2025-04-11",
+      "type": "expense",
+      "category": "식비",
+      "memo": "ㄴㅇㄹㄴㅇㄴ"
+    },
+    {
+      "id": 1744179659505,
+      "userId": "dfedsskh",
+      "password": "dfgwef",
+      "name": "홍길동",
+      "phone": "010-0000-0000",
+      "email": "djfhdkn@gmail.com"
+    },
+    {
+      "id": 1744184031363,
+      "userId": "dfhkjh",
+      "password": "dfgjedg456",
+      "name": "홍길동",
+      "phone": "010-0000-0000",
+      "email": "fhjsd@dfjh.com"
+
+    }
+  ],
   "periodicExpense": [
     {
       "id": 1,
@@ -69,16 +108,8 @@
       "memo": "전기요금"
     }
   ],
-
-  "users": [
-    {
-      "id": 1,
-      "username": "철수",
-      "email": "chulsoo@example.com",
-      "password": "chulsoo_password"
-    }
-  ],
   "IncomeCategory": [
+
     {
       "id": 1,
       "name": "월급"
@@ -96,6 +127,7 @@
       "name": "기타"
     }
   ],
+
   "expenseCategory": [
     {
       "id": 1,
