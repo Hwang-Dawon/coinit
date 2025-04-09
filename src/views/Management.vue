@@ -17,7 +17,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in housing" :key="'fixed'+index">
+        <tr v-for="(item, index) in housing" :key="'fixed' + index">
           <td>{{ item.name }}</td>
           <td>₩{{ item.actual.toLocaleString() }}</td>
         </tr>
@@ -34,13 +34,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in actualIncome" :key="'income'+index">
+        <tr v-for="(item, index) in actualIncome" :key="'income' + index">
           <td>{{ item.name }}</td>
           <td>₩{{ item.amount.toLocaleString() }}</td>
         </tr>
         <tr class="total-row">
           <td><strong>총 수입</strong></td>
-          <td><strong>₩{{ actualIncomeTotal.toLocaleString() }}</strong></td>
+          <td>
+            <strong>₩{{ actualIncomeTotal.toLocaleString() }}</strong>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -55,13 +57,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in actualSpending" :key="'spend'+index">
+        <tr v-for="(item, index) in actualSpending" :key="'spend' + index">
           <td>{{ item.name }}</td>
           <td>₩{{ item.amount.toLocaleString() }}</td>
         </tr>
         <tr class="total-row">
           <td><strong>총 지출</strong></td>
-          <td><strong>₩{{ actualSpendingTotal.toLocaleString() }}</strong></td>
+          <td>
+            <strong>₩{{ actualSpendingTotal.toLocaleString() }}</strong>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -80,11 +84,13 @@
         <tr v-for="item in transactions" :key="item.id">
           <td>{{ item.date }}</td>
           <td>{{ item.desc }}</td>
-          <td :class="{ negative: item.amount < 0 }">₩{{ item.amount.toLocaleString() }}</td>
+          <td :class="{ negative: item.amount < 0 }">
+            ₩{{ item.amount.toLocaleString() }}
+          </td>
         </tr>
       </tbody>
     </table>
-    
+   
     <!-- 추가, 수정, 삭제 버튼 -->
     <div class="button-group">
   <button class="btn btn-add" @click="addItem">추가</button>
@@ -95,41 +101,51 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed } from 'vue';
 
 const actualIncome = ref([
   { name: '월급', amount: 4000000 },
-  { name: '투잡 수입', amount: 300000 }
-])
+  { name: '투잡 수입', amount: 300000 },
+]);
 
 const actualSpending = ref([
   { name: '식비', amount: 420000 },
   { name: '교통비', amount: 80000 },
-  { name: '문화생활', amount: 160000 }
-])
+  { name: '문화생활', amount: 160000 },
+]);
 
 const housing = ref([
   { name: '통신비', actual: 70000 },
   { name: '교통비', actual: 80000 },
-  { name: '월세', actual: 400000 }
-])
+  { name: '월세', actual: 400000 },
+]);
 
 const transactions = ref([
-  { id: 1, date: new Date().toISOString().slice(0, 10), desc: '커피', amount: -4500 },
-  { id: 2, date: new Date().toISOString().slice(0, 10), desc: '지하철', amount: -1250 }
-])
+  {
+    id: 1,
+    date: new Date().toISOString().slice(0, 10),
+    desc: '커피',
+    amount: -4500,
+  },
+  {
+    id: 2,
+    date: new Date().toISOString().slice(0, 10),
+    desc: '지하철',
+    amount: -1250,
+  },
+]);
 
 const actualIncomeTotal = computed(() =>
   actualIncome.value.reduce((sum, item) => sum + item.amount, 0)
-)
+);
 
 const actualSpendingTotal = computed(() =>
   actualSpending.value.reduce((sum, item) => sum + item.amount, 0)
-)
+);
 
 const actualHousingTotal = computed(() =>
   housing.value.reduce((sum, item) => sum + item.actual, 0)
-)
+);
 
 const actualBalance = computed(() =>
   actualIncomeTotal.value - actualHousingTotal.value
@@ -149,6 +165,10 @@ const deleteItem = () => {
     alert("삭제되었습니다.")
   }
 }
+
+const actualBalance = computed(
+  () => actualIncomeTotal.value - actualHousingTotal.value
+);
 </script>
 
 <style scoped>

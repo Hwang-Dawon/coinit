@@ -29,10 +29,10 @@ const router = createRouter({
     },
     {
       path: '/Home',
-      name: 'Home', 
-      component: Home 
+      name: 'Home',
+      component: Home,
     },
-                            
+
     {
       path: '/transactions',
       name: 'TransactionSearch',
@@ -42,7 +42,6 @@ const router = createRouter({
       path: '/management',
       name: 'Management',
       component: Management,
-
     },
 
     { path: '/record', name: 'record', component: RecordPage },
