@@ -48,12 +48,6 @@
       "phone": "010-1234-5678"
     },
 
-    }
-  ]
-
-
-}
-    [
     {
       "id": 4,
       "description": "추가테스트",
@@ -62,19 +56,6 @@
       "type": "expense",
       "category": "식비",
       "memo": "ㄴㅇㄹㄴㅇㄴ"
-
-    
-  
-    }
-  ],
-
-  "LoginInfo": [
-    {
-      "id": 1,
-      "userID": "testuser",
-      "password": "1234",
-      "birth": "1995-08-21",
-      "phone": "010-1234-5678"
     }
   ],
 

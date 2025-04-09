@@ -11,6 +11,7 @@
         <p>보유 금액: {{ balance.toLocaleString() }}원</p>
       </section>
   
+      <!-- 고정 지출내역 -->
       <div class="fixed-expense">
         <h3>고정 지출내역</h3>
         <ul>
@@ -20,6 +21,7 @@
         </ul>
       </div>
   
+      <!-- 월별 재정상태 -->
       <div class="monthly-status">
         <h3>월별 재정상태</h3>
         <ul>
@@ -29,6 +31,7 @@
         </ul>
       </div>
 
+      <!-- 일별 재정상태 -->
       <div class="daily-status">
         <h3>일별 재정상태</h3>
         <ul>

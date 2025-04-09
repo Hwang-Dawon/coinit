@@ -4,6 +4,8 @@ import LoginPage from '@/views/LoginPage.vue';
 import Summary from '@/views/Summary.vue';
 import TransactionSearch from '@/views/TransactionSearch.vue';
 import RecordPage from '../views/RecordPage.vue';
+import Home from '@/views/HomeView.vue';
+import Management from '@/views/Management.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -19,13 +21,28 @@ const router = createRouter({
       component: Summary,
     },
 
-    { path: '/Home', name: 'Home', component: Home },
+    {
+      path: '/Home',
+      name: 'Home', 
+      component: Home 
+    },
     {
       path: '/transactions',
       name: 'TransactionSearch',
       component: TransactionSearch,
     },
-    { path: '/record', name: 'record', component: RecordPage },
+    {
+      path: '/management',
+      name: 'Management',
+      component: Management,
+
+    },
+
+    {
+      path: '/record', 
+      name: 'record', 
+      component: RecordPage 
+    },
   ],
 });
 
