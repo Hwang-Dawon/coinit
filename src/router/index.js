@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
+import Homeview from '@/views/HomeView.vue';
 import LoginPage from '@/views/LoginPage.vue';
 import Summary from '@/views/Summary.vue';
 import TransactionSearch from '@/views/TransactionSearch.vue';
@@ -19,7 +20,7 @@ const router = createRouter({
       component: Summary,
     },
 
-    { path: '/Home', name: 'Home', component: Home },
+    { path: '/', name: 'Home', component: Homeview },
     {
       path: '/transactions',
       name: 'TransactionSearch',

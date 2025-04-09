@@ -10,7 +10,6 @@
   "profile": {
     "name": "typicode"
   },
-
   "transactions": [
     {
       "id": 1,
@@ -35,19 +34,7 @@
       "category": "교통",
       "amount": 2500,
       "description": "지하철"
-    }
-  ],
-
-  "LoginInfo": [
-    {
-      "id": 1,
-      "userID": "test.user",
-
-      "password": "1234",
-      "birth": "1995-08-21",
-      "phone": "010-1234-5678"
     },
-
     {
       "id": 4,
       "description": "추가테스트",
@@ -56,6 +43,16 @@
       "type": "expense",
       "category": "식비",
       "memo": "ㄴㅇㄹㄴㅇㄴ"
+    }
+  ],
+
+  "LoginInfo": [
+    {
+      "id": 1,
+      "userID": "test.user",
+      "password": "1234",
+      "birth": "1995-08-21",
+      "phone": "010-1234-5678"
     }
   ],
 
@@ -78,7 +75,8 @@
       "password": "chulsoo_password"
     }
   ],
-  "IncomeCategory": [
+
+  "expenseCategory": [
     {
       "id": 1,
       "name": "월급"
@@ -96,6 +94,7 @@
       "name": "기타"
     }
   ],
+
   "expenseCategory": [
     {
       "id": 1,
