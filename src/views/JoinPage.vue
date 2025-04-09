@@ -1,20 +1,95 @@
-<script setup></script>
+<script setup>
+import { ref, watch } from 'vue';
+
+//입력값
+const userId = ref('');
+const password = ref('');
+const name = ref('');
+const phone = ref('');
+const email = ref('');
+
+//에러 메세지 상태
+const userIdError = ref('');
+const passwordError = ref('');
+const nameError = ref('');
+const phoneError = ref('');
+const emailError = ref('');
+
+//정규식
+const userIdRegex = /^[a-zA-Z0-9]{6,}$/;
+const passwordRegex = /^[a-zA-Z0-9]{6,}$/;
+const nameRegex = /^[가-힣a-zA-Z]+$/;
+const phoneRegex = /^\d{3}-\d{4}-\d{4}$/;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+//실시간 유효성 검사
+const validataId = () => {
+  if (!userIdRegex.test(userId.value)) {
+    userIdError.value = '아이디는 6자 이상 입니다.';
+  }
+};
+const validataPassword = () => {
+  if (!passwordRegex.test(password.value)) {
+    passwordError.value = '비밀번호는 6자 이상 입니다.';
+  }
+};
+const validataName = () => {};
+if (!nameRegex.test(name.value)) {
+  nameError.value = '비밀번호는 6자 이상 입니다.';
+}
+const validataPhone = () => {};
+if (!phoneRegex.test(name.value)) {
+  phoneError.value = '비밀번호는 6자 이상 입니다.';
+}
+const validataEmail = () => {};
+if (!emailRegex.test(name.value)) {
+  emailError.value = '000-0000-0000 형식으로 입력해야 합니다.';
+}
+
+//JSON 형태로 변환
+const newUser = {
+  id: Date.now(),
+  userId: userId.value,
+  password: password.value,
+  name: name.value,
+  phone: phone.value,
+  email: email.value,
+};
+
+console.log('저장될 데이터 형식:', newUser);
+alert('회원가입이 완료되었습니다!');
+
+//초기화
+userId.value = '';
+password.value = '';
+name.value = '';
+phone.value = '';
+email.value = '';
+</script>
 
 <template>
   <div class="LoginPage">
     <h2>COINIT <i class="fa-solid fa-coins"></i></h2>
 
     <form class="join-container">
-      <input type="text" placeholder="아이디를 입력하세요" id="id" />
+      <input type="text" placeholder="아이디를 입력하세요" v-model="userId" />
       <br />
-      <input type="password" placeholder="비밀번호를 입력하세요" pw="pw" />
+      <input
+        type="password"
+        placeholder="비밀번호를 입력하세요"
+        v-model="password"
+      />
       <br />
-      <input type="text" placeholder="이름을 입력하세요" id="name" />
+      <input type="text" placeholder="이름을 입력하세요" v-model="name" />
       <br />
-      <input type="text" placeholder="휴대폰 번호를 입력하세요" id="phone" />
+      <input
+        type="text"
+        placeholder="휴대폰 번호를 입력하세요"
+        v-model="phone"
+      />
       <br />
-      <input type="text" placeholder="이메일 입력하세요" id="email" />
-      <button class="joinBtn">회원가입</button>
+      <input type="text" placeholder="이메일 입력하세요" v-model="email" />
+      <button class="joinBtn" @click="handleJoin">회원가입</button>
       <button class="backBtn">홈</button>
     </form>
   </div>
