@@ -19,7 +19,8 @@ const router = createRouter({
       component: Summary,
     },
 
-    { path: '/Home', name: 'Home', component: Home },
+    // { path: '/Home', name: 'Home', component: Home },
+
     {
       path: '/transactions',
       name: 'TransactionSearch',
