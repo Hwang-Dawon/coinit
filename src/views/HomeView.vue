@@ -12,16 +12,21 @@ import BudgetBox from '@/components/Home/BudgetBox.vue';
   <div class="home-container">
     <HeaderBar />
     <div class="main-wrapper">
-      <Sidebar />
+      <div class="sidebar">
+        <Sidebar />
+      </div>
+
       <div class="main-content">
-        <ChartBox />
-        <div class="summary-row">
-          <IncomeBox />
-          <ExpenseBox />
-          <div class="bottom-row">
-            <CalendarBox />
-            <BudgetBox />
-          </div>
+        <div class="top-boxes">
+          <IncomeBox class="box" />
+          <ExpenseBox class="box" />
+        </div>
+
+        <ChartBox class="chart-box" />
+
+        <div class="bottom-boxes">
+          <CalendarBox class="box" />
+          <BudgetBox class="box" />
         </div>
       </div>
     </div>

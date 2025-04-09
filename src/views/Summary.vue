@@ -1,24 +1,37 @@
 <template>
-  <div class="summary">
-    <h2 class="title">월별 요약</h2>
-    <div class="month-summary">
-      <p class="income">총 수입: {{ totalIncome }}원</p>
-      <p class="expense">총 지출: {{ totalExpense }}원</p>
-    </div>
+  <div class="center-container">
+    <div class="summary">
+      <h2 class="title">월별 요약</h2>
+      <div class="month-summary">
+        <p class="income">총 수입: {{ totalIncome }}원</p>
+        <p class="expense">총 지출: {{ totalExpense }}원</p>
+      </div>
 
-    <h2 class="summary-title">카테고리별 지출 현황</h2>
-    <div class="category-summary" :style="getPieChartStyle()"></div>
+      <h2 class="summary-title">카테고리별 지출 현황</h2>
+      <div class="category-summary">
+        <div class="pie-chart" :style="getPieChartStyle()">
+          <span class="percentage-label">
+            <div v-if="highestCategory">
+              {{ highestCategory.category }}: {{ highestCategory.percentage }}%
+            </div>
+          </span>
+        </div>
+        <div v-for="(item, category) in categorySummary" :key="category">
+          {{ category }}: {{ item.percentage }}%
+        </div>
+      </div>
 
-    <h2 class="detail-title">카테고리별 지출 내역</h2>
-    <div class="category-detail">
-      <div v-for="item in categoryDetails" :key="item.category">
-        <h3>{{ item.category }}</h3>
-        <ul>
-          <li v-for="transaction in item.transactions" :key="transaction.id">
-            {{ transaction.date }} - {{ transaction.description }}:
-            {{ transaction.amount }}원
-          </li>
-        </ul>
+      <h2 class="detail-title">카테고리별 지출 내역</h2>
+      <div class="category-detail">
+        <div v-for="item in categoryDetails" :key="item.category">
+          <h3>{{ item.category }}</h3>
+          <ul>
+            <li v-for="transaction in item.transactions" :key="transaction.id">
+              {{ transaction.date }} - {{ transaction.description }}:
+              {{ transaction.amount }}원
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -61,17 +74,27 @@ const calculateSummary = () => {
 
 const calculateCategorySummary = () => {
   const summary = {};
+  let totalExpenseAmount = 0;
 
   transactions.value.forEach((transaction) => {
     if (transaction.type === 'expense') {
       const category = transaction.category;
+      const amount = transaction.amount;
+      totalExpenseAmount += amount;
       if (summary[category]) {
-        summary[category] += transaction.amount;
+        summary[category].amount += amount;
       } else {
-        summary[category] = transaction.amount;
+        summary[category] = { amount: amount, percentage: 0 };
       }
     }
   });
+
+  for (const category in summary) {
+    summary[category].percentage = (
+      (summary[category].amount / totalExpenseAmount) *
+      100
+    ).toFixed(1); // 소수점 1자리까지 표시
+  }
 
   categorySummary.value = summary;
 };
@@ -92,13 +115,14 @@ const calculateCategoryDetails = () => {
 
 const getPieChartStyle = () => {
   const total = Object.values(categorySummary.value).reduce(
-    (acc, val) => acc + val,
+    (acc, val) => acc + val.amount,
     0
   );
   let startAngle = 0;
   let gradient = '';
 
-  Object.entries(categorySummary.value).forEach(([category, amount]) => {
+  Object.entries(categorySummary.value).forEach(([category, item]) => {
+    const amount = item.amount;
     const sliceAngle = (amount / total) * 360;
     const color = '#' + Math.floor(Math.random() * 16777215).toString(16); // 랜덤 색상 생성
     gradient += `, ${color} ${startAngle}deg ${startAngle + sliceAngle}deg`;
@@ -117,16 +141,26 @@ const getPieChartStyle = () => {
 
 <!-- 스타일 부분 -->
 <style scoped>
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* 화면 높이만큼 최소 높이 설정 */
+  padding: 20px; /* 내용이 너무 붙지 않도록 padding 추가 */
+}
+
 .summary {
-  text-align: center;
+  max-width: 800px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center; /* 내용 중앙 정렬 */
 }
 
 .title {
   margin-bottom: 20px;
-  position: fixed;
-  top: 0;
   text-align: center;
-  left: 37%;
   font-weight: bold;
 }
 
@@ -153,13 +187,17 @@ const getPieChartStyle = () => {
 }
 .summary-title,
 .detail-title {
-  font-size: 14px;
+  font-size: 20px;
   font-weight: bold;
 }
 
 /* 카테고리별 지출현황 */
 .category-summary {
-  background-color: yellowgreen;
+  margin: 20px auto;
+  text-align: center; /* 퍼센트 정보 중앙 정렬 */
+}
+
+.pie-chart {
   width: 200px;
   height: 200px;
   border-radius: 50%;
