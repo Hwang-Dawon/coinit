@@ -7,7 +7,18 @@
     </div>
 
     <h2 class="summary-title">카테고리별 지출 현황</h2>
-    <div class="category-summary" :style="getPieChartStyle()"></div>
+    <div class="category-summary">
+      <div class="pie-chart" :style="getPieChartStyle()">
+        <span class="percentage-label">
+          <div v-if="highestCategory">
+            {{ highestCategory.category }}: {{ highestCategory.percentage }}%
+          </div>
+        </span>
+      </div>
+      <div v-for="(item, category) in categorySummary" :key="category">
+        {{ category }}: {{ item.percentage }}%
+      </div>
+    </div>
 
     <h2 class="detail-title">카테고리별 지출 내역</h2>
     <div class="category-detail">
@@ -61,17 +72,27 @@ const calculateSummary = () => {
 
 const calculateCategorySummary = () => {
   const summary = {};
+  let totalExpenseAmount = 0;
 
   transactions.value.forEach((transaction) => {
     if (transaction.type === 'expense') {
       const category = transaction.category;
+      const amount = transaction.amount;
+      totalExpenseAmount += amount;
       if (summary[category]) {
-        summary[category] += transaction.amount;
+        summary[category].amount += amount;
       } else {
-        summary[category] = transaction.amount;
+        summary[category] = { amount: amount, percentage: 0 };
       }
     }
   });
+
+  for (const category in summary) {
+    summary[category].percentage = (
+      (summary[category].amount / totalExpenseAmount) *
+      100
+    ).toFixed(1); // 소수점 1자리까지 표시
+  }
 
   categorySummary.value = summary;
 };
@@ -92,13 +113,14 @@ const calculateCategoryDetails = () => {
 
 const getPieChartStyle = () => {
   const total = Object.values(categorySummary.value).reduce(
-    (acc, val) => acc + val,
+    (acc, val) => acc + val.amount,
     0
   );
   let startAngle = 0;
   let gradient = '';
 
-  Object.entries(categorySummary.value).forEach(([category, amount]) => {
+  Object.entries(categorySummary.value).forEach(([category, item]) => {
+    const amount = item.amount;
     const sliceAngle = (amount / total) * 360;
     const color = '#' + Math.floor(Math.random() * 16777215).toString(16); // 랜덤 색상 생성
     gradient += `, ${color} ${startAngle}deg ${startAngle + sliceAngle}deg`;
@@ -153,13 +175,17 @@ const getPieChartStyle = () => {
 }
 .summary-title,
 .detail-title {
-  font-size: 14px;
+  font-size: 20px;
   font-weight: bold;
 }
 
 /* 카테고리별 지출현황 */
 .category-summary {
-  background-color: yellowgreen;
+  margin: 20px auto;
+  text-align: center; /* 퍼센트 정보 중앙 정렬 */
+}
+
+.pie-chart {
   width: 200px;
   height: 200px;
   border-radius: 50%;
