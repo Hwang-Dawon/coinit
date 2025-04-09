@@ -1,35 +1,37 @@
 <template>
-  <div class="summary">
-    <h2 class="title">월별 요약</h2>
-    <div class="month-summary">
-      <p class="income">총 수입: {{ totalIncome }}원</p>
-      <p class="expense">총 지출: {{ totalExpense }}원</p>
-    </div>
-
-    <h2 class="summary-title">카테고리별 지출 현황</h2>
-    <div class="category-summary">
-      <div class="pie-chart" :style="getPieChartStyle()">
-        <span class="percentage-label">
-          <div v-if="highestCategory">
-            {{ highestCategory.category }}: {{ highestCategory.percentage }}%
-          </div>
-        </span>
+  <div class="center-container">
+    <div class="summary">
+      <h2 class="title">월별 요약</h2>
+      <div class="month-summary">
+        <p class="income">총 수입: {{ totalIncome }}원</p>
+        <p class="expense">총 지출: {{ totalExpense }}원</p>
       </div>
-      <div v-for="(item, category) in categorySummary" :key="category">
-        {{ category }}: {{ item.percentage }}%
-      </div>
-    </div>
 
-    <h2 class="detail-title">카테고리별 지출 내역</h2>
-    <div class="category-detail">
-      <div v-for="item in categoryDetails" :key="item.category">
-        <h3>{{ item.category }}</h3>
-        <ul>
-          <li v-for="transaction in item.transactions" :key="transaction.id">
-            {{ transaction.date }} - {{ transaction.description }}:
-            {{ transaction.amount }}원
-          </li>
-        </ul>
+      <h2 class="summary-title">카테고리별 지출 현황</h2>
+      <div class="category-summary">
+        <div class="pie-chart" :style="getPieChartStyle()">
+          <span class="percentage-label">
+            <div v-if="highestCategory">
+              {{ highestCategory.category }}: {{ highestCategory.percentage }}%
+            </div>
+          </span>
+        </div>
+        <div v-for="(item, category) in categorySummary" :key="category">
+          {{ category }}: {{ item.percentage }}%
+        </div>
+      </div>
+
+      <h2 class="detail-title">카테고리별 지출 내역</h2>
+      <div class="category-detail">
+        <div v-for="item in categoryDetails" :key="item.category">
+          <h3>{{ item.category }}</h3>
+          <ul>
+            <li v-for="transaction in item.transactions" :key="transaction.id">
+              {{ transaction.date }} - {{ transaction.description }}:
+              {{ transaction.amount }}원
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -139,16 +141,26 @@ const getPieChartStyle = () => {
 
 <!-- 스타일 부분 -->
 <style scoped>
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* 화면 높이만큼 최소 높이 설정 */
+  padding: 20px; /* 내용이 너무 붙지 않도록 padding 추가 */
+}
+
 .summary {
-  text-align: center;
+  max-width: 800px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center; /* 내용 중앙 정렬 */
 }
 
 .title {
   margin-bottom: 20px;
-  position: fixed;
-  top: 0;
   text-align: center;
-  left: 37%;
   font-weight: bold;
 }
 
