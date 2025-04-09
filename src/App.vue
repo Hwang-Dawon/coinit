@@ -10,16 +10,15 @@ import { RouterLink, RouterView } from 'vue-router';
       <h1>나의 가계부</h1>
       <nav>
         <RouterLink to="/record">기록</RouterLink> |
-        <RouterLink to="/transactions">거래 조회</RouterLink>|
-        <!-- summary로 향하는 요약 버튼 추가 -->
         <RouterLink to="/summary">요약</RouterLink>|
+        <RouterLink to="/transactions">거래 조회</RouterLink> |
+        <RouterLink to="/Management">재정관리</RouterLink>
+
       </nav>
     </header>
 
     <main>
-      <!-- <LoginPage /> -->
       <RouterView />
-      <!-- <Summary /> -->
     </main>
 
     <footer>

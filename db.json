@@ -53,21 +53,22 @@
     },
     {
       "id": 4,
-      "description": "test",
-      "amount": 5000,
-      "date": "2025-04-09",
+      "description": "추가테스트",
+      "amount": 20000,
+      "date": "2025-04-11",
       "type": "expense",
-      "category": "",
-      "memo": "test"
+      "category": "식비",
+      "memo": "ㄴㅇㄹㄴㅇㄴ"
     }
   ],
   "LoginInfo": [
     {
       "id": "1",
       "userID": "test.user",
-      "password": "1234",
-      "birth": "1995-08-21",
-      "phone": "010-1234-5678"
+      "password": "chulsoo_password",
+      "username": "철수",
+      "phone": "010-1234-5678",
+      "email": "chulsoo@example.com"
     },
     {
       "id": "4",
@@ -77,6 +78,23 @@
       "type": "expense",
       "category": "식비",
       "memo": "ㄴㅇㄹㄴㅇㄴ"
+    },
+    {
+      "id": 1744179659505,
+      "userId": "dfedsskh",
+      "password": "dfgwef",
+      "name": "홍길동",
+      "phone": "010-0000-0000",
+      "email": "djfhdkn@gmail.com"
+    },
+    {
+      "id": 1744184031363,
+      "userId": "dfhkjh",
+      "password": "dfgjedg456",
+      "name": "홍길동",
+      "phone": "010-0000-0000",
+      "email": "fhjsd@dfjh.com"
+
     }
   ],
   "periodicExpense": [
@@ -89,15 +107,8 @@
       "memo": "전기요금"
     }
   ],
-  "users": [
-    {
-      "id": "1",
-      "username": "철수",
-      "email": "chulsoo@example.com",
-      "password": "chulsoo_password"
-    }
-  ],
   "IncomeCategory": [
+
     {
       "id": "1",
       "name": "월급"
@@ -115,6 +126,7 @@
       "name": "기타"
     }
   ],
+
   "expenseCategory": [
     {
       "id": "1",
