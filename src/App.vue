@@ -16,9 +16,7 @@ import { RouterLink, RouterView } from 'vue-router'
     </header>
 
     <main>
-      <LoginPage />
       <RouterView />
-      <!-- <Summary /> -->
     </main>
 
     <footer>
