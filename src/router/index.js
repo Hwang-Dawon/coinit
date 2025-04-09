@@ -30,7 +30,7 @@ const router = createRouter({
       component: LoginPage,
       // children: [{ path: 'join', name: 'join', component: JoinPage }],
 
-
+    }
     {
       path: '/summary',
       name: 'summary',
