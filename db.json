@@ -1,24 +1,24 @@
 {
   "posts": [
     {
-      "id": "1",
+      "id": 1,
       "title": "a title",
       "views": 100
     },
     {
-      "id": "2",
+      "id": 2,
       "title": "another title",
       "views": 200
     }
   ],
   "comments": [
     {
-      "id": "1",
+      "id": 1,
       "text": "a comment about post 1",
       "postId": 1
     },
     {
-      "id": "2",
+      "id": 2,
       "text": "another comment about post 1",
       "postId": 1
     }
@@ -28,7 +28,15 @@
   },
   "transactions": [
     {
-      "id": "2",
+      "id": 1,
+      "date": "2025-04-01",
+      "type": "income",
+      "category": "월급",
+      "amount": 3000000,
+      "description": "4월 급여"
+    },
+    {
+      "id": 2,
       "date": "2025-04-02",
       "type": "expense",
       "category": "식비",
@@ -36,25 +44,33 @@
       "description": "점심"
     },
     {
-      "description": "지하철",
-      "amount": 2500,
+      "id": 3,
       "date": "2025-04-03",
       "type": "expense",
-      "category": "공과금",
-      "memo": "",
-      "id": "3"
+      "category": "교통",
+      "amount": 2500,
+      "description": "지하철"
+    },
+    {
+      "id": 4,
+      "description": "테스트1",
+      "amount": 20000,
+      "date": "2025-04-08",
+      "type": "expense",
+      "category": "교통비",
+      "memo": ""
     }
   ],
   "LoginInfo": [
     {
-      "id": "1",
+      "id": 1,
       "userID": "test.user",
       "password": "1234",
       "birth": "1995-08-21",
       "phone": "010-1234-5678"
     },
     {
-      "id": "4",
+      "id": 4,
       "description": "추가테스트",
       "amount": 20000,
       "date": "2025-04-11",
@@ -65,7 +81,7 @@
   ],
   "periodicExpense": [
     {
-      "id": "1",
+      "id": 1,
       "date": "2025-04-01",
       "type": "expense",
       "category": "공과금",
@@ -75,7 +91,7 @@
   ],
   "users": [
     {
-      "id": "1",
+      "id": 1,
       "username": "철수",
       "email": "chulsoo@example.com",
       "password": "chulsoo_password"
@@ -83,41 +99,41 @@
   ],
   "IncomeCategory": [
     {
-      "id": "1",
+      "id": 1,
       "name": "월급"
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "용돈"
     },
     {
-      "id": "3",
+      "id": 3,
       "name": "이자"
     },
     {
-      "id": "4",
+      "id": 4,
       "name": "기타"
     }
   ],
   "expenseCategory": [
     {
-      "id": "1",
+      "id": 1,
       "name": "식비"
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "교통비"
     },
     {
-      "id": "3",
+      "id": 3,
       "name": "유흥"
     },
     {
-      "id": "4",
+      "id": 4,
       "name": "공과금"
     },
     {
-      "id": "5",
+      "id": 5,
       "name": "기타"
     }
   ]
