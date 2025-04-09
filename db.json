@@ -97,16 +97,6 @@
       "memo": "전기요금"
     }
   ],
-  "users": [
-    {
-      "id": 1,
-      "userID": "test.user",
-      "password": "chulsoo_password",
-      "username": "철수",
-      "phone": "010-1234-5678",
-      "email": "chulsoo@example.com"
-    }
-  ],
   "IncomeCategory": [
     {
       "id": 1,
