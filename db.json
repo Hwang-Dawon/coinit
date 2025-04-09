@@ -50,12 +50,22 @@
       "category": "교통",
       "amount": 2500,
       "description": "지하철"
+    },
+    {
+      "id": 4,
+      "description": "추가테스트",
+      "amount": 20000,
+      "date": "2025-04-11",
+      "type": "expense",
+      "category": "식비",
+      "memo": "ㄴㅇㄹㄴㅇㄴ"
     }
   ],
   "LoginInfo": [
     {
       "id": 1,
       "userID": "test.user",
+
       "password": "chulsoo_password",
       "username": "철수",
       "phone": "010-1234-5678",
@@ -85,6 +95,7 @@
       "name": "홍길동",
       "phone": "010-0000-0000",
       "email": "fhjsd@dfjh.com"
+
     }
   ],
   "periodicExpense": [
@@ -98,6 +109,7 @@
     }
   ],
   "IncomeCategory": [
+
     {
       "id": 1,
       "name": "월급"
@@ -115,6 +127,7 @@
       "name": "기타"
     }
   ],
+
   "expenseCategory": [
     {
       "id": 1,
