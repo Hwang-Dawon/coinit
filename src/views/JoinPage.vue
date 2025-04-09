@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue';
+import axios from 'axios';
 
 //입력값
 const userId = ref('');
@@ -59,30 +60,41 @@ const validataEmail = () => {
   }
 };
 
-//JSON 형태로 변환
-const newUser = {
-  id: Date.now(),
-  userId: userId.value,
-  password: password.value,
-  name: name.value,
-  phone: phone.value,
-  email: email.value,
+//회원가입 처리함수
+const handleJoin = async (e) => {
+  e.preventDefault();
+
+  //JSON 형태로 변환
+  const newUser = {
+    id: Date.now(),
+    userId: userId.value,
+    password: password.value,
+    name: name.value,
+    phone: phone.value,
+    email: email.value,
+  };
+
+  try {
+    // POST 요청으로 db.json(LoginInfo)에 저장
+    await axios.post('http://localhost:3001/LoginInfo', newUser);
+    alert('회원가입이 완료되었습니다!');
+  } catch (err) {
+    alert('저장 중 오류가 발생했습니다.');
+    console.error(err);
+  }
+
+  //초기화
+  userId.value = '';
+  password.value = '';
+  name.value = '';
+  phone.value = '';
+  email.value = '';
 };
-
-console.log('저장될 데이터 형식:', newUser);
-alert('회원가입이 완료되었습니다!');
-
-//초기화
-userId.value = '';
-password.value = '';
-name.value = '';
-phone.value = '';
-email.value = '';
 </script>
 
 <template>
   <div class="JoinPage">
-    <form class="join-container">
+    <form class="join-container" @submit.prevent="handleJoin">
       <h2>COINIT <i class="fa-solid fa-coins"></i></h2>
 
       <div class="form-group">
@@ -134,7 +146,7 @@ email.value = '';
         <span class="error" v-if="emailError">{{ emailError }}</span>
       </div>
 
-      <button class="joinBtn" @click="handleJoin">회원가입</button>
+      <button class="joinBtn" type="submit">회원가입</button>
       <button class="backBtn">홈</button>
     </form>
   </div>
