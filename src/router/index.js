@@ -4,9 +4,9 @@ import LoginPage from '@/views/LoginPage.vue';
 import Summary from '@/views/Summary.vue';
 import TransactionSearch from '@/views/TransactionSearch.vue';
 import RecordPage from '../views/RecordPage.vue';
+
 import Home from '@/views/HomeView.vue';
 import Management from '@/views/Management.vue';
-
 
 const router = createRouter({
   history: createWebHistory(),
@@ -26,6 +26,7 @@ const router = createRouter({
       name: 'summary',
       component: Summary,
     },
+
 
     {
       path: '/Home',
