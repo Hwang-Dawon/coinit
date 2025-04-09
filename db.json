@@ -1,4 +1,16 @@
 {
+  "posts": [
+    { "id": "1", "title": "a title", "views": 100 },
+    { "id": "2", "title": "another title", "views": 200 }
+  ],
+  "comments": [
+    { "id": "1", "text": "a comment about post 1", "postId": "1" },
+    { "id": "2", "text": "another comment about post 1", "postId": "1" }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+
   "transactions": [
     {
       "id": 1,
@@ -23,7 +35,6 @@
       "category": "교통",
       "amount": 2500,
       "description": "지하철"
-
     }
   ],
 
@@ -35,12 +46,8 @@
       "password": "1234",
       "birth": "1995-08-21",
       "phone": "010-1234-5678"
-    }
-  ],
-
-
-
     },
+
     {
       "id": 4,
       "description": "추가테스트",
@@ -49,15 +56,6 @@
       "type": "expense",
       "category": "식비",
       "memo": "ㄴㅇㄹㄴㅇㄴ"
-    }
-  ],
-  "LoginInfo": [
-    {
-      "id": 1,
-      "userID": "testuser",
-      "password": "1234",
-      "birth": "1995-08-21",
-      "phone": "010-1234-5678"
     }
   ],
 
@@ -71,8 +69,6 @@
       "memo": "전기요금"
     }
   ],
-n
-
 
   "users": [
     {
@@ -82,21 +78,7 @@ n
       "password": "chulsoo_password"
     }
   ],
-
-  "incomeCategory": [
-
-    { "id": 1, "name": "월급" },
-    { "id": 2, "name": "용돈" },
-    { "id": 3, "name": "이자" },
-    { "id": 4, "name": "기타" }
-  ],
-  "expenseCategory": [
-    { "id": 1, "name": "식비" },
-    { "id": 2, "name": "교통비" },
-    { "id": 3, "name": "유흥" },
-    { "id": 4, "name": "공과금" },
-    { "id": 5, "name": "기타" }
-
+  "IncomeCategory": [
     {
       "id": 1,
       "name": "월급"
@@ -135,6 +117,5 @@ n
       "id": 5,
       "name": "기타"
     }
-
   ]
 }
