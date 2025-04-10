@@ -37,7 +37,6 @@
       "memo": ""
     },
     {
-
       "id": "2",
       "description": "테스트2",
       "amount": 30000,
@@ -45,6 +44,24 @@
       "type": "expense",
       "category": "식비",
       "memo": ""
+    },
+    {
+      "id": "3",
+      "description": "케이크",
+      "amount": 350000,
+      "date": "2025-04-05",
+      "type": "expense",
+      "category": "식비",
+      "memo": "친구생일"
+    },
+    {
+      "id": "4",
+      "description": "월급",
+      "amount": 3000000,
+      "date": "2025-04-01",
+      "type": "income",
+      "category": "월급",
+      "memo": "4월 월급"
     }
   ],
   "LoginInfo": [
@@ -81,7 +98,7 @@
       "email": "emdk@naver.com"
     },
     {
-      "id": 1744260693725,
+      "id": "1744260693725",
       "userId": "test111",
       "password": "test1111",
       "name": "이름",
@@ -89,7 +106,7 @@
       "email": "epal@naver.com"
     },
     {
-      "id": 1744260693726,
+      "id": "1744260693726",
       "userId": "test222",
       "password": "test222",
       "name": "테스트",
