@@ -78,6 +78,7 @@
       "email": "fhjsd@dfjh.com"
     }
   ],
+
   "periodicExpense": [
     {
       "id": 1,
@@ -88,6 +89,7 @@
       "memo": "전기요금"
     }
   ],
+
   "IncomeCategory": [
     { "id": 1, "name": "월급" },
     { "id": 2, "name": "용돈" },

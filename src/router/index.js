@@ -6,7 +6,10 @@ import TransactionSearch from '@/views/TransactionSearch.vue';
 import RecordPage from '../views/RecordPage.vue';
 import RecordEdit from '@/views/RecordEdit.vue';
 import JoinPage from '@/views/JoinPage.vue';
+<<<<<<< HEAD
 
+=======
+>>>>>>> fbc0ab3b467ecae66fc5dddb27b1bfa6024d4061
 import Home from '@/views/HomeView.vue';
 import Management from '@/views/Management.vue';
 
