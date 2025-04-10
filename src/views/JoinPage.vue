@@ -1,6 +1,9 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 //입력값
 const userId = ref('');
@@ -19,7 +22,7 @@ const emailError = ref('');
 //정규식
 const userIdRegex = /^[a-zA-Z0-9]{6,}$/;
 const passwordRegex = /^[a-zA-Z0-9]{6,}$/;
-const nameRegex = /^[가-힣]{6}$/;
+const nameRegex = /^[가-힣]{2,6}$/;
 const phoneRegex = /^\d{3}-\d{4}-\d{4}$/;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -46,14 +49,14 @@ const validataName = () => {
   }
 };
 const validataPhone = () => {
-  if (!phoneRegex.test(name.value)) {
+  if (!phoneRegex.test(phone.value)) {
     phoneError.value = '000-0000-0000 형식으로 입력해야 합니다.';
   } else {
     phoneError.value = '';
   }
 };
 const validataEmail = () => {
-  if (!emailRegex.test(name.value)) {
+  if (!emailRegex.test(email.value)) {
     emailError.value = '올바른 이메일 형식이 아닙니다.';
   } else {
     emailError.value = '';
@@ -92,7 +95,16 @@ const handleJoin = async (e) => {
     // 기존 사용자 목록 불러오기 (ID 순차적 생성용)
     const res = await axios.get('http://localhost:3001/LoginInfo');
     const users = res.data;
-    const maxId = users.length > 0 ? Math.max(...users.map((u) => u.id)) : 0;
+
+    // 중복 아이디 검사 추가!
+    const duplicate = users.find((u) => u.userId === userId.value);
+    if (duplicate) {
+      alert('이미 존재하는 아이디입니다.');
+      return; // 중단
+    }
+
+    const maxId =
+      users.length > 0 ? Math.max(...users.map((u) => Number(u.id))) : 0;
     const newId = maxId + 1;
 
     // JSON 형태로 변환
@@ -108,6 +120,9 @@ const handleJoin = async (e) => {
     // POST 요청으로 저장
     await axios.post('http://localhost:3001/LoginInfo', newUser);
     alert('회원가입이 완료되었습니다!');
+
+    //로그인 페이지로 이동
+    router.push('/');
 
     // 초기화
     userId.value = '';
@@ -164,7 +179,7 @@ const handleJoin = async (e) => {
           v-model="phone"
           @input="validataPhone"
         />
-        <span class="error" v-if="userIdError">{{ phoneError }}</span>
+        <span class="error" v-if="phoneError">{{ phoneError }}</span>
       </div>
       <div class="form-group">
         <input
