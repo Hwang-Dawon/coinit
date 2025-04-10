@@ -84,27 +84,19 @@
         <tr v-for="item in transactions" :key="item.id">
           <td>{{ item.date }}</td>
           <td>{{ item.desc }}</td>
-<<<<<<< HEAD
-=======
-          
->>>>>>> fbc0ab3b467ecae66fc5dddb27b1bfa6024d4061
           <td :class="{ negative: item.amount < 0 }">
             ₩{{ item.amount.toLocaleString() }}
           </td>
         </tr>
       </tbody>
     </table>
-<<<<<<< HEAD
-=======
-   
+
     <!-- 추가, 수정, 삭제 버튼 -->
     <div class="button-group">
-  <button class="btn btn-add" @click="addItem">추가</button>
-  <button class="btn btn-edit" @click="editItem">수정</button>
-  <button class="btn btn-delete" @click="deleteItem">삭제</button>
-</div>
-
->>>>>>> fbc0ab3b467ecae66fc5dddb27b1bfa6024d4061
+      <button class="btn btn-add" @click="addItem">추가</button>
+      <button class="btn btn-edit" @click="editItem">수정</button>
+      <button class="btn btn-delete" @click="deleteItem">삭제</button>
+    </div>
   </div>
 </template>
 
@@ -115,10 +107,7 @@ const actualIncome = ref([
   { name: '월급', amount: 4000000 },
   { name: '투잡 수입', amount: 300000 },
 ]);
-<<<<<<< HEAD
 
-=======
->>>>>>> fbc0ab3b467ecae66fc5dddb27b1bfa6024d4061
 const actualSpending = ref([
   { name: '식비', amount: 420000 },
   { name: '교통비', amount: 80000 },
@@ -158,35 +147,24 @@ const actualHousingTotal = computed(() =>
   housing.value.reduce((sum, item) => sum + item.actual, 0)
 );
 
-<<<<<<< HEAD
 const actualBalance = computed(
   () => actualIncomeTotal.value - actualHousingTotal.value
 );
-=======
-const actualBalance = computed(() =>
-  actualIncomeTotal.value - actualHousingTotal.value
-)
 
 const addItem = () => {
-  alert("항목을 추가합니다.")
-}
+  alert('항목을 추가합니다.');
+};
 
 const editItem = () => {
-  alert("항목을 수정합니다.")
-}
+  alert('항목을 수정합니다.');
+};
 
 const deleteItem = () => {
-  const confirmed = confirm("정말 삭제하시겠습니까?")
+  const confirmed = confirm('정말 삭제하시겠습니까?');
   if (confirmed) {
-    alert("삭제되었습니다.")
+    alert('삭제되었습니다.');
   }
-}
-
-const actualBalance = computed(
-  () => actualIncomeTotal.value - actualHousingTotal.value
-);
-
->>>>>>> fbc0ab3b467ecae66fc5dddb27b1bfa6024d4061
+};
 </script>
 
 <style scoped>
@@ -260,8 +238,6 @@ h3 {
 .negative {
   color: #d32f2f;
 }
-<<<<<<< HEAD
-=======
 
 .button-group {
   display: flex;
@@ -288,7 +264,5 @@ h3 {
 
 .btn-delete {
   background-color: #dc3545;
-
 }
->>>>>>> fbc0ab3b467ecae66fc5dddb27b1bfa6024d4061
 </style>

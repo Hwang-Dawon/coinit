@@ -6,12 +6,11 @@ import TransactionSearch from '@/views/TransactionSearch.vue';
 import RecordPage from '../views/RecordPage.vue';
 import RecordEdit from '@/views/RecordEdit.vue';
 import JoinPage from '@/views/JoinPage.vue';
-<<<<<<< HEAD
-
-=======
->>>>>>> fbc0ab3b467ecae66fc5dddb27b1bfa6024d4061
 import Home from '@/views/HomeView.vue';
 import Management from '@/views/Management.vue';
+import Mypage from '@/views/Mypage.vue';
+import PasswordCheck from '@/views/PasswordCheck.vue';
+import EditInfo from '@/views/EditInfo.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -25,6 +24,21 @@ const router = createRouter({
       path: '/join',
       name: 'join',
       component: JoinPage,
+    },
+    {
+      path: '/mypage',
+      name: 'mypage',
+      component: Mypage,
+    },
+    {
+      path: '/mypage/verify',
+      name: 'verify',
+      component: PasswordCheck,
+    },
+    {
+      path: '/mypage/edit',
+      name: 'edit',
+      component: EditInfo,
     },
     {
       path: '/summary',
