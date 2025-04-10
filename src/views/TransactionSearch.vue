@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h2>거래 내역 조회</h2>
-    <!-- 🔥 필터기능 -->
+    <!--  필터기능 -->
     <div class="filters">
       <input v-model="filter.from" type="date" />
       <input v-model="filter.to" type="date" />
@@ -19,7 +19,7 @@
         </option>
       </select>
 
-      <!-- 🔥 메모 검색창 추가 -->
+      <!--  메모 검색창 추가 -->
       <input v-model="filter.memo" placeholder="메모 검색" />
 
       <button @click="applyFilter">조회</button>
@@ -138,33 +138,78 @@ export default {
   padding: 20px;
   max-width: 700px;
   margin: 0 auto;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 10px;
 }
-.filters {
+
+h2 {
+  text-align: center;
   margin-bottom: 20px;
+}
+
+.filters {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
 }
+
 .filters input,
-.filters select,
-.filters button {
-  padding: 5px;
+.filters select {
+  padding: 6px 10px;
   font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
+
+.filters button {
+  background-color: #ffc400;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.filters button:hover {
+  background-color: #ffc400;
+}
+
 .list {
   list-style: none;
   padding: 0;
 }
+
 .list li {
-  margin-bottom: 8px;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 6px;
+  background: white;
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  border-left: 5px solid #007bff;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
+
 .pagination {
-  margin-top: 10px;
   display: flex;
   justify-content: center;
   gap: 10px;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 5px 10px;
+  border: 1px solid #007bff;
+  background-color: white;
+  color: #007bff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 </style>
