@@ -80,7 +80,7 @@
       "email": "emdk@naver.com"
     },
     {
-      "id": 1744260693725,
+      "id": "1744260693725",
       "userId": "test111",
       "password": "test1111",
       "name": "이름",
@@ -88,15 +88,15 @@
       "email": "epal@naver.com"
     },
     {
-      "id": 1744260693726,
+      "id": "1744260693726",
       "userId": "test222",
-      "password": "test222",
       "name": "테스트",
-      "phone": "010-1111-1111",
+      "password": "test222",
+      "phone": "010-1111-1113",
       "email": "email11@email.com"
     },
     {
-      "id": 1744260693727,
+      "id": "1744260693727",
       "userId": "dsfjhkje",
       "password": "dfhkedg",
       "name": "이름",

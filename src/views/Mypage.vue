@@ -5,6 +5,9 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const user = ref(null);
 
+const showPasswordCheck = ref(false);
+const passwordInput = ref('');
+
 // localStorage에서 사용자 정보 바로 불러오기
 const storedUser = JSON.parse(localStorage.getItem('user'));
 user.value = storedUser || null;
@@ -24,16 +27,6 @@ const gotoPasswordCheck = () => {
       <p>이메일: {{ user.email }}</p>
       <button @click="gotoPasswordCheck">수정하기</button>
       <button @click="$router.push('/Home')">돌아가기</button>
-      <!--  비밀번호 확인창 -->
-      <div v-if="showPasswordCheck" class="password-check">
-        <p>현재 비밀번호를 입력하세요</p>
-        <input
-          type="password"
-          v-model="passwordInput"
-          placeholder="비밀번호 확인"
-        />
-        <button @click="confirmPasswordAndUpdate">확인</button>
-      </div>
     </div>
   </div>
 </template>

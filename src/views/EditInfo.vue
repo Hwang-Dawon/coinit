@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-// localStorage에서 로그인된 사용자 정보 꺼내오기
+// localStorage에서 로그인된 사용자 정보 가져오기
 const storedUser = JSON.parse(localStorage.getItem('user'));
 const userId = storedUser?.userId || '';
 
@@ -14,40 +14,71 @@ const password = ref('');
 const phone = ref('');
 const email = ref('');
 
-// 컴포넌트가 처음 화면에 보여졌을 때 실행
+// 페이지 로드 시 사용자 정보 가져오기
 onMounted(async () => {
-  const res = await axios.get(
-    `http://localhost:3001/LoginInfo?userId=${userId}`
-  );
-  // 가져온 사용자 정보 중 첫 번째 유저를 저장
-  user.value = res.data[0];
+  try {
+    const res = await axios.get(
+      `http://localhost:3001/LoginInfo?userId=${userId}`
+    );
+    if (res.data.length === 0) {
+      alert('사용자 정보를 찾을 수 없습니다.');
+      router.push('/');
+      return;
+    }
 
-  password.value = user.value.password;
-  phone.value = user.value.phone;
-  email.value = user.value.email;
+    user.value = res.data[0]; // id 포함된 전체 유저 정보
+
+    // 폼에 데이터 채우기
+    password.value = user.value.password;
+    phone.value = user.value.phone;
+    email.value = user.value.email;
+  } catch (error) {
+    console.error('사용자 정보 조회 오류:', error);
+    alert('서버 오류가 발생했습니다.');
+  }
 });
 
-// 수정 버튼 클릭 시 실행되는 함수
+// 정보 수정 함수
 const updateUser = async () => {
-  await axios.put(`http://localhost:3001/LoginInfo/${user.value.id}`, {
-    ...user.value,
-    password: password.value,
-    phone: phone.value,
-    email: email.value,
-  });
-  alert('수정 완료!');
-  router.push('/mypage');
+  try {
+    // user.value가 비어있거나 id가 없는 경우 처리
+    if (!user.value || !user.value.id) {
+      alert('사용자 정보가 정확하지 않습니다. 다시 로그인해주세요.');
+      return;
+    }
+
+    const id = Number(user.value.id);
+
+    const updatedData = {
+      id,
+      userId: user.value.userId,
+      name: user.value.name,
+      password: password.value,
+      phone: phone.value,
+      email: email.value,
+    };
+
+    console.log('수정 요청 데이터:', updatedData); //  디버깅 로그
+
+    await axios.put(`http://localhost:3001/LoginInfo/${id}`, updatedData);
+
+    alert('수정 완료!');
+    router.push('/mypage');
+  } catch (err) {
+    console.error('수정 오류:', err);
+    alert('정보 수정 중 오류가 발생했습니다.');
+  }
 };
 </script>
 
 <template>
   <div class="EditInfo">
-    <form class="edit-container">
+    <form class="edit-container" @submit.prevent="updateUser">
       <h2>정보 수정</h2>
       <input type="password" v-model="password" placeholder="비밀번호" />
       <input type="text" v-model="phone" placeholder="전화번호" />
       <input type="text" v-model="email" placeholder="이메일" />
-      <button class="saveBtn" @click="updateUser">저장</button>
+      <button class="saveBtn" type="submit">저장</button>
       <button class="cancelBtn" @click="$router.push('/mypage')">취소</button>
     </form>
   </div>
