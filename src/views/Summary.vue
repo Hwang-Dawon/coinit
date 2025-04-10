@@ -256,6 +256,5 @@ const getPieChartStyle = () => {
   border: 1px solid;
   padding: 20px;
   margin-top: 30px;
-  min-height: 100px;
 }
 </style>
