@@ -22,7 +22,6 @@ watch(selectedDate, (newDate) => {
 //레코드 페이지로 이동
 const goToRecordPage = () => {
   router.push('/record');
-
 };
 //로그아웃
 const logout = () => {

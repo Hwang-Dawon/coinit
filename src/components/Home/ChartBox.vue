@@ -3,10 +3,12 @@ import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import { Bar } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
+import { useRouter } from 'vue-router'; // vue-router 추가
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
 const expensesByCategory = ref([]);
+const router = useRouter();
 
 onMounted(async () => {
   try {
@@ -57,6 +59,13 @@ const chartOptions = {
       },
     },
   },
+  onClick: (event, elements) => {
+    if (elements.length > 0) {
+      const clickedElementIndex = elements[0].index;
+      const category = expensesByCategory.value[clickedElementIndex].category;
+      router.push({ name: 'summary', params: { category: category } }); // summary route로 이동
+    }
+  },
 };
 </script>
 
@@ -64,7 +73,7 @@ const chartOptions = {
   <div class="box chart-box">
     <h4>📊 카테고리별 지출</h4>
     <div class="chart-wrapper">
-      <Bar :data="chartData" :options="chartOptions" />
+      <Bar :data="chartData" :options="chartOptions" @click="handleChartClick" />
     </div>
   </div>
 </template>
