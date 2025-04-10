@@ -134,10 +134,8 @@ const API_URL = 'http://localhost:3001/management'
 const TX_URL = 'http://localhost:3001/transactions'
 import { ref, computed } from 'vue';
 
-const actualIncome = ref([
-  { name: '월급', amount: 4000000 },
-  { name: '투잡 수입', amount: 300000 },
-]);
+const API_URL = 'http://localhost:3001/management';
+const TX_URL = 'http://localhost:3001/transactions';
 
 const fetchBudget = async () => {
   const res = await axios.get(API_URL)
@@ -282,10 +280,10 @@ h3 {
   font-weight: 500;
   color: #004d80;
 }
-
 .summary-card .diff {
   color: #d32f2f;
 }
+
 .budget-table {
   width: 100%;
   border-collapse: collapse;
