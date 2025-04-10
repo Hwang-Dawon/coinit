@@ -66,6 +66,7 @@
       <button v-if="showEditSpendingMenu" class="btn btn-delete" @click="deleteSpending">삭제</button>
     </div>
 
+    <!-- 일별 재정 상태 -->
     <h3>📅 일별 재정 상태</h3>
     <table class="budget-table">
       <thead><tr><th>날짜</th><th>항목</th><th>금액</th></tr></thead>
@@ -186,14 +187,11 @@ const saveBudget = async () => {
   margin: 2rem auto;
   font-family: 'Segoe UI', sans-serif;
   padding: 1rem;
-  background-color: #f9f9f9;
-  border-radius: 10px;
 }
 h2 {
   font-size: 28px;
   color: #003366;
   margin-bottom: 1rem;
-  text-align: center;
 }
 h3 {
   margin-top: 2rem;
@@ -202,47 +200,44 @@ h3 {
   padding-bottom: 0.5rem;
 }
 .summary-card {
-  background-color: white;
+  background-color: #e3f2fd;
   padding: 1rem;
-  border-radius: 10px;
+  border-radius: 8px;
   margin-bottom: 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  border-left: 5px solid #ffc400;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 .summary-card p {
   margin: 0.5rem 0;
   font-weight: 500;
-  color: #333;
+  color: #004d80;
 }
+.summary-card .diff {
+  color: #d32f2f;
+}
+
 .budget-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 1.5rem;
-  background-color: white;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 .budget-table th {
-  background-color: #ffc400;
+  background-color: #bbdefb;
   padding: 10px;
   text-align: center;
-  color: white;
+  color: #003366;
   font-weight: bold;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #ccc;
 }
 .budget-table td {
-  border: 1px solid #eee;
+  border: 1px solid #ccc;
   padding: 8px;
   text-align: right;
-  background-color: #fff;
 }
 .budget-table td:first-child {
   text-align: left;
 }
 .total-row {
-  background-color: #fff8e1;
-  font-weight: bold;
+  background-color: #e3f2fd;
 }
 .button-group {
   display: flex;
