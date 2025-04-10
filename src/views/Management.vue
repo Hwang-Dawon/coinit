@@ -84,6 +84,7 @@
         <tr v-for="item in transactions" :key="item.id">
           <td>{{ item.date }}</td>
           <td>{{ item.desc }}</td>
+          
           <td :class="{ negative: item.amount < 0 }">
             ₩{{ item.amount.toLocaleString() }}
           </td>
@@ -97,6 +98,7 @@
   <button class="btn btn-edit" @click="editItem">수정</button>
   <button class="btn btn-delete" @click="deleteItem">삭제</button>
 </div>
+
   </div>
 </template>
 
@@ -107,7 +109,6 @@ const actualIncome = ref([
   { name: '월급', amount: 4000000 },
   { name: '투잡 수입', amount: 300000 },
 ]);
-
 const actualSpending = ref([
   { name: '식비', amount: 420000 },
   { name: '교통비', amount: 80000 },
@@ -169,6 +170,7 @@ const deleteItem = () => {
 const actualBalance = computed(
   () => actualIncomeTotal.value - actualHousingTotal.value
 );
+
 </script>
 
 <style scoped>
@@ -268,5 +270,6 @@ h3 {
 
 .btn-delete {
   background-color: #dc3545;
+
 }
 </style>
