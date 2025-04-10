@@ -62,6 +62,9 @@ const updateUser = async () => {
 
     await axios.put(`http://localhost:3001/LoginInfo/${id}`, updatedData);
 
+    //  수정된 정보 localStorage에도 저장
+    localStorage.setItem('user', JSON.stringify(updatedData));
+
     alert('수정 완료!');
     router.push('/mypage');
   } catch (err) {

@@ -8,9 +8,11 @@ const user = ref(null);
 const showPasswordCheck = ref(false);
 const passwordInput = ref('');
 
-// localStorage에서 사용자 정보 바로 불러오기
-const storedUser = JSON.parse(localStorage.getItem('user'));
-user.value = storedUser || null;
+// 페이지 진입 시 최신 정보 불러오기
+onMounted(() => {
+  const updatedUser = JSON.parse(localStorage.getItem('user'));
+  user.value = updatedUser || null;
+});
 
 // 비밀번호 확인으로 이동
 const gotoPasswordCheck = () => {
