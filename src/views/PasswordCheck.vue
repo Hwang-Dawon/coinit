@@ -37,5 +37,63 @@ const checkPassword = async () => {
 
 <style scoped>
 .PasswordCheck {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.check-container {
+  background-color: #ffffff;
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.check-container h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #5d3a00;
+}
+
+.check-container input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  transition: border-color 0.2s ease;
+}
+
+.check-container input:focus {
+  border-color: #5c7cfa;
+  outline: none;
+}
+
+.checkBtn,
+.backBtn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: #ffd338;
+  color: #5d3a00;
+  margin-bottom: 12px;
+}
+
+.checkBtn:hover,
+.backBtn:hover {
+  background-color: #e6bc2e;
 }
 </style>
