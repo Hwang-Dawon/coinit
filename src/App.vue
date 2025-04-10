@@ -11,7 +11,6 @@ const userStore = useUserStore();
   <div id="app">
     <header>
       <h1>나의 가계부</h1>
-
       <nav v-if="userStore.isLoggedIn">
         <RouterLink to="/Home">홈</RouterLink> |
         <RouterLink to="/record">기록</RouterLink> |
