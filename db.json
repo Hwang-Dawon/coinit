@@ -28,40 +28,22 @@
   },
   "transactions": [
     {
-      "description": "테스트케이스",
+      "id": "1",
+      "description": "테스트 1",
       "amount": 20000,
-      "date": "2025-04-09",
-      "type": "expense",
-      "category": "문화생활",
-      "memo": "1",
-      "id": "2"
-    },
-    {
-      "description": "테스트 2",
-      "amount": 20000,
-      "date": "2025-04-09",
-      "type": "expense",
-      "category": "공과금",
-      "memo": "",
-      "id": "3"
-    },
-    {
-      "description": "123",
-      "amount": 20000,
-      "date": "2025-04-09",
-      "type": "income",
-      "category": "월급",
-      "memo": "",
-      "id": "4"
-    },
-    {
-      "description": "dddd",
-      "amount": 23333,
       "date": "2025-04-10",
       "type": "expense",
       "category": "교통/차량",
-      "memo": "33",
-      "id": "5"
+      "memo": ""
+    },
+    {
+      "id": "2",
+      "description": "테스트2",
+      "amount": 30000,
+      "date": "2025-04-08",
+      "type": "expense",
+      "category": "식비",
+      "memo": ""
     }
   ],
   "LoginInfo": [
