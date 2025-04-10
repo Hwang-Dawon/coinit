@@ -1,30 +1,49 @@
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import axios from 'axios';
-import { RouterLink } from 'vue-router';
 
-// 로그인할 아이디 비밀번호를 db에서 확인
+const router = useRouter();
+
 const userID = ref('');
 const password = ref('');
+
+const idPasswordRegex = /^[a-zA-Z0-9]+$/;
+
 const login = async () => {
+  if (!userID.value || !password.value) {
+    alert('아이디와 비밀번호를 모두 입력하세요.');
+    return;
+  }
+
+  if (
+    !idPasswordRegex.test(userID.value) ||
+    !idPasswordRegex.test(password.value)
+  ) {
+    alert('아이디와 비밀번호는 영어와 숫자만 입력 가능합니다.');
+    return;
+  }
+
   try {
     const response = await axios.get('http://localhost:3001/LoginInfo');
     const userList = response.data;
+
     const user = userList.find(
-      (use) => use.userId === userID.value && use.password === password.value
+      (u) => u.userId === userID.value && u.password === password.value
     );
 
     if (user) {
-      alert('로그인 성공');
+      alert('로그인 성공!');
+      localStorage.setItem('user', JSON.stringify(user));
+
+      // ✅ 로그인 성공 시 /Home 경로로 이동
+      router.push('/Home');
     } else {
       alert('아이디 또는 비밀번호가 올바르지 않습니다.');
-      console.log('입력된 ID:', userID.value);
-      console.log('입력된 PW:', password.value);
-      console.log('서버에서 받아온 유저:', userList);
     }
   } catch (error) {
-    console.log('로그인중 에러', error);
-    alert('서버 에러');
+    console.error('로그인 중 오류:', error);
+    alert('서버 오류가 발생했습니다.');
   }
 };
 </script>
