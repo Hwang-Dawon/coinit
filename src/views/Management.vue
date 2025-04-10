@@ -93,18 +93,11 @@
       </thead>
       <tbody>
         <tr v-for="item in transactions" :key="item.id">
-<<<<<<< HEAD
-          <td>{{ item.date }}</td>
-          <td>{{ item.desc }}</td>
-          <td :class="{ negative: item.amount < 0 }">
-            ₩{{ item.amount.toLocaleString() }}
-=======
           <td>
             <template v-if="deleteMode">
               <input type="checkbox" v-model="item.selected" /><br />
             </template>
             <input type="date" v-model="item.date" />
->>>>>>> d8e4ef3670af8f17a0abbaa812492b27fa08743e
           </td>
           <td><input v-model="item.desc" /></td>
           <td><input type="number" v-model.number="item.amount" /></td>
@@ -112,13 +105,6 @@
       </tbody>
     </table>
 
-<<<<<<< HEAD
-    <!-- 추가, 수정, 삭제 버튼 -->
-    <div class="button-group">
-      <button class="btn btn-add" @click="addItem">추가</button>
-      <button class="btn btn-edit" @click="editItem">수정</button>
-      <button class="btn btn-delete" @click="deleteItem">삭제</button>
-=======
     <div class="button-group">
       <button class="btn btn-edit" @click="toggleEditMenu">수정</button>
       <button v-if="showEditMenu" class="btn btn-add" @click="addItem">추가</button>
@@ -128,7 +114,6 @@
       <button v-if="deleteMode && transactions.some(t => t.selected)" class="btn btn-delete" @click="deleteSelectedItems">
         선택 항목 삭제
       </button>
->>>>>>> d8e4ef3670af8f17a0abbaa812492b27fa08743e
     </div>
   </div>
 </template>
@@ -138,13 +123,8 @@ import { ref, computed } from 'vue'
 
 const actualIncome = ref([
   { name: '월급', amount: 4000000 },
-<<<<<<< HEAD
-  { name: '투잡 수입', amount: 300000 },
-]);
-=======
   { name: '투잡 수입', amount: 300000 }
 ])
->>>>>>> d8e4ef3670af8f17a0abbaa812492b27fa08743e
 
 const actualSpending = ref([
   { name: '식비', amount: 420000 },
@@ -174,26 +154,6 @@ const toggleEditMenu = () => showEditMenu.value = !showEditMenu.value
 const showEditHousingMenu = ref(false)
 const toggleHousingMenu = () => showEditHousingMenu.value = !showEditHousingMenu.value
 
-<<<<<<< HEAD
-const actualBalance = computed(
-  () => actualIncomeTotal.value - actualHousingTotal.value
-);
-
-const addItem = () => {
-  alert('항목을 추가합니다.');
-};
-
-const editItem = () => {
-  alert('항목을 수정합니다.');
-};
-
-const deleteItem = () => {
-  const confirmed = confirm('정말 삭제하시겠습니까?');
-  if (confirmed) {
-    alert('삭제되었습니다.');
-  }
-};
-=======
 const showEditIncomeMenu = ref(false)
 const toggleIncomeMenu = () => showEditIncomeMenu.value = !showEditIncomeMenu.value
 
@@ -229,7 +189,6 @@ const deleteSelectedItems = () => {
     deleteMode.value = false
   }
 }
->>>>>>> d8e4ef3670af8f17a0abbaa812492b27fa08743e
 </script>
 
 /
