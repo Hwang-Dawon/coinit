@@ -90,6 +90,13 @@
         </tr>
       </tbody>
     </table>
+   
+    <!-- 추가, 수정, 삭제 버튼 -->
+    <div class="button-group">
+  <button class="btn btn-add" @click="addItem">추가</button>
+  <button class="btn btn-edit" @click="editItem">수정</button>
+  <button class="btn btn-delete" @click="deleteItem">삭제</button>
+</div>
   </div>
 </template>
 
@@ -139,6 +146,25 @@ const actualSpendingTotal = computed(() =>
 const actualHousingTotal = computed(() =>
   housing.value.reduce((sum, item) => sum + item.actual, 0)
 );
+
+const actualBalance = computed(() =>
+  actualIncomeTotal.value - actualHousingTotal.value
+)
+
+const addItem = () => {
+  alert("항목을 추가합니다.")
+}
+
+const editItem = () => {
+  alert("항목을 수정합니다.")
+}
+
+const deleteItem = () => {
+  const confirmed = confirm("정말 삭제하시겠습니까?")
+  if (confirmed) {
+    alert("삭제되었습니다.")
+  }
+}
 
 const actualBalance = computed(
   () => actualIncomeTotal.value - actualHousingTotal.value
@@ -215,5 +241,32 @@ h3 {
 
 .negative {
   color: #d32f2f;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 1.5rem;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  color: white;
+  border: none;
+}
+
+.btn-add {
+  background-color: #007bff;
+}
+
+.btn-edit {
+  background-color: #28a745;
+}
+
+.btn-delete {
+  background-color: #dc3545;
 }
 </style>
