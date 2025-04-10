@@ -108,12 +108,13 @@
     {
       "id": "1744260693726",
       "userId": "test222",
-      "password": "test222",
       "name": "테스트",
-      "phone": "010-1111-1111",
+      "password": "test222",
+      "phone": "010-1111-1114",
       "email": "email11@email.com"
     },
     {
+
       "id": 1744260693727,
       "userId": "ffffff",
       "password": "ffffff",
