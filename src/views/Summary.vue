@@ -14,6 +14,7 @@
             <div v-if="highestCategory">
               {{ highestCategory.category }}: {{ highestCategory.percentage }}%
             </div>
+            <div v-else>No Data</div>
           </span>
         </div>
         <div v-for="(item, category) in categorySummary" :key="category">
@@ -38,7 +39,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 
 const totalIncome = ref(0);
@@ -81,10 +82,11 @@ const calculateCategorySummary = () => {
       const category = transaction.category;
       const amount = transaction.amount;
       totalExpenseAmount += amount;
+
       if (summary[category]) {
         summary[category].amount += amount;
       } else {
-        summary[category] = { amount: amount, percentage: 0 };
+        summary[category] = { amount: amount };
       }
     }
   });
@@ -93,7 +95,7 @@ const calculateCategorySummary = () => {
     summary[category].percentage = (
       (summary[category].amount / totalExpenseAmount) *
       100
-    ).toFixed(1); // 소수점 1자리까지 표시
+    ).toFixed(1);
   }
 
   categorySummary.value = summary;
@@ -113,11 +115,44 @@ const calculateCategoryDetails = () => {
   categoryDetails.value = details;
 };
 
+const highestCategory = computed(() => {
+  if (Object.keys(categorySummary.value).length === 0) {
+    return null;
+  }
+
+  let maxCategory = null;
+  let maxPercentage = 0;
+
+  for (const category in categorySummary.value) {
+    const percentage = parseFloat(categorySummary.value[category].percentage);
+    if (percentage > maxPercentage) {
+      maxCategory = { category: category, percentage: percentage };
+      maxPercentage = percentage;
+    }
+  }
+
+  return maxCategory;
+});
+
 const getPieChartStyle = () => {
-  const total = Object.values(categorySummary.value).reduce(
-    (acc, val) => acc + val.amount,
-    0
-  );
+  const summaryValues = Object.values(categorySummary.value);
+
+  if (summaryValues.length === 0) {
+    return {
+      width: '200px',
+      height: '200px',
+      borderRadius: '50%',
+      margin: '20px auto',
+      backgroundColor: '#f0f0f0', // No data 배경색
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      color: '#888',
+      fontSize: '16px',
+    };
+  }
+
+  const total = summaryValues.reduce((acc, val) => acc + val.amount, 0);
   let startAngle = 0;
   let gradient = '';
 
@@ -202,13 +237,22 @@ const getPieChartStyle = () => {
   height: 200px;
   border-radius: 50%;
   margin: 20px auto;
+  position: relative; /* percentage-label absolute positioning 기준 */
+}
+
+/* 파이차트 중앙에 들어가는 퍼센트 */
+.percentage-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
 }
 
 /* 카테고리별 지출내역 */
 .category-detail {
   border: 1px solid;
   padding: 20px;
-  margin-top: 30px;
-  min-height: 100px;
-}
-</style>
+  margin-top: 
