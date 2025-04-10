@@ -28,15 +28,6 @@
   },
   "transactions": [
     {
-      "id": "1",
-      "description": "sdf",
-      "amount": 2,
-      "date": "2025-04-09",
-      "type": "expense",
-      "category": "식비",
-      "memo": ""
-    },
-    {
       "id": "2",
       "description": "테스트케이스",
       "amount": 20000,
