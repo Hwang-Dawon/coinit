@@ -28,40 +28,40 @@
   },
   "transactions": [
     {
-      "id": "2",
       "description": "테스트케이스",
       "amount": 20000,
       "date": "2025-04-09",
       "type": "expense",
-      "category": "교통비",
-      "memo": "1"
+      "category": "문화생활",
+      "memo": "1",
+      "id": "2"
     },
     {
-      "id": "3",
       "description": "테스트 2",
       "amount": 20000,
       "date": "2025-04-09",
-      "type": "income",
-      "category": "교통비",
-      "memo": ""
+      "type": "expense",
+      "category": "공과금",
+      "memo": "",
+      "id": "3"
     },
     {
-      "id": "4",
       "description": "123",
       "amount": 20000,
       "date": "2025-04-09",
       "type": "income",
-      "category": "유흥",
-      "memo": ""
+      "category": "월급",
+      "memo": "",
+      "id": "4"
     },
     {
-      "id": 5,
       "description": "dddd",
       "amount": 23333,
       "date": "2025-04-10",
       "type": "expense",
-      "category": "교통비",
-      "memo": "33"
+      "category": "교통/차량",
+      "memo": "33",
+      "id": "5"
     }
   ],
   "LoginInfo": [
@@ -124,7 +124,7 @@
       "memo": "전기요금"
     }
   ],
-  "IncomeCategory": [
+  "incomeCategory": [
     {
       "id": "1",
       "name": "월급"
@@ -149,15 +149,15 @@
     },
     {
       "id": "2",
-      "name": "교통비"
+      "name": "교통/차량"
     },
     {
       "id": "3",
-      "name": "유흥"
+      "name": "문화생활"
     },
     {
       "id": "4",
-      "name": "공과금"
+      "name": "건강"
     },
     {
       "id": "5",
