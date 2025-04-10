@@ -15,6 +15,10 @@ const password = ref('');
 const idPasswordRegex = /^[a-zA-Z0-9]+$/;
 
 const login = async () => {
+  // 로그인 성공 시
+  userStore.login(); //  로그인 상태 true
+  router.push('/Home'); // 페이지 이동
+
   // 아이디 비밀번호 필수입력
   if (!userID.value || !password.value) {
     alert('아이디와 비밀번호를 모두 입력하세요.');
