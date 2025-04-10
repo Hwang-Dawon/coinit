@@ -334,7 +334,7 @@ h3 {
   background-color: #dc3545;
 }
 <<<<<<< HEAD
-
+</style>
 =======
 
 input[type='text'],
