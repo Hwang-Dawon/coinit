@@ -1,10 +1,8 @@
 <template>
   <div class="record-container">
-    <!-- ✅ 토스트 메시지 -->
     <div v-if="toastMessage" class="toast">{{ toastMessage }}</div>
 
     <form @submit.prevent="onSubmit">
-      <!-- 지출/수입 선택 버튼 -->
       <div class="type-buttons">
         <button
           type="button"
@@ -22,13 +20,11 @@
         </button>
       </div>
 
-      <!-- 완료 버튼 -->
       <div class="top-bar">
         <div></div>
         <button type="submit">완료</button>
       </div>
 
-      <!-- ✅ 라벨과 함께 -->
       <label class="form-label">항목</label>
       <input v-model="form.description" required />
 
@@ -108,8 +104,9 @@ const showToast = (msg) => {
 
 const getNextId = async () => {
   const res = await axios.get('http://localhost:3001/transactions');
-  const ids = res.data.map((item) => item.id || 0);
-  return Math.max(...ids, 0) + 1;
+  const ids = res.data.map((item) => parseInt(item.id) || 0);
+  const nextId = Math.max(...ids, 0) + 1;
+  return nextId.toString(); // 문자열로 반환
 };
 
 const fetchCategories = async () => {
