@@ -2,10 +2,18 @@
   <div class="management">
     <h2>총 예산</h2>
 
-    <!-- 잔액 요약 카드 -->
-    <div class="summary-card">
-      <p>실제 총 금액: ₩{{ actualBalance.toLocaleString() }}</p>
-    </div>
+   <!-- 잔액 요약 카드 -->
+<div class="summary-card">
+  <label for="manualBalanceInput">직접 입력한 총 금액:</label>
+  <input
+    id="manualBalanceInput"
+    type="number"
+    v-model.number="manualBalanceInput"
+    placeholder="₩ 금액 입력"
+  />
+  <button class="btn btn-add" @click="setManualBalance">등록</button>
+  <p>✔️ 등록된 총 금액: ₩{{ manualBalance.toLocaleString() }}</p>
+</div>
 
     <!-- 고정 지출 내역 -->
     <h3>📌 고정 지출 내역</h3>
@@ -120,6 +128,14 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+
+const manualBalanceInput = ref(0)
+
+const manualBalance = ref(0)
+
+const setManualBalance = () => {
+  manualBalance.value = manualBalanceInput.value
+}
 
 const actualIncome = ref([
   { name: '월급', amount: 4000000 },
