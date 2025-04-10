@@ -44,6 +44,24 @@
       "type": "expense",
       "category": "식비",
       "memo": ""
+    },
+    {
+      "id": "3",
+      "description": "케이크",
+      "amount": 350000,
+      "date": "2025-04-05",
+      "type": "expense",
+      "category": "식비",
+      "memo": "친구생일"
+    },
+    {
+      "id": "4",
+      "description": "월급",
+      "amount": 3000000,
+      "date": "2025-04-01",
+      "type": "income",
+      "category": "월급",
+      "memo": "4월 월급"
     }
   ],
   "LoginInfo": [
@@ -96,12 +114,13 @@
       "email": "email11@email.com"
     },
     {
-      "id": "1744260693727",
-      "userId": "dsfjhkje",
-      "password": "dfhkedg",
-      "name": "이름",
-      "phone": "010-0000-0001",
-      "email": "dkfl@naver.com"
+
+      "id": 1744260693727,
+      "userId": "ffffff",
+      "password": "ffffff",
+      "name": "한지은",
+      "phone": "010-0000-0000",
+      "email": "fjkdfjd@gmail.com"
     }
   ],
   "periodicExpense": [

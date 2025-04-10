@@ -39,7 +39,7 @@ const logout = () => {
       <input id="calendar" type="date" v-model="selectedDate" />
     </div>
     <div class="right-buttons">
-      <button class="add-btn" @click="goToRecordPage">+</button>
+      <button class="add-btn" @click="goToRecordPage">추가</button>
 
       <button class="logout-btn" @click="logout">로그아웃</button>
     </div>
