@@ -29,7 +29,7 @@
       <button v-if="showEditHousingMenu" class="btn btn-delete" @click="deleteHousing">삭제</button>
     </div>
 
-    <!-- 실제 월별 수입 -->
+    <!-- 실제 월별 수입. -->
     <h3>실제 월별 수입</h3>
     <table class="budget-table">
       <thead><tr><th>항목</th><th>금액</th></tr></thead>
