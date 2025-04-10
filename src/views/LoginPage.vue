@@ -3,6 +3,10 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 
+// Pinia store 불러오기
+import { useUserStore } from '@/stores/user';
+const userStore = useUserStore();
+
 const router = useRouter();
 
 const userID = ref('');
@@ -11,11 +15,13 @@ const password = ref('');
 const idPasswordRegex = /^[a-zA-Z0-9]+$/;
 
 const login = async () => {
+  // 아이디 비밀번호 필수입력
   if (!userID.value || !password.value) {
     alert('아이디와 비밀번호를 모두 입력하세요.');
     return;
   }
 
+  // 아이디 비밀번호에 영어 숫자만 입력 가능
   if (
     !idPasswordRegex.test(userID.value) ||
     !idPasswordRegex.test(password.value)
@@ -36,7 +42,10 @@ const login = async () => {
       alert('로그인 성공!');
       localStorage.setItem('user', JSON.stringify(user));
 
-      // ✅ 로그인 성공 시 /Home 경로로 이동
+      // 로그인 상태 저장
+      userStore.login();
+
+      //  Home 페이지로 이동
       router.push('/Home');
     } else {
       alert('아이디 또는 비밀번호가 올바르지 않습니다.');
