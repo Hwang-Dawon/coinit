@@ -9,8 +9,14 @@ const emit = defineEmits(['update:selectedDate']);
 
 const transactions = ref([]);
 
+const formatToYyyyMmDd = (date) => {
+  const offset = date.getTimezoneOffset() * 60000;
+  const localISO = new Date(date.getTime() - offset).toISOString();
+  return localISO.slice(0, 10);
+};
+
 watch(selectedDate, (newDate) => {
-  const formatted = newDate.toISOString().slice(0, 10);
+  const formatted = formatToYyyyMmDd(newDate);
   emit('update:selectedDate', formatted);
 });
 
@@ -22,7 +28,7 @@ onMounted(() => {
   fetchTransactions();
 });
 
-const selectedDateFormatted = computed(() => selectedDate.value.toISOString().slice(0, 10));
+const selectedDateFormatted = computed(() => formatToYyyyMmDd(selectedDate.value));
 
 const filteredTransactions = computed(() => transactions.value.filter((tx) => tx.date === selectedDateFormatted.value));
 </script>

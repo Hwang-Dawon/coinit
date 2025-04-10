@@ -39,7 +39,7 @@ onMounted(() => {
 
         <div class="middle-boxes">
           <ChartBox class="chart-box" />
-          <CalendarBox class="small-box" />
+          <CalendarBox class="small-box" v-model:selectedDate="selectedDate" />
           <BudgetBox class="small-box" />
         </div>
       </div>
