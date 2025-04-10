@@ -14,6 +14,7 @@ onMounted(() => {
   selectedDate.value = `${yyyy}-${mm}-${dd}`; // yyyy-mm-dd 형식
   console.log('초기 날짜 설정됨:', selectedDate.value);
 });
+
 // 날짜 변경
 watch(selectedDate, (newDate) => {
   console.log('선택된 날짜:', newDate);
@@ -23,6 +24,7 @@ watch(selectedDate, (newDate) => {
 const goToRecordPage = () => {
   router.push('/record');
 };
+
 //로그아웃
 const logout = () => {
   localStorage.removeItem('user'); // 사용자 정보 제거
