@@ -17,7 +17,7 @@ const router = createRouter({
     {
       path: '/', // 기본 경로를 로그인 페이지로 설정
       name: 'login',
-      component: LoginPage,
+      component: () => import('@/views/LoginPage.vue'),
     },
     {
       path: '/join',

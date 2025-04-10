@@ -4,10 +4,7 @@
 
     <!-- 잔액 요약 카드 -->
     <div class="summary-card">
-      <label for="manualBalanceInput">직접 입력한 총 금액:</label>
-      <input id="manualBalanceInput" type="number" v-model.number="manualBalanceInput" placeholder="₩ 금액 입력" />
-      <button class="btn btn-add" @click="setManualBalance">등록</button>
-      <p>✔️ 등록된 총 금액: ₩{{ manualBalance.toLocaleString() }}</p>
+      <p>실제 총 금액: ₩{{ actualBalance.toLocaleString() }}</p>
     </div>
 
     <!-- 고정 지출 내역 -->
@@ -18,16 +15,11 @@
       </thead>
       <tbody>
         <tr v-for="(item, index) in housing" :key="'fixed' + index">
-          <td><input v-model="item.name" /></td>
-          <td><input type="number" v-model.number="item.actual" /></td>
+          <td>{{ item.name }}</td>
+          <td>₩{{ item.actual.toLocaleString() }}</td>
         </tr>
       </tbody>
     </table>
-    <div class="button-group">
-      <button class="btn btn-edit" @click="toggleHousingMenu">수정</button>
-      <button v-if="showEditHousingMenu" class="btn btn-add" @click="addHousing">추가</button>
-      <button v-if="showEditHousingMenu" class="btn btn-delete" @click="deleteHousing">삭제</button>
-    </div>
 
     <!-- 실제 월별 수입. -->
     <h3>실제 월별 수입</h3>
@@ -35,8 +27,8 @@
       <thead><tr><th>항목</th><th>금액</th></tr></thead>
       <tbody>
         <tr v-for="(item, index) in actualIncome" :key="'income' + index">
-          <td><input v-model="item.name" /></td>
-          <td><input type="number" v-model.number="item.amount" /></td>
+          <td>{{ item.name }}</td>
+          <td>₩{{ item.amount.toLocaleString() }}</td>
         </tr>
         <tr class="total-row">
           <td><strong>총 수입</strong></td>
@@ -44,11 +36,6 @@
         </tr>
       </tbody>
     </table>
-    <div class="button-group">
-      <button class="btn btn-edit" @click="toggleIncomeMenu">수정</button>
-      <button v-if="showEditIncomeMenu" class="btn btn-add" @click="addIncome">추가</button>
-      <button v-if="showEditIncomeMenu" class="btn btn-delete" @click="deleteIncome">삭제</button>
-    </div>
 
     <!-- 실제 월별 지출 -->
     <h3>실제 월별 지출</h3>
@@ -56,8 +43,8 @@
       <thead><tr><th>항목</th><th>금액</th></tr></thead>
       <tbody>
         <tr v-for="(item, index) in actualSpending" :key="'spend' + index">
-          <td><input v-model="item.name" /></td>
-          <td><input type="number" v-model.number="item.amount" /></td>
+          <td>{{ item.name }}</td>
+          <td>₩{{ item.amount.toLocaleString() }}</td>
         </tr>
         <tr class="total-row">
           <td><strong>총 지출</strong></td>
@@ -65,11 +52,6 @@
         </tr>
       </tbody>
     </table>
-    <div class="button-group">
-      <button class="btn btn-edit" @click="toggleSpendingMenu">수정</button>
-      <button v-if="showEditSpendingMenu" class="btn btn-add" @click="addSpending">추가</button>
-      <button v-if="showEditSpendingMenu" class="btn btn-delete" @click="deleteSpending">삭제</button>
-    </div>
 
     <!-- 일별 재정 상태 -->
     <h3>📅 일별 재정 상태</h3>
@@ -80,9 +62,11 @@
           <td>
             <template v-if="deleteMode"><input type="checkbox" v-model="item.selected" /></template>
             <input type="date" v-model="item.date" />
+          <td>{{ item.date }}</td>
+          <td>{{ item.desc }}</td>
+          <td :class="{ negative: item.amount < 0 }">
+            ₩{{ item.amount.toLocaleString() }}
           </td>
-          <td><input v-model="item.desc" /></td>
-          <td><input type="number" v-model.number="item.amount" /></td>
         </tr>
       </tbody>
     </table>
@@ -91,6 +75,43 @@
       <button v-if="showEditMenu" class="btn btn-add" @click="addItem">추가</button>
       <button v-if="showEditMenu" class="btn btn-delete" @click="toggleDeleteMode">{{ deleteMode ? '삭제 취소' : '삭제' }}</button>
       <button v-if="deleteMode && transactions.some(t => t.selected)" class="btn btn-delete" @click="deleteSelectedItems">선택 항목 삭제</button>
+
+    <header>
+      <h1>재정관리, 예산</h1>
+      <p>{{ today }}</p>
+    </header>
+    <!-- 예산관리 -->
+    <section class="budget-status">
+      <p>예산: {{ budget.toLocaleString() }}원</p>
+      <p>보유 금액: {{ balance.toLocaleString() }}원</p>
+    </section>
+
+    <div class="fixed-expense">
+      <h3>고정 지출내역</h3>
+      <ul>
+        <li v-for="item in expenses" :key="item.name">
+          {{ item.name }}: {{ item.amount.toLocaleString() }}원
+        </li>
+      </ul>
+    </div>
+
+    <div class="monthly-status">
+      <h3>월별 재정상태</h3>
+      <ul>
+        <li v-for="m in monthly" :key="m.month">
+          {{ m.month }}월 수입: {{ m.income.toLocaleString() }}원 / 지출:
+          {{ m.expense.toLocaleString() }}원
+        </li>
+      </ul>
+    </div>
+
+    <div class="daily-status">
+      <h3>일별 재정상태</h3>
+      <ul>
+        <li v-for="t in transactions" :key="t.id">
+          {{ t.desc }} - {{ t.amount.toLocaleString() }}원
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -111,6 +132,12 @@ const deleteMode = ref(false)
 
 const API_URL = 'http://localhost:3001/management'
 const TX_URL = 'http://localhost:3001/transactions'
+import { ref, computed } from 'vue';
+
+const actualIncome = ref([
+  { name: '월급', amount: 4000000 },
+  { name: '투잡 수입', amount: 300000 },
+]);
 
 const fetchBudget = async () => {
   const res = await axios.get(API_URL)
@@ -193,6 +220,36 @@ const deleteHousing = () => housing.value.pop()
 
 const showEditMenu = ref(false)
 const toggleEditMenu = () => (showEditMenu.value = !showEditMenu.value)
+const transactions = ref([
+  {
+    id: 1,
+    date: new Date().toISOString().slice(0, 10),
+    desc: '커피',
+    amount: -4500,
+  },
+  {
+    id: 2,
+    date: new Date().toISOString().slice(0, 10),
+    desc: '지하철',
+    amount: -1250,
+  },
+]);
+
+const actualIncomeTotal = computed(() =>
+  actualIncome.value.reduce((sum, item) => sum + item.amount, 0)
+);
+
+const actualSpendingTotal = computed(() =>
+  actualSpending.value.reduce((sum, item) => sum + item.amount, 0)
+);
+
+const actualHousingTotal = computed(() =>
+  housing.value.reduce((sum, item) => sum + item.actual, 0)
+);
+
+const actualBalance = computed(
+  () => actualIncomeTotal.value - actualHousingTotal.value
+);
 </script>
 
 <style scoped>
@@ -201,14 +258,11 @@ const toggleEditMenu = () => (showEditMenu.value = !showEditMenu.value)
   margin: 2rem auto;
   font-family: 'Segoe UI', sans-serif;
   padding: 1rem;
-  background-color: #f9f9f9;
-  border-radius: 10px;
 }
 h2 {
   font-size: 28px;
   color: #003366;
   margin-bottom: 1rem;
-  text-align: center;
 }
 h3 {
   margin-top: 2rem;
@@ -217,47 +271,44 @@ h3 {
   padding-bottom: 0.5rem;
 }
 .summary-card {
-  background-color: white;
+  background-color: #e3f2fd;
   padding: 1rem;
-  border-radius: 10px;
+  border-radius: 8px;
   margin-bottom: 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  border-left: 5px solid #ffc400;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 .summary-card p {
   margin: 0.5rem 0;
   font-weight: 500;
-  color: #333;
+  color: #004d80;
+}
+
+.summary-card .diff {
+  color: #d32f2f;
 }
 .budget-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 1.5rem;
-  background-color: white;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 .budget-table th {
-  background-color: #ffc400;
+  background-color: #bbdefb;
   padding: 10px;
   text-align: center;
-  color: white;
+  color: #003366;
   font-weight: bold;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #ccc;
 }
 .budget-table td {
-  border: 1px solid #eee;
+  border: 1px solid #ccc;
   padding: 8px;
   text-align: right;
-  background-color: #fff;
 }
 .budget-table td:first-child {
   text-align: left;
 }
 .total-row {
-  background-color: #fff8e1;
-  font-weight: bold;
+  background-color: #e3f2fd;
 }
 .button-group {
   display: flex;

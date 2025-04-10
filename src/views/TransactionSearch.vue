@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h2>거래 내역 조회</h2>
-    <!--  필터기능 -->
+    <!-- 필터기능 -->
     <div class="filters">
       <input v-model="filter.from" type="date" />
       <input v-model="filter.to" type="date" />
@@ -19,7 +19,6 @@
         </option>
       </select>
 
-      <!--  메모 검색창 추가 -->
       <input v-model="filter.memo" placeholder="메모 검색" />
 
       <button @click="applyFilter">조회</button>
@@ -35,7 +34,7 @@
       </li>
     </ul>
 
-    <!-- 페이지번호 -->
+    <!-- 페이지네이션 -->
     <div class="pagination">
       <button @click="prevPage" :disabled="currentPage === 1">이전</button>
       <span>{{ currentPage }} / {{ totalPages }}</span>
@@ -54,12 +53,14 @@ export default {
     return {
       transactions: [],
       filteredTransactions: [],
+      incomeCategories: [],
+      expenseCategories: [],
       filter: {
         from: '',
         to: '',
         type: '',
         category: '',
-        memo: '', // 🔥 메모 검색 필터 추가
+        memo: '',
       },
       currentPage: 1,
       itemsPerPage: 5,
@@ -68,8 +69,15 @@ export default {
   },
   computed: {
     categories() {
-      const all = this.transactions.map((tx) => tx.category);
-      return [...new Set(all)];
+      if (this.filter.type === 'income') {
+        return this.incomeCategories;
+      } else if (this.filter.type === 'expense') {
+        return this.expenseCategories;
+      } else {
+        return [
+          ...new Set([...this.incomeCategories, ...this.expenseCategories]),
+        ];
+      }
     },
     totalPages() {
       return Math.ceil(this.filteredTransactions.length / this.itemsPerPage);
@@ -85,13 +93,19 @@ export default {
       this.transactions = res.data;
       this.applyFilter();
     },
+    async fetchCategories() {
+      const [incomeRes, expenseRes] = await Promise.all([
+        axios.get('http://localhost:3001/incomeCategory'),
+        axios.get('http://localhost:3001/expenseCategory'),
+      ]);
+      this.incomeCategories = incomeRes.data.map((cat) => cat.name);
+      this.expenseCategories = expenseRes.data.map((cat) => cat.name);
+    },
     applyFilter() {
       let result = this.transactions.filter((tx) => {
         const date = new Date(tx.date);
         const from = this.filter.from ? new Date(this.filter.from) : null;
         const to = this.filter.to ? new Date(this.filter.to) : null;
-
-        // 🔥 메모 필터 키워드
         const memoKeyword = this.filter.memo.toLowerCase();
 
         return (
@@ -106,7 +120,6 @@ export default {
         );
       });
 
-      // 정렬
       result.sort((a, b) =>
         this.sortOrder === '오름차순'
           ? new Date(a.date) - new Date(b.date)
@@ -129,6 +142,7 @@ export default {
   },
   created() {
     this.fetchTransactions();
+    this.fetchCategories();
   },
 };
 </script>
@@ -142,12 +156,10 @@ export default {
   background-color: #f9f9f9;
   border-radius: 10px;
 }
-
 h2 {
   text-align: center;
   margin-bottom: 20px;
 }
-
 .filters {
   display: flex;
   flex-wrap: wrap;
@@ -155,7 +167,6 @@ h2 {
   margin-bottom: 20px;
   justify-content: center;
 }
-
 .filters input,
 .filters select {
   padding: 6px 10px;
@@ -163,7 +174,6 @@ h2 {
   border: 1px solid #ccc;
   border-radius: 6px;
 }
-
 .filters button {
   background-color: #ffc400;
   color: white;
@@ -173,16 +183,13 @@ h2 {
   border-radius: 6px;
   cursor: pointer;
 }
-
 .filters button:hover {
-  background-color: #ffc400;
+  background-color: #ffa500;
 }
-
 .list {
   list-style: none;
   padding: 0;
 }
-
 .list li {
   background: white;
   margin-bottom: 10px;
@@ -191,14 +198,12 @@ h2 {
   border-radius: 6px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
-
 .pagination {
   display: flex;
   justify-content: center;
   gap: 10px;
   margin-top: 20px;
 }
-
 .pagination button {
   padding: 5px 10px;
   border: 1px solid #007bff;
@@ -207,7 +212,6 @@ h2 {
   border-radius: 6px;
   cursor: pointer;
 }
-
 .pagination button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
