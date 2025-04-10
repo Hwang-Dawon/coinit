@@ -106,6 +106,7 @@
               <input type="checkbox" v-model="item.selected" /><br />
             </template>
             <input type="date" v-model="item.date" />
+
           </td>
           <td><input v-model="item.desc" /></td>
           <td><input type="number" v-model.number="item.amount" /></td>
@@ -122,6 +123,7 @@
       <button v-if="deleteMode && transactions.some(t => t.selected)" class="btn btn-delete" @click="deleteSelectedItems">
         선택 항목 삭제
       </button>
+
     </div>
   </div>
 </template>
@@ -141,6 +143,7 @@ const actualIncome = ref([
   { name: '월급', amount: 4000000 },
   { name: '투잡 수입', amount: 300000 }
 ])
+
 
 const actualSpending = ref([
   { name: '식비', amount: 420000 },
@@ -205,9 +208,10 @@ const deleteSelectedItems = () => {
     deleteMode.value = false
   }
 }
+
 </script>
 
-/
+
 
 <style scoped>
 .management {
@@ -308,7 +312,6 @@ h3 {
 .btn-delete {
   background-color: #dc3545;
 }
-
 input[type='text'],
 input[type='number'],
 input[type='date'] {
@@ -319,3 +322,4 @@ input[type='date'] {
   box-sizing: border-box;
 }
 </style>
+
