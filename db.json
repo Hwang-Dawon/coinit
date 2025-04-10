@@ -53,6 +53,15 @@
       "type": "income",
       "category": "유흥",
       "memo": ""
+    },
+    {
+      "id": 5,
+      "description": "dddd",
+      "amount": 23333,
+      "date": "2025-04-10",
+      "type": "expense",
+      "category": "교통비",
+      "memo": "33"
     }
   ],
   "LoginInfo": [

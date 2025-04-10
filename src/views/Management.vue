@@ -2,18 +2,13 @@
   <div class="management">
     <h2>총 예산</h2>
 
-   <!-- 잔액 요약 카드 -->
-<div class="summary-card">
-  <label for="manualBalanceInput">직접 입력한 총 금액:</label>
-  <input
-    id="manualBalanceInput"
-    type="number"
-    v-model.number="manualBalanceInput"
-    placeholder="₩ 금액 입력"
-  />
-  <button class="btn btn-add" @click="setManualBalance">등록</button>
-  <p>✔️ 등록된 총 금액: ₩{{ manualBalance.toLocaleString() }}</p>
-</div>
+    <!-- 잔액 요약 카드 -->
+    <div class="summary-card">
+      <label for="manualBalanceInput">직접 입력한 총 금액:</label>
+      <input id="manualBalanceInput" type="number" v-model.number="manualBalanceInput" placeholder="₩ 금액 입력" />
+      <button class="btn btn-add" @click="setManualBalance">등록</button>
+      <p>✔️ 등록된 총 금액: ₩{{ manualBalance.toLocaleString() }}</p>
+    </div>
 
     <!-- 고정 지출 내역 -->
     <h3>📌 고정 지출 내역</h3>
@@ -25,7 +20,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in housing" :key="'fixed'+index">
+        <tr v-for="(item, index) in housing" :key="'fixed' + index">
           <td><input v-model="item.name" /></td>
           <td><input type="number" v-model.number="item.actual" /></td>
         </tr>
@@ -47,7 +42,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in actualIncome" :key="'income'+index">
+        <tr v-for="(item, index) in actualIncome" :key="'income' + index">
           <td><input v-model="item.name" /></td>
           <td><input type="number" v-model.number="item.amount" /></td>
         </tr>
@@ -75,7 +70,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in actualSpending" :key="'spend'+index">
+        <tr v-for="(item, index) in actualSpending" :key="'spend' + index">
           <td><input v-model="item.name" /></td>
           <td><input type="number" v-model.number="item.amount" /></td>
         </tr>
@@ -106,11 +101,8 @@
       <tbody>
         <tr v-for="item in transactions" :key="item.id">
           <td>
-            <template v-if="deleteMode">
-              <input type="checkbox" v-model="item.selected" /><br />
-            </template>
+            <template v-if="deleteMode"> <input type="checkbox" v-model="item.selected" /><br /> </template>
             <input type="date" v-model="item.date" />
-
           </td>
           <td><input v-model="item.desc" /></td>
           <td><input type="number" v-model.number="item.amount" /></td>
@@ -124,7 +116,11 @@
       <button v-if="showEditMenu" class="btn btn-delete" @click="toggleDeleteMode">
         {{ deleteMode ? '삭제 취소' : '삭제' }}
       </button>
-      <button v-if="deleteMode && transactions.some(t => t.selected)" class="btn btn-delete" @click="deleteSelectedItems">
+      <button
+        v-if="deleteMode && transactions.some((t) => t.selected)"
+        class="btn btn-delete"
+        @click="deleteSelectedItems"
+      >
         선택 항목 삭제
       </button>
     </div>
@@ -138,19 +134,18 @@ const today = new Date().toISOString().slice(0, 10);
 const budget = ref(1000000);
 const balance = ref(500000);
 
-const manualBalanceInput = ref(0)
+const manualBalanceInput = ref(0);
 
-const manualBalance = ref(0)
+const manualBalance = ref(0);
 
 const setManualBalance = () => {
-  manualBalance.value = manualBalanceInput.value
-}
+  manualBalance.value = manualBalanceInput.value;
+};
 
 const actualIncome = ref([
   { name: '월급', amount: 4000000 },
   { name: '투잡 수입', amount: 300000 },
 ]);
-
 
 const actualSpending = ref([
   { name: '식비', amount: 420000 },
@@ -166,59 +161,56 @@ const housing = ref([
 
 const transactions = ref([
   { id: 1, date: new Date().toISOString().slice(0, 10), desc: '커피', amount: -4500 },
-  { id: 2, date: new Date().toISOString().slice(0, 10), desc: '지하철', amount: -1250 }
-])
+  { id: 2, date: new Date().toISOString().slice(0, 10), desc: '지하철', amount: -1250 },
+]);
 
-const actualIncomeTotal = computed(() => actualIncome.value.reduce((sum, item) => sum + item.amount, 0))
-const actualSpendingTotal = computed(() => actualSpending.value.reduce((sum, item) => sum + item.amount, 0))
-const actualHousingTotal = computed(() => housing.value.reduce((sum, item) => sum + item.actual, 0))
-const actualBalance = computed(() => actualIncomeTotal.value - actualHousingTotal.value)
+const actualIncomeTotal = computed(() => actualIncome.value.reduce((sum, item) => sum + item.amount, 0));
+const actualSpendingTotal = computed(() => actualSpending.value.reduce((sum, item) => sum + item.amount, 0));
+const actualHousingTotal = computed(() => housing.value.reduce((sum, item) => sum + item.actual, 0));
+const actualBalance = computed(() => actualIncomeTotal.value - actualHousingTotal.value);
 
-const showEditMenu = ref(false)
-const toggleEditMenu = () => showEditMenu.value = !showEditMenu.value
+const showEditMenu = ref(false);
+const toggleEditMenu = () => (showEditMenu.value = !showEditMenu.value);
 
-const showEditHousingMenu = ref(false)
-const toggleHousingMenu = () => showEditHousingMenu.value = !showEditHousingMenu.value
+const showEditHousingMenu = ref(false);
+const toggleHousingMenu = () => (showEditHousingMenu.value = !showEditHousingMenu.value);
 
-const showEditIncomeMenu = ref(false)
-const toggleIncomeMenu = () => showEditIncomeMenu.value = !showEditIncomeMenu.value
+const showEditIncomeMenu = ref(false);
+const toggleIncomeMenu = () => (showEditIncomeMenu.value = !showEditIncomeMenu.value);
 
-const showEditSpendingMenu = ref(false)
-const toggleSpendingMenu = () => showEditSpendingMenu.value = !showEditSpendingMenu.value
+const showEditSpendingMenu = ref(false);
+const toggleSpendingMenu = () => (showEditSpendingMenu.value = !showEditSpendingMenu.value);
 
 const addItem = () => {
-  transactions.value.push({ id: Date.now(), date: new Date().toISOString().slice(0, 10), desc: '', amount: 0 })
-}
-const addIncome = () => actualIncome.value.push({ name: '', amount: 0 })
-const deleteIncome = () => actualIncome.value.pop()
+  transactions.value.push({ id: Date.now(), date: new Date().toISOString().slice(0, 10), desc: '', amount: 0 });
+};
+const addIncome = () => actualIncome.value.push({ name: '', amount: 0 });
+const deleteIncome = () => actualIncome.value.pop();
 
-const addSpending = () => actualSpending.value.push({ name: '', amount: 0 })
-const deleteSpending = () => actualSpending.value.pop()
+const addSpending = () => actualSpending.value.push({ name: '', amount: 0 });
+const deleteSpending = () => actualSpending.value.pop();
 
-const addHousing = () => housing.value.push({ name: '', actual: 0 })
-const deleteHousing = () => housing.value.pop()
+const addHousing = () => housing.value.push({ name: '', actual: 0 });
+const deleteHousing = () => housing.value.pop();
 
-const deleteMode = ref(false)
+const deleteMode = ref(false);
 const toggleDeleteMode = () => {
-  deleteMode.value = !deleteMode.value
+  deleteMode.value = !deleteMode.value;
   if (deleteMode.value) {
-    transactions.value.forEach(item => {
-      if (item.selected === undefined) item.selected = false
-    })
+    transactions.value.forEach((item) => {
+      if (item.selected === undefined) item.selected = false;
+    });
   }
-}
+};
 
 const deleteSelectedItems = () => {
-  const confirmed = confirm('선택된 항목을 삭제하시겠습니까?')
+  const confirmed = confirm('선택된 항목을 삭제하시겠습니까?');
   if (confirmed) {
-    transactions.value = transactions.value.filter(item => !item.selected)
-    deleteMode.value = false
+    transactions.value = transactions.value.filter((item) => !item.selected);
+    deleteMode.value = false;
   }
-}
-
+};
 </script>
-
-
 
 <style scoped>
 .management {
@@ -342,4 +334,3 @@ input[type='date'] {
   font-size: 14px;
 }
 </style>
-

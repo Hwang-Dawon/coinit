@@ -1,8 +1,9 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
-const router = useRouter();
 
+
+const router = useRouter();
 const selectedDate = ref(''); // 초기에 빈 값
 
 // 페이지가 로드시 오늘 날짜로 설정
@@ -14,17 +15,22 @@ onMounted(() => {
   selectedDate.value = `${yyyy}-${mm}-${dd}`; // yyyy-mm-dd 형식
   console.log('초기 날짜 설정됨:', selectedDate.value);
 });
-
 // 날짜 변경
 watch(selectedDate, (newDate) => {
   console.log('선택된 날짜:', newDate);
 });
+
+
+//레코드 페이지로 이동
+const goToRecordPage = () => {
+  router.push('/record');
 
 //로그아웃
 const logout = () => {
   localStorage.removeItem('user'); // 사용자 정보 제거
   alert('로그아웃 되었습니다.');
   router.push('/'); // 홈으로 이동
+
 };
 </script>
 
@@ -36,8 +42,12 @@ const logout = () => {
       <input id="calendar" type="date" v-model="selectedDate" />
     </div>
     <div class="right-buttons">
-      <button class="add-btn">+</button>
+
+      <button class="add-btn" @click="goToRecordPage">+</button>
+      
+
       <button class="logout-btn" @click="logout">로그아웃</button>
+
     </div>
   </div>
 </template>
