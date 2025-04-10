@@ -6,7 +6,6 @@ import TransactionSearch from '@/views/TransactionSearch.vue';
 import RecordPage from '../views/RecordPage.vue';
 import RecordEdit from '@/views/RecordEdit.vue';
 import JoinPage from '@/views/JoinPage.vue';
-import Home from '@/views/HomeView.vue';
 import Management from '@/views/Management.vue';
 import Mypage from '@/views/Mypage.vue';
 import PasswordCheck from '@/views/PasswordCheck.vue';
@@ -48,7 +47,7 @@ const router = createRouter({
     {
       path: '/Home',
       name: 'Home',
-      component: Home,
+      component: Homeview,
     },
 
     {
