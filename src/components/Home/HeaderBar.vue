@@ -23,12 +23,12 @@ watch(selectedDate, (newDate) => {
 const goToRecordPage = () => {
   router.push('/record');
 
-  //로그아웃
-  const logout = () => {
-    localStorage.removeItem('user'); // 사용자 정보 제거
-    alert('로그아웃 되었습니다.');
-    router.push('/'); // 홈으로 이동
-  };
+};
+//로그아웃
+const logout = () => {
+  localStorage.removeItem('user'); // 사용자 정보 제거
+  alert('로그아웃 되었습니다.');
+  router.push('/'); // 홈으로 이동
 };
 </script>
 
