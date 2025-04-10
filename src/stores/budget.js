@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import axios from 'axios';
 
 export const useBudgetStore = defineStore('budget', () => {
+  const manualBalance = ref(0);
   const actualIncome = ref([]);
   const actualSpending = ref([]);
 
@@ -11,6 +12,8 @@ export const useBudgetStore = defineStore('budget', () => {
   const actualSpendingTotal = computed(() => actualSpending.value.reduce((sum, item) => sum + item.amount, 0));
 
   const actualBalance = computed(() => actualIncomeTotal.value - actualSpendingTotal.value);
+
+  const remainingBudget = computed(() => manualBalance.value - actualSpendingTotal.value);
 
   // 수입/지출 데이터 불러오가
   const fetchTransactions = async () => {
@@ -23,6 +26,15 @@ export const useBudgetStore = defineStore('budget', () => {
     } catch (err) {
       console.error('데이터 불러오기 실패:', err);
     }
+  };
+
+  const setBudgetData = (income, spending) => {
+    actualIncome.value = income;
+    actualSpending.value = spending;
+  };
+
+  const setManualBalance = (value) => {
+    manualBalance.value = value;
   };
 
   return {
