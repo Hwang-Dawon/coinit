@@ -1,6 +1,12 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const goToTransactionSearch = () => {
+  router.push('/transactions');
+};
 
 const recentIncome = ref([]);
 const recentExpense = ref([]);
@@ -22,7 +28,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="income-expense-box">
+  <div class="income-expense-box" @click="goToTransactionSearch">
     <h3>📈 최근 수입</h3>
     <ul>
       <li v-for="item in recentIncome" :key="item.id">

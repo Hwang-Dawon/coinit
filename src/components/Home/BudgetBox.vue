@@ -1,7 +1,12 @@
 <script setup>
+import { onMounted } from 'vue';
 import { useBudgetStore } from '@/stores/budget';
 
 const budget = useBudgetStore();
+
+onMounted(() => {
+  budget.fetchTransactions();
+});
 </script>
 
 <template>
