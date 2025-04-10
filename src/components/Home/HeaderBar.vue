@@ -23,6 +23,7 @@ watch(selectedDate, (newDate) => {
 const goToRecordPage = () => {
   router.push('/record');
 };
+
 //로그아웃
 const logout = () => {
   localStorage.removeItem('user'); // 사용자 정보 제거
