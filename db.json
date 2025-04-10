@@ -28,30 +28,22 @@
   },
   "transactions": [
     {
-      "id": "2",
-      "description": "테스트케이스",
+      "id": "1",
+      "description": "테스트 1",
       "amount": 20000,
-      "date": "2025-04-09",
+      "date": "2025-04-10",
       "type": "expense",
-      "category": "교통비",
-      "memo": "1"
-    },
-    {
-      "id": "3",
-      "description": "테스트 2",
-      "amount": 20000,
-      "date": "2025-04-09",
-      "type": "income",
-      "category": "교통비",
+      "category": "교통/차량",
       "memo": ""
     },
     {
-      "id": "4",
-      "description": "123",
-      "amount": 20000,
-      "date": "2025-04-09",
-      "type": "income",
-      "category": "유흥",
+
+      "id": "2",
+      "description": "테스트2",
+      "amount": 30000,
+      "date": "2025-04-08",
+      "type": "expense",
+      "category": "식비",
       "memo": ""
     }
   ],
@@ -89,20 +81,20 @@
       "email": "emdk@naver.com"
     },
     {
-      "id": "1744260759455",
-      "userId": "",
-      "password": "",
-      "name": "",
-      "phone": "",
-      "email": ""
+      "id": 1744260693725,
+      "userId": "test111",
+      "password": "test1111",
+      "name": "이름",
+      "phone": "010-0000-1111",
+      "email": "epal@naver.com"
     },
     {
-      "id": "1744260788717",
-      "userId": "",
-      "password": "",
-      "name": "",
-      "phone": "",
-      "email": ""
+      "id": 1744260693726,
+      "userId": "test222",
+      "password": "test222",
+      "name": "테스트",
+      "phone": "010-1111-1111",
+      "email": "email11@email.com"
     }
   ],
   "periodicExpense": [
@@ -115,7 +107,7 @@
       "memo": "전기요금"
     }
   ],
-  "IncomeCategory": [
+  "incomeCategory": [
     {
       "id": "1",
       "name": "월급"
@@ -140,15 +132,15 @@
     },
     {
       "id": "2",
-      "name": "교통비"
+      "name": "교통/차량"
     },
     {
       "id": "3",
-      "name": "유흥"
+      "name": "문화생활"
     },
     {
       "id": "4",
-      "name": "공과금"
+      "name": "건강"
     },
     {
       "id": "5",
