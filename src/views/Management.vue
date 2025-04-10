@@ -218,12 +218,15 @@ const deleteSelectedItems = () => {
   margin: 2rem auto;
   font-family: 'Segoe UI', sans-serif;
   padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 10px;
 }
 
 h2 {
   font-size: 28px;
   color: #003366;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 h3 {
@@ -234,38 +237,44 @@ h3 {
 }
 
 .summary-card {
-  background-color: #e3f2fd;
+  background-color: white;
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: 10px;
   margin-bottom: 2rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-left: 5px solid #ffc400;
 }
 
 .summary-card p {
   margin: 0.5rem 0;
   font-weight: 500;
-  color: #004d80;
+  color: #333;
 }
 
 .budget-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 1.5rem;
+  background-color: white;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .budget-table th {
-  background-color: #bbdefb;
+  background-color: #ffc400;
   padding: 10px;
   text-align: center;
-  color: #003366;
+  color: white;
   font-weight: bold;
-  border: 1px solid #ccc;
+  border: 1px solid #e0e0e0;
 }
 
 .budget-table td {
-  border: 1px solid #ccc;
+  border: 1px solid #eee;
   padding: 8px;
   text-align: right;
+  background-color: #fff;
 }
 
 .budget-table td:first-child {
@@ -273,18 +282,21 @@ h3 {
 }
 
 .total-row {
-  background-color: #e3f2fd;
+  background-color: #fff8e1;
+  font-weight: bold;
 }
 
 .negative {
   color: #d32f2f;
 }
+
 .button-group {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 1.5rem;
-  flex-wrap: wrap;
 }
+
 .btn {
   padding: 8px 16px;
   border-radius: 6px;
@@ -292,6 +304,7 @@ h3 {
   cursor: pointer;
   color: white;
   border: none;
+  transition: background-color 0.2s ease;
 }
 
 .btn-add {
@@ -299,19 +312,25 @@ h3 {
 }
 
 .btn-edit {
-  background-color: #28a745;
+  background-color: #ffc400;
 }
 
 .btn-delete {
-  background-color: #dc3545;
+  background-color: #f44336;
 }
+
+.btn:hover {
+  filter: brightness(0.95);
+}
+
 input[type='text'],
 input[type='number'],
 input[type='date'] {
   width: 100%;
-  padding: 6px;
-  border-radius: 4px;
+  padding: 6px 10px;
+  border-radius: 6px;
   border: 1px solid #ccc;
   box-sizing: border-box;
+  font-size: 14px;
 }
 </style>

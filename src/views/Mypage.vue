@@ -1,20 +1,15 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const user = ref(null);
 
+// localStorage에서 사용자 정보 바로 불러오기
 const storedUser = JSON.parse(localStorage.getItem('user'));
-const userId = storedUser?.userId || '';
+user.value = storedUser || null;
 
-onMounted(async () => {
-  const res = await axios.get(
-    `http://localhost:3001/LoginInfo?userId=${userId}`
-  );
-  user.value = res.data[0];
-});
+// 비밀번호 확인으로 이동
 const gotoPasswordCheck = () => {
   router.push('/mypage/verify');
 };
