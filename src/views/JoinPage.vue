@@ -64,31 +64,61 @@ const validataEmail = () => {
 const handleJoin = async (e) => {
   e.preventDefault();
 
-  //JSON 형태로 변환
-  const newUser = {
-    id: Date.now(),
-    userId: userId.value,
-    password: password.value,
-    name: name.value,
-    phone: phone.value,
-    email: email.value,
-  };
+  // 모든 유효성 검사 실행
+  validataId();
+  validataPassword();
+  validataName();
+  validataPhone();
+  validataEmail();
+
+  // 필수 입력값이 비었거나 에러가 존재하면 가입 중단
+  if (
+    !userId.value ||
+    !password.value ||
+    !name.value ||
+    !phone.value ||
+    !email.value ||
+    userIdError.value ||
+    passwordError.value ||
+    nameError.value ||
+    phoneError.value ||
+    emailError.value
+  ) {
+    alert('회원정보를 올바르게 입력하십시오.');
+    return;
+  }
 
   try {
-    // POST 요청으로 db.json(LoginInfo)에 저장
+    // 기존 사용자 목록 불러오기 (ID 순차적 생성용)
+    const res = await axios.get('http://localhost:3001/LoginInfo');
+    const users = res.data;
+    const maxId = users.length > 0 ? Math.max(...users.map((u) => u.id)) : 0;
+    const newId = maxId + 1;
+
+    // JSON 형태로 변환
+    const newUser = {
+      id: newId,
+      userId: userId.value,
+      password: password.value,
+      name: name.value,
+      phone: phone.value,
+      email: email.value,
+    };
+
+    // POST 요청으로 저장
     await axios.post('http://localhost:3001/LoginInfo', newUser);
     alert('회원가입이 완료되었습니다!');
+
+    // 초기화
+    userId.value = '';
+    password.value = '';
+    name.value = '';
+    phone.value = '';
+    email.value = '';
   } catch (err) {
     alert('저장 중 오류가 발생했습니다.');
     console.error(err);
   }
-
-  //초기화
-  userId.value = '';
-  password.value = '';
-  name.value = '';
-  phone.value = '';
-  email.value = '';
 };
 </script>
 
@@ -147,7 +177,9 @@ const handleJoin = async (e) => {
       </div>
 
       <button class="joinBtn" type="submit">회원가입</button>
-      <button class="backBtn">홈</button>
+      <button class="backBtn" type="button" @click="$router.push('/')">
+        홈
+      </button>
     </form>
   </div>
 </template>
@@ -160,6 +192,10 @@ const handleJoin = async (e) => {
   min-height: 100vh;
   background: #f8f9fa;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.join-container h2 i {
+  text-align: center;
+  color: #ffd338;
 }
 
 .join-container {

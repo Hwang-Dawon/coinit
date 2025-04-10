@@ -15,12 +15,12 @@
     {
       "id": "1",
       "text": "a comment about post 1",
-      "postId": 1
+      "postId": "1"
     },
     {
       "id": "2",
       "text": "another comment about post 1",
-      "postId": 1
+      "postId": "1"
     }
   ],
   "profile": {
@@ -81,15 +81,15 @@
       "email": "fhjsd@dfjh.com"
     },
     {
-      "id": "1744245345366",
-      "userId": "whddls8930",
-      "password": "dlsaud12",
-      "name": "권종인",
-      "phone": "01071788930",
-      "email": "whddlswhdaud@naver.com"
+      "id": "1744260693724",
+      "userId": "test123",
+      "password": "test123",
+      "name": "홍길동",
+      "phone": "010-0000-0000",
+      "email": "emdk@naver.com"
     },
     {
-      "id": "1744245352903",
+      "id": "1744260759455",
       "userId": "",
       "password": "",
       "name": "",
@@ -97,7 +97,7 @@
       "email": ""
     },
     {
-      "id": "1744245354814",
+      "id": "1744260788717",
       "userId": "",
       "password": "",
       "name": "",

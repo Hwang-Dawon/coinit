@@ -2,10 +2,18 @@
   <div class="management">
     <h2>총 예산</h2>
 
-    <!-- 잔액 요약 카드 -->
-    <div class="summary-card">
-      <p>실제 총 금액: ₩{{ actualBalance.toLocaleString() }}</p>
-    </div>
+   <!-- 잔액 요약 카드 -->
+<div class="summary-card">
+  <label for="manualBalanceInput">직접 입력한 총 금액:</label>
+  <input
+    id="manualBalanceInput"
+    type="number"
+    v-model.number="manualBalanceInput"
+    placeholder="₩ 금액 입력"
+  />
+  <button class="btn btn-add" @click="setManualBalance">등록</button>
+  <p>✔️ 등록된 총 금액: ₩{{ manualBalance.toLocaleString() }}</p>
+</div>
 
     <!-- 고정 지출 내역 -->
     <h3>📌 고정 지출 내역</h3>
@@ -17,12 +25,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in housing" :key="'fixed' + index">
-          <td>{{ item.name }}</td>
-          <td>₩{{ item.actual.toLocaleString() }}</td>
+        <tr v-for="(item, index) in housing" :key="'fixed'+index">
+          <td><input v-model="item.name" /></td>
+          <td><input type="number" v-model.number="item.actual" /></td>
         </tr>
       </tbody>
     </table>
+    <div class="button-group">
+      <button class="btn btn-edit" @click="toggleHousingMenu">수정</button>
+      <button v-if="showEditHousingMenu" class="btn btn-add" @click="addHousing">추가</button>
+      <button v-if="showEditHousingMenu" class="btn btn-delete" @click="deleteHousing">삭제</button>
+    </div>
 
     <!-- 실제 월별 수입 -->
     <h3>실제 월별 수입</h3>
@@ -34,9 +47,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in actualIncome" :key="'income' + index">
-          <td>{{ item.name }}</td>
-          <td>₩{{ item.amount.toLocaleString() }}</td>
+        <tr v-for="(item, index) in actualIncome" :key="'income'+index">
+          <td><input v-model="item.name" /></td>
+          <td><input type="number" v-model.number="item.amount" /></td>
         </tr>
         <tr class="total-row">
           <td><strong>총 수입</strong></td>
@@ -46,6 +59,11 @@
         </tr>
       </tbody>
     </table>
+    <div class="button-group">
+      <button class="btn btn-edit" @click="toggleIncomeMenu">수정</button>
+      <button v-if="showEditIncomeMenu" class="btn btn-add" @click="addIncome">추가</button>
+      <button v-if="showEditIncomeMenu" class="btn btn-delete" @click="deleteIncome">삭제</button>
+    </div>
 
     <!-- 실제 월별 지출 -->
     <h3>실제 월별 지출</h3>
@@ -57,9 +75,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in actualSpending" :key="'spend' + index">
-          <td>{{ item.name }}</td>
-          <td>₩{{ item.amount.toLocaleString() }}</td>
+        <tr v-for="(item, index) in actualSpending" :key="'spend'+index">
+          <td><input v-model="item.name" /></td>
+          <td><input type="number" v-model.number="item.amount" /></td>
         </tr>
         <tr class="total-row">
           <td><strong>총 지출</strong></td>
@@ -69,6 +87,11 @@
         </tr>
       </tbody>
     </table>
+    <div class="button-group">
+      <button class="btn btn-edit" @click="toggleSpendingMenu">수정</button>
+      <button v-if="showEditSpendingMenu" class="btn btn-add" @click="addSpending">추가</button>
+      <button v-if="showEditSpendingMenu" class="btn btn-delete" @click="deleteSpending">삭제</button>
+    </div>
 
     <!-- 일별 재정 상태 -->
     <h3>📅 일별 재정 상태</h3>
@@ -82,55 +105,28 @@
       </thead>
       <tbody>
         <tr v-for="item in transactions" :key="item.id">
-          <td>{{ item.date }}</td>
-          <td>{{ item.desc }}</td>
-          <td :class="{ negative: item.amount < 0 }">
-            ₩{{ item.amount.toLocaleString() }}
+          <td>
+            <template v-if="deleteMode">
+              <input type="checkbox" v-model="item.selected" /><br />
+            </template>
+            <input type="date" v-model="item.date" />
+
           </td>
+          <td><input v-model="item.desc" /></td>
+          <td><input type="number" v-model.number="item.amount" /></td>
         </tr>
       </tbody>
     </table>
 
-    <header>
-      <h1>재정관리, 예산</h1>
-      <p>{{ today }}</p>
-    </header>
-
-    <!-- 예산관리 -->
-    <section class="budget-status">
-      <p>예산: {{ budget.toLocaleString() }}원</p>
-      <p>보유 금액: {{ balance.toLocaleString() }}원</p>
-    </section>
-
-    <!-- 고정지출 -->
-    <div class="fixed-expense">
-      <h3>고정 지출내역</h3>
-      <ul>
-        <li v-for="item in expenses" :key="item.name">
-          {{ item.name }}: {{ item.amount.toLocaleString() }}원
-        </li>
-      </ul>
-    </div>
-
-    <!-- 월별 재정상태 -->
-    <div class="monthly-status">
-      <h3>월별 재정상태</h3>
-      <ul>
-        <li v-for="m in monthly" :key="m.month">
-          {{ m.month }}월 수입: {{ m.income.toLocaleString() }}원 / 지출:
-          {{ m.expense.toLocaleString() }}원
-        </li>
-      </ul>
-    </div>
-
-    <!-- 일별 재정상태 -->
-    <div class="daily-status">
-      <h3>일별 재정상태</h3>
-      <ul>
-        <li v-for="t in transactions" :key="t.id">
-          {{ t.desc }} - {{ t.amount.toLocaleString() }}원
-        </li>
-      </ul>
+    <div class="button-group">
+      <button class="btn btn-edit" @click="toggleEditMenu">수정</button>
+      <button v-if="showEditMenu" class="btn btn-add" @click="addItem">추가</button>
+      <button v-if="showEditMenu" class="btn btn-delete" @click="toggleDeleteMode">
+        {{ deleteMode ? '삭제 취소' : '삭제' }}
+      </button>
+      <button v-if="deleteMode && transactions.some(t => t.selected)" class="btn btn-delete" @click="deleteSelectedItems">
+        선택 항목 삭제
+      </button>
     </div>
   </div>
 </template>
@@ -142,10 +138,19 @@ const today = new Date().toISOString().slice(0, 10);
 const budget = ref(1000000);
 const balance = ref(500000);
 
+const manualBalanceInput = ref(0)
+
+const manualBalance = ref(0)
+
+const setManualBalance = () => {
+  manualBalance.value = manualBalanceInput.value
+}
+
 const actualIncome = ref([
   { name: '월급', amount: 4000000 },
   { name: '투잡 수입', amount: 300000 },
 ]);
+
 
 const actualSpending = ref([
   { name: '식비', amount: 420000 },
@@ -160,38 +165,60 @@ const housing = ref([
 ]);
 
 const transactions = ref([
-  { id: 1, date: today, desc: '커피', amount: -4500 },
-  { id: 2, date: today, desc: '지하철', amount: -1250 },
-  { id: 3, date: today, desc: '아이스크림', amount: -10000 },
-  { id: 4, date: today, desc: '치킨', amount: -20000 },
-]);
+  { id: 1, date: new Date().toISOString().slice(0, 10), desc: '커피', amount: -4500 },
+  { id: 2, date: new Date().toISOString().slice(0, 10), desc: '지하철', amount: -1250 }
+])
 
-const expenses = [
-  { name: '통신비', amount: 50000 },
-  { name: '월세', amount: 500000 },
-];
+const actualIncomeTotal = computed(() => actualIncome.value.reduce((sum, item) => sum + item.amount, 0))
+const actualSpendingTotal = computed(() => actualSpending.value.reduce((sum, item) => sum + item.amount, 0))
+const actualHousingTotal = computed(() => housing.value.reduce((sum, item) => sum + item.actual, 0))
+const actualBalance = computed(() => actualIncomeTotal.value - actualHousingTotal.value)
 
-const monthly = [
-  { month: 1, income: 2500000, expense: 1200000 },
-  { month: 2, income: 2500000, expense: 1350000 },
-];
+const showEditMenu = ref(false)
+const toggleEditMenu = () => showEditMenu.value = !showEditMenu.value
 
-const actualIncomeTotal = computed(() =>
-  actualIncome.value.reduce((sum, item) => sum + item.amount, 0)
-);
+const showEditHousingMenu = ref(false)
+const toggleHousingMenu = () => showEditHousingMenu.value = !showEditHousingMenu.value
 
-const actualSpendingTotal = computed(() =>
-  actualSpending.value.reduce((sum, item) => sum + item.amount, 0)
-);
+const showEditIncomeMenu = ref(false)
+const toggleIncomeMenu = () => showEditIncomeMenu.value = !showEditIncomeMenu.value
 
-const actualHousingTotal = computed(() =>
-  housing.value.reduce((sum, item) => sum + item.actual, 0)
-);
+const showEditSpendingMenu = ref(false)
+const toggleSpendingMenu = () => showEditSpendingMenu.value = !showEditSpendingMenu.value
 
-const actualBalance = computed(
-  () => actualIncomeTotal.value - actualHousingTotal.value
-);
+const addItem = () => {
+  transactions.value.push({ id: Date.now(), date: new Date().toISOString().slice(0, 10), desc: '', amount: 0 })
+}
+const addIncome = () => actualIncome.value.push({ name: '', amount: 0 })
+const deleteIncome = () => actualIncome.value.pop()
+
+const addSpending = () => actualSpending.value.push({ name: '', amount: 0 })
+const deleteSpending = () => actualSpending.value.pop()
+
+const addHousing = () => housing.value.push({ name: '', actual: 0 })
+const deleteHousing = () => housing.value.pop()
+
+const deleteMode = ref(false)
+const toggleDeleteMode = () => {
+  deleteMode.value = !deleteMode.value
+  if (deleteMode.value) {
+    transactions.value.forEach(item => {
+      if (item.selected === undefined) item.selected = false
+    })
+  }
+}
+
+const deleteSelectedItems = () => {
+  const confirmed = confirm('선택된 항목을 삭제하시겠습니까?')
+  if (confirmed) {
+    transactions.value = transactions.value.filter(item => !item.selected)
+    deleteMode.value = false
+  }
+}
+
 </script>
+
+
 
 <style scoped>
 .management {
@@ -260,25 +287,40 @@ h3 {
 .negative {
   color: #d32f2f;
 }
-
-h1 {
-  font-size: 24px;
-  margin-bottom: 0.5rem;
-}
-
-section,
-.fixed-expense,
-.monthly-status,
-.daily-status {
+.button-group {
+  display: flex;
+  gap: 10px;
   margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  color: white;
+  border: none;
 }
 
-ul {
-  list-style: none;
-  padding-left: 0;
+.btn-add {
+  background-color: #007bff;
 }
 
-li {
-  margin-bottom: 0.3rem;
+.btn-edit {
+  background-color: #28a745;
+}
+
+.btn-delete {
+  background-color: #dc3545;
+}
+input[type='text'],
+input[type='number'],
+input[type='date'] {
+  width: 100%;
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 </style>
+

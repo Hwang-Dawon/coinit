@@ -1,15 +1,21 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue';
-const today = new Date().toISOString().substring(0, 10); //날짜
-const selectedDate = ref(today);
+import { ref, onMounted, watch } from 'vue';
 
-//날짜 변경
-watch(selectedDate, (newDate) => {
-  console.log('선택된 날짜:', newDate);
+const selectedDate = ref(''); // 초기에 빈 값
+
+// 페이지가 로드시 오늘 날짜로 설정
+onMounted(() => {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  selectedDate.value = `${yyyy}-${mm}-${dd}`; // yyyy-mm-dd 형식
+  console.log('초기 날짜 설정됨:', selectedDate.value);
 });
 
-onMounted(() => {
-  console.log('초기 날짜 설정됨:', selectedDate.value);
+// 날짜 변경
+watch(selectedDate, (newDate) => {
+  console.log('선택된 날짜:', newDate);
 });
 </script>
 
