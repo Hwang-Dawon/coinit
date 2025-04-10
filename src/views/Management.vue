@@ -333,9 +333,6 @@ h3 {
 .btn-delete {
   background-color: #dc3545;
 }
-<<<<<<< HEAD
-</style>
-=======
 
 input[type='text'],
 input[type='number'],
@@ -347,4 +344,3 @@ input[type='date'] {
   box-sizing: border-box;
 }
 </style>
->>>>>>> d8e4ef3670af8f17a0abbaa812492b27fa08743e
