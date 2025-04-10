@@ -2,13 +2,16 @@
 import LoginPage from '@/views/LoginPage.vue';
 import Summary from '@/views/Summary.vue';
 import { RouterLink, RouterView } from 'vue-router';
+import { useUserStore } from '@/stores/user';
+
+const userStore = useUserStore();
 </script>
 
 <template>
   <div id="app">
     <header>
       <h1>나의 가계부</h1>
-      <nav>
+      <nav v-if="userStore.isLoggedIn">
         <RouterLink to="/Home">홈</RouterLink> |
         <RouterLink to="/record">기록</RouterLink> |
         <RouterLink to="/summary">요약</RouterLink>|
