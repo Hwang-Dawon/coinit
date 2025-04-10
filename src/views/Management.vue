@@ -191,6 +191,7 @@ const deleteSelectedItems = () => {
 }
 </script>
 
+/
 
 <style scoped>
 .management {
