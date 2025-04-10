@@ -12,7 +12,7 @@ export const useBudgetStore = defineStore('budget', () => {
 
   const actualBalance = computed(() => actualIncomeTotal.value - actualSpendingTotal.value);
 
-  // ✅ 수입/지출 데이터 불러오는 액션
+  // 수입/지출 데이터 불러오가
   const fetchTransactions = async () => {
     try {
       const res = await axios.get('http://localhost:3001/transactions');
@@ -31,6 +31,6 @@ export const useBudgetStore = defineStore('budget', () => {
     actualIncomeTotal,
     actualSpendingTotal,
     actualBalance,
-    fetchTransactions, // <- export!
+    fetchTransactions,
   };
 });

@@ -28,15 +28,6 @@
   },
   "transactions": [
     {
-      "id": "1",
-      "description": "테스트 1",
-      "amount": 20000,
-      "date": "2025-04-10",
-      "type": "expense",
-      "category": "교통/차량",
-      "memo": ""
-    },
-    {
       "id": "2",
       "description": "테스트2",
       "amount": 30000,
@@ -44,6 +35,15 @@
       "type": "expense",
       "category": "식비",
       "memo": ""
+    },
+    {
+      "id": "3",
+      "description": "ddd",
+      "amount": 20000,
+      "date": "2025-04-10",
+      "type": "expense",
+      "category": "식비",
+      "memo": "ss"
     }
   ],
   "LoginInfo": [
@@ -102,6 +102,14 @@
       "name": "한지은",
       "phone": "010-0000-0000",
       "email": "fjkdfjd@gmail.com"
+    },
+    {
+      "id": 1744260693728,
+      "userId": "gggggg",
+      "password": "gggggg",
+      "name": "장현숙",
+      "phone": "010-0000-0000",
+      "email": "fdhfjd@naver.com"
     }
   ],
   "periodicExpense": [
