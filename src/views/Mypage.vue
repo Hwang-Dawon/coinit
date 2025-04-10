@@ -23,7 +23,7 @@ const gotoPasswordCheck = () => {
       <p>전화번호: {{ user.phone }}</p>
       <p>이메일: {{ user.email }}</p>
       <button @click="gotoPasswordCheck">수정하기</button>
-      <button @click="$router.push('/')">돌아가기</button>
+      <button @click="$router.push('/Home')">돌아가기</button>
       <!--  비밀번호 확인창 -->
       <div v-if="showPasswordCheck" class="password-check">
         <p>현재 비밀번호를 입력하세요</p>
