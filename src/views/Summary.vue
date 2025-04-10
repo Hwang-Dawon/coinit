@@ -255,5 +255,6 @@ const getPieChartStyle = () => {
 .category-detail {
   border: 1px solid;
   padding: 20px;
-  margin-top: 
+  margin-top: 30px;
 }
+</style>
