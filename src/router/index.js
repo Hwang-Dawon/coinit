@@ -48,6 +48,7 @@ const router = createRouter({
       path: '/Home',
       name: 'Home',
       component: Homeview,
+
     },
 
     {

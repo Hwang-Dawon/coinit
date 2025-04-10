@@ -53,7 +53,9 @@
         </tr>
         <tr class="total-row">
           <td><strong>총 수입</strong></td>
-          <td><strong>₩{{ actualIncomeTotal.toLocaleString() }}</strong></td>
+          <td>
+            <strong>₩{{ actualIncomeTotal.toLocaleString() }}</strong>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -79,7 +81,9 @@
         </tr>
         <tr class="total-row">
           <td><strong>총 지출</strong></td>
-          <td><strong>₩{{ actualSpendingTotal.toLocaleString() }}</strong></td>
+          <td>
+            <strong>₩{{ actualSpendingTotal.toLocaleString() }}</strong>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -123,13 +127,16 @@
       <button v-if="deleteMode && transactions.some(t => t.selected)" class="btn btn-delete" @click="deleteSelectedItems">
         선택 항목 삭제
       </button>
-
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed } from 'vue';
+
+const today = new Date().toISOString().slice(0, 10);
+const budget = ref(1000000);
+const balance = ref(500000);
 
 const manualBalanceInput = ref(0)
 
@@ -141,21 +148,21 @@ const setManualBalance = () => {
 
 const actualIncome = ref([
   { name: '월급', amount: 4000000 },
-  { name: '투잡 수입', amount: 300000 }
-])
+  { name: '투잡 수입', amount: 300000 },
+]);
 
 
 const actualSpending = ref([
   { name: '식비', amount: 420000 },
   { name: '교통비', amount: 80000 },
-  { name: '문화생활', amount: 160000 }
-])
+  { name: '문화생활', amount: 160000 },
+]);
 
 const housing = ref([
   { name: '통신비', actual: 70000 },
   { name: '교통비', actual: 80000 },
-  { name: '월세', actual: 400000 }
-])
+  { name: '월세', actual: 400000 },
+]);
 
 const transactions = ref([
   { id: 1, date: new Date().toISOString().slice(0, 10), desc: '커피', amount: -4500 },
@@ -248,10 +255,6 @@ h3 {
   color: #004d80;
 }
 
-.summary-card .diff {
-  color: #d32f2f;
-}
-
 .budget-table {
   width: 100%;
   border-collapse: collapse;
@@ -284,14 +287,12 @@ h3 {
 .negative {
   color: #d32f2f;
 }
-
 .button-group {
   display: flex;
   gap: 10px;
   margin-bottom: 1.5rem;
   flex-wrap: wrap;
 }
-
 .btn {
   padding: 8px 16px;
   border-radius: 6px;

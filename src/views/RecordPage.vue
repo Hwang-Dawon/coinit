@@ -1,5 +1,8 @@
 <template>
   <div class="record-container">
+    <!-- ✅ 토스트 메시지 -->
+    <div v-if="toastMessage" class="toast">{{ toastMessage }}</div>
+
     <form @submit.prevent="onSubmit">
       <!-- 지출/수입 선택 버튼 -->
       <div class="type-buttons">
@@ -49,7 +52,7 @@
 
     <hr />
     <h3>최근 거래내역 (지출, 수입)</h3>
-    <table class="transaction-table">
+    <table class="transaction-table" v-if="recent.length">
       <thead>
         <tr>
           <th>날짜</th>
@@ -77,6 +80,7 @@
         </tr>
       </tbody>
     </table>
+    <p v-else class="no-data">최근 거래내역이 없습니다.</p>
   </div>
 </template>
 
@@ -95,6 +99,12 @@ const form = ref({
 
 const categories = ref([]);
 const recent = ref([]);
+const toastMessage = ref('');
+
+const showToast = (msg) => {
+  toastMessage.value = msg;
+  setTimeout(() => (toastMessage.value = ''), 2000);
+};
 
 const getNextId = async () => {
   const res = await axios.get('http://localhost:3001/transactions');
@@ -137,12 +147,12 @@ const isValidDate = (dateStr) => {
 
 const onSubmit = async () => {
   if (form.value.amount <= 0) {
-    alert('금액은 0보다 커야 합니다.');
+    showToast('금액은 0보다 커야 합니다.');
     return;
   }
 
   if (!isValidDate(form.value.date)) {
-    alert('날짜는 오늘보다 같거나 이전 날짜만 가능합니다.');
+    showToast('날짜는 오늘보다 같거나 이전 날짜만 가능합니다.');
     return;
   }
 
@@ -153,7 +163,7 @@ const onSubmit = async () => {
     ...form.value,
   });
 
-  alert('기록 완료!');
+  showToast('기록 완료!');
   resetForm();
   fetchRecent();
 };
@@ -171,6 +181,32 @@ onMounted(() => {
   margin: 40px auto;
   padding: 20px;
   font-family: 'Noto Sans KR', sans-serif;
+  position: relative;
+}
+
+.toast {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  z-index: 10;
+  animation: fadein 0.3s ease;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }
 
 .top-bar {
@@ -273,5 +309,11 @@ h3 {
 .transaction-table th {
   font-weight: bold;
   background-color: #f9f9f9;
+}
+
+.no-data {
+  margin-top: 20px;
+  text-align: center;
+  color: #888;
 }
 </style>

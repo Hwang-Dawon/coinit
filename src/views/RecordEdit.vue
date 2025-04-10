@@ -50,6 +50,11 @@
       <label class="form-label">메모</label>
       <textarea v-model="form.memo" placeholder="메모"></textarea>
     </form>
+
+    <!-- 토스트 메시지 -->
+    <div v-if="toast.show" class="toast" :class="toast.type">
+      {{ toast.message }}
+    </div>
   </div>
 </template>
 
@@ -72,6 +77,13 @@ const form = ref({
 
 const categories = ref([]);
 
+const toast = ref({ show: false, message: '', type: '' });
+
+const showToast = (message, type = 'success') => {
+  toast.value = { show: true, message, type };
+  setTimeout(() => (toast.value.show = false), 2000);
+};
+
 const fetchRecord = async () => {
   try {
     const { id } = route.params;
@@ -85,7 +97,7 @@ const fetchRecord = async () => {
       memo: res.data.memo || '',
     };
   } catch (err) {
-    alert('데이터를 불러오는 데 실패했습니다.');
+    showToast('데이터를 불러오는 데 실패했습니다.', 'error');
     console.error(err);
   }
 };
@@ -109,18 +121,18 @@ const updateRecord = async () => {
   const { id } = route.params;
 
   if (form.value.amount <= 0) {
-    alert('금액은 0보다 커야 합니다.');
+    showToast('금액은 0보다 커야 합니다.', 'error');
     return;
   }
 
   if (!isValidDate(form.value.date)) {
-    alert('날짜는 오늘보다 같거나 이전 날짜만 가능합니다.');
+    showToast('날짜는 오늘보다 같거나 이전 날짜만 가능합니다.', 'error');
     return;
   }
 
   await axios.put(`http://localhost:3001/transactions/${id}`, form.value);
-  alert('수정 완료!');
-  router.push('/record');
+  showToast('수정 완료!');
+  setTimeout(() => router.push('/record'), 1000);
 };
 
 const deleteRecord = async () => {
@@ -130,10 +142,10 @@ const deleteRecord = async () => {
 
   try {
     await axios.delete(`http://localhost:3001/transactions/${id}`);
-    alert('삭제 완료!');
-    router.push('/record');
+    showToast('삭제 완료!');
+    setTimeout(() => router.push('/record'), 1000);
   } catch (err) {
-    alert('삭제 중 오류가 발생했습니다.');
+    showToast('삭제 중 오류가 발생했습니다.', 'error');
     console.error(err);
   }
 };
@@ -141,6 +153,7 @@ const deleteRecord = async () => {
 watch(() => form.value.type, fetchCategories);
 
 onMounted(async () => {
+  console.log('✅ 현재 페이지 ID:', route.params.id);
   await fetchRecord();
   await fetchCategories();
 });
@@ -245,5 +258,23 @@ button[type='submit']:hover {
 
 .delete-btn:hover {
   background-color: #f8d7da;
+}
+
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  z-index: 1000;
+  opacity: 0.95;
+}
+
+.toast.error {
+  background-color: #d32f2f;
 }
 </style>
