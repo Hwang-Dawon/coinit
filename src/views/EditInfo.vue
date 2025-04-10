@@ -47,14 +47,14 @@ const updateUser = async () => {
       <input type="password" v-model="password" placeholder="비밀번호" />
       <input type="text" v-model="phone" placeholder="전화번호" />
       <input type="text" v-model="email" placeholder="이메일" />
-      <button @click="updateUser">저장</button>
-      <button @click="$router.push('/mypage')">취소</button>
+      <button class="saveBtn" @click="updateUser">저장</button>
+      <button class="cancelBtn" @click="$router.push('/mypage')">취소</button>
     </form>
   </div>
 </template>
 
 <style scoped>
-.EditPage {
+.EditInfo {
   display: flex;
   justify-content: center;
   align-items: center;

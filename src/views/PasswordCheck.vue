@@ -24,14 +24,16 @@ const checkPassword = async () => {
 
 <template>
   <div class="PasswordCheck">
-    <h2>비밀번호 확인</h2>
-    <input
-      type="password"
-      placeholder="비밀번호를 입력하세요"
-      v-model="passwordInput"
-    />
-    <button @click="checkPassword">확인</button>
-    <button @click="$router.push('/mypage')">돌아가기</button>
+    <div class="card-container">
+      <h2>비밀번호 확인</h2>
+      <input
+        type="password"
+        placeholder="비밀번호를 입력하세요"
+        v-model="passwordInput"
+      />
+      <button class="checkBtn" @click="checkPassword">확인</button>
+      <button class="backBtn" @click="$router.push('/mypage')">돌아가기</button>
+    </div>
   </div>
 </template>
 
@@ -43,53 +45,55 @@ const checkPassword = async () => {
   min-height: 100vh;
   background-color: #f8f9fa;
 }
-
-.check-container {
+.card-container {
   background-color: #ffffff;
-  padding: 40px 30px;
-  border-radius: 20px;
+  padding: 30px 20px;
+  border-radius: 16px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
-  min-height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+.check-container {
+  background-color: #ffffff;
+  padding: 30px 20px;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  gap: 10px; /* 요소 간 간격 */
+}
+
 .check-container h2 {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 10px;
+  font-size: 20px;
   color: #5d3a00;
 }
 
 .check-container input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 16px;
-  font-size: 16px;
+  padding: 8px;
+  font-size: 14px;
   border: 1px solid #ccc;
-  border-radius: 12px;
-  transition: border-color 0.2s ease;
-}
-
-.check-container input:focus {
-  border-color: #5c7cfa;
-  outline: none;
+  border-radius: 8px;
 }
 
 .checkBtn,
 .backBtn {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
+  padding: 8px;
+  font-size: 14px;
+  background-color: #ffd338;
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
+  color: #5d3a00;
+  font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  background-color: #ffd338;
-  color: #5d3a00;
-  margin-bottom: 12px;
 }
 
 .checkBtn:hover,
