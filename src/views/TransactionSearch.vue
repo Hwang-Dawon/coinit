@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h2>거래 내역 조회</h2>
-    <!-- 필터기능 -->
+    <!-- 🔥 필터기능 -->
     <div class="filters">
       <input v-model="filter.from" type="date" />
       <input v-model="filter.to" type="date" />
@@ -18,10 +18,14 @@
           {{ cat }}
         </option>
       </select>
-      <!-- 조회버튼 -->
+
+      <!-- 🔥 메모 검색창 추가 -->
+      <input v-model="filter.memo" placeholder="메모 검색" />
+
       <button @click="applyFilter">조회</button>
       <button @click="toggleSort">날짜순 정렬: {{ sortOrder }}</button>
     </div>
+
     <!-- 거래목록 -->
     <ul class="list">
       <li v-for="tx in paginatedList" :key="tx.id">
@@ -30,6 +34,7 @@
         {{ tx.memo }}
       </li>
     </ul>
+
     <!-- 페이지번호 -->
     <div class="pagination">
       <button @click="prevPage" :disabled="currentPage === 1">이전</button>
@@ -54,10 +59,11 @@ export default {
         to: '',
         type: '',
         category: '',
+        memo: '', // 🔥 메모 검색 필터 추가
       },
       currentPage: 1,
       itemsPerPage: 5,
-      sortOrder: '내림차순', // 또는 오름차순
+      sortOrder: '내림차순',
     };
   },
   computed: {
@@ -77,7 +83,7 @@ export default {
     async fetchTransactions() {
       const res = await axios.get('http://localhost:3001/transactions');
       this.transactions = res.data;
-      this.applyFilter(); // 첫 렌더링 시 필터+정렬 반영
+      this.applyFilter();
     },
     applyFilter() {
       let result = this.transactions.filter((tx) => {
@@ -85,23 +91,30 @@ export default {
         const from = this.filter.from ? new Date(this.filter.from) : null;
         const to = this.filter.to ? new Date(this.filter.to) : null;
 
+        // 🔥 메모 필터 키워드
+        const memoKeyword = this.filter.memo.toLowerCase();
+
         return (
           (!from || date >= from) &&
           (!to || date <= to) &&
           (!this.filter.type || tx.type === this.filter.type) &&
-          (!this.filter.category || tx.category === this.filter.category)
+          (!this.filter.category || tx.category === this.filter.category) &&
+          (!this.filter.memo ||
+            (tx.description &&
+              tx.description.toLowerCase().includes(memoKeyword)) ||
+            (tx.memo && tx.memo.toLowerCase().includes(memoKeyword)))
         );
       });
 
-      // 정렬 적용
-      result.sort((a, b) => {
-        return this.sortOrder === '오름차순'
+      // 정렬
+      result.sort((a, b) =>
+        this.sortOrder === '오름차순'
           ? new Date(a.date) - new Date(b.date)
-          : new Date(b.date) - new Date(a.date);
-      });
+          : new Date(b.date) - new Date(a.date)
+      );
 
       this.filteredTransactions = result;
-      this.currentPage = 1; // 필터 바뀌면 페이지 초기화
+      this.currentPage = 1;
     },
     toggleSort() {
       this.sortOrder = this.sortOrder === '오름차순' ? '내림차순' : '오름차순';

@@ -6,8 +6,11 @@ import TransactionSearch from '@/views/TransactionSearch.vue';
 import RecordPage from '../views/RecordPage.vue';
 import RecordEdit from '@/views/RecordEdit.vue';
 import JoinPage from '@/views/JoinPage.vue';
+<<<<<<< HEAD
 
 import Home from '@/views/HomeView.vue';
+=======
+>>>>>>> d8e4ef3670af8f17a0abbaa812492b27fa08743e
 import Management from '@/views/Management.vue';
 
 const router = createRouter({
@@ -31,7 +34,7 @@ const router = createRouter({
     {
       path: '/Home',
       name: 'Home',
-      component: Home,
+      component: Homeview,
     },
 
     {
