@@ -23,6 +23,11 @@
         </tr>
       </tbody>
     </table>
+    <div class="button-group">
+      <button class="btn btn-edit" @click="toggleHousingMenu">수정</button>
+      <button v-if="showEditHousingMenu" class="btn btn-add" @click="addHousing">추가</button>
+      <button v-if="showEditHousingMenu" class="btn btn-delete" @click="deleteHousing">삭제</button>
+    </div>
 
     <!-- 실제 월별 수입 -->
     <h3>실제 월별 수입</h3>
@@ -44,6 +49,11 @@
         </tr>
       </tbody>
     </table>
+    <div class="button-group">
+      <button class="btn btn-edit" @click="toggleIncomeMenu">수정</button>
+      <button v-if="showEditIncomeMenu" class="btn btn-add" @click="addIncome">추가</button>
+      <button v-if="showEditIncomeMenu" class="btn btn-delete" @click="deleteIncome">삭제</button>
+    </div>
 
     <!-- 실제 월별 지출 -->
     <h3>실제 월별 지출</h3>
@@ -65,6 +75,11 @@
         </tr>
       </tbody>
     </table>
+    <div class="button-group">
+      <button class="btn btn-edit" @click="toggleSpendingMenu">수정</button>
+      <button v-if="showEditSpendingMenu" class="btn btn-add" @click="addSpending">추가</button>
+      <button v-if="showEditSpendingMenu" class="btn btn-delete" @click="deleteSpending">삭제</button>
+    </div>
 
     <!-- 일별 재정 상태 -->
     <h3>📅 일별 재정 상태</h3>
@@ -90,7 +105,6 @@
       </tbody>
     </table>
 
-    <!-- 버튼 -->
     <div class="button-group">
       <button class="btn btn-edit" @click="toggleEditMenu">수정</button>
       <button v-if="showEditMenu" class="btn btn-add" @click="addItem">추가</button>
@@ -136,7 +150,27 @@ const actualBalance = computed(() => actualIncomeTotal.value - actualHousingTota
 
 const showEditMenu = ref(false)
 const toggleEditMenu = () => showEditMenu.value = !showEditMenu.value
-const addItem = () => transactions.value.push({ id: Date.now(), date: new Date().toISOString().slice(0, 10), desc: '', amount: 0 })
+
+const showEditHousingMenu = ref(false)
+const toggleHousingMenu = () => showEditHousingMenu.value = !showEditHousingMenu.value
+
+const showEditIncomeMenu = ref(false)
+const toggleIncomeMenu = () => showEditIncomeMenu.value = !showEditIncomeMenu.value
+
+const showEditSpendingMenu = ref(false)
+const toggleSpendingMenu = () => showEditSpendingMenu.value = !showEditSpendingMenu.value
+
+const addItem = () => {
+  transactions.value.push({ id: Date.now(), date: new Date().toISOString().slice(0, 10), desc: '', amount: 0 })
+}
+const addIncome = () => actualIncome.value.push({ name: '', amount: 0 })
+const deleteIncome = () => actualIncome.value.pop()
+
+const addSpending = () => actualSpending.value.push({ name: '', amount: 0 })
+const deleteSpending = () => actualSpending.value.pop()
+
+const addHousing = () => housing.value.push({ name: '', actual: 0 })
+const deleteHousing = () => housing.value.pop()
 
 const deleteMode = ref(false)
 const toggleDeleteMode = () => {
@@ -147,6 +181,7 @@ const toggleDeleteMode = () => {
     })
   }
 }
+
 const deleteSelectedItems = () => {
   const confirmed = confirm('선택된 항목을 삭제하시겠습니까?')
   if (confirmed) {
@@ -155,6 +190,8 @@ const deleteSelectedItems = () => {
   }
 }
 </script>
+
+/
 
 <style scoped>
 .management {
@@ -231,7 +268,8 @@ h3 {
 .button-group {
   display: flex;
   gap: 10px;
-  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .btn {
@@ -253,5 +291,15 @@ h3 {
 
 .btn-delete {
   background-color: #dc3545;
+}
+
+input[type='text'],
+input[type='number'],
+input[type='date'] {
+  width: 100%;
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 </style>
