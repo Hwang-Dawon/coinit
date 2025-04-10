@@ -9,15 +9,10 @@ import { RouterLink, RouterView } from 'vue-router';
     <header>
       <h1>나의 가계부</h1>
       <nav>
-<<<<<<< HEAD
-        <RouterLink to="/Home">홈</RouterLink> | <RouterLink to="/record">기록</RouterLink> |
-        <RouterLink to="/summary">요약</RouterLink>| <RouterLink to="/transactions">거래 조회</RouterLink> |
-=======
         <RouterLink to="/Home">홈</RouterLink> |
         <RouterLink to="/record">기록</RouterLink> |
         <RouterLink to="/summary">요약</RouterLink>|
         <RouterLink to="/transactions">거래 조회</RouterLink> |
->>>>>>> feature-record
         <RouterLink to="/Management">재정관리</RouterLink> |
         <RouterLink to="/mypage">마이페이지</RouterLink>
       </nav>
