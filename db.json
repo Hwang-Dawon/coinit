@@ -1,51 +1,72 @@
 {
   "posts": [
-    { "id": 1, "title": "a title", "views": 100 },
-    { "id": 2, "title": "another title", "views": 200 }
+    {
+      "id": "1",
+      "title": "a title",
+      "views": 100
+    },
+    {
+      "id": "2",
+      "title": "another title",
+      "views": 200
+    }
   ],
   "comments": [
-    { "id": 1, "text": "a comment about post 1", "postId": 1 },
-    { "id": 2, "text": "another comment about post 1", "postId": 1 }
+    {
+      "id": "1",
+      "text": "a comment about post 1",
+      "postId": 1
+    },
+    {
+      "id": "2",
+      "text": "another comment about post 1",
+      "postId": 1
+    }
   ],
-  "profile": { "name": "typicode" },
+  "profile": {
+    "name": "typicode"
+  },
   "transactions": [
     {
-      "id": 1,
-      "date": "2025-04-01",
-      "type": "income",
-      "category": "월급",
-      "amount": 3000000,
-      "description": "4월 급여"
-    },
-    {
-      "id": 2,
-      "date": "2025-04-02",
+      "id": "1",
+      "description": "sdf",
+      "amount": 2,
+      "date": "2025-04-09",
       "type": "expense",
       "category": "식비",
-      "amount": 12000,
-      "description": "점심"
+      "memo": ""
     },
     {
-      "id": 3,
-      "date": "2025-04-03",
-      "type": "expense",
-      "category": "교통",
-      "amount": 2500,
-      "description": "지하철"
-    },
-    {
-      "id": 4,
-      "description": "추가테스트",
+      "id": "2",
+      "description": "테스트케이스",
       "amount": 20000,
-      "date": "2025-04-11",
+      "date": "2025-04-09",
       "type": "expense",
-      "category": "식비",
-      "memo": "ㄴㅇㄹㄴㅇㄴ"
+      "category": "교통비",
+      "memo": "1"
+    },
+    {
+      "id": "3",
+      "description": "테스트 2",
+      "amount": 20000,
+      "date": "2025-04-09",
+      "type": "income",
+      "category": "교통비",
+      "memo": ""
+    },
+    {
+      "id": "4",
+      "description": "123",
+      "amount": 20000,
+      "date": "2025-04-09",
+      "type": "income",
+      "category": "유흥",
+      "memo": ""
     }
   ],
   "LoginInfo": [
     {
-      "id": 1,
+      "id": "1",
       "userID": "test.user",
       "password": "chulsoo_password",
       "username": "철수",
@@ -53,16 +74,7 @@
       "email": "chulsoo@example.com"
     },
     {
-      "id": 4,
-      "description": "추가테스트",
-      "amount": 20000,
-      "date": "2025-04-11",
-      "type": "expense",
-      "category": "식비",
-      "memo": "ㄴㅇㄹㄴㅇㄴ"
-    },
-    {
-      "id": 1744179659505,
+      "id": "1744179659505",
       "userId": "dfedsskh",
       "password": "dfgwef",
       "name": "홍길동",
@@ -70,17 +82,41 @@
       "email": "djfhdkn@gmail.com"
     },
     {
-      "id": 1744184031363,
+      "id": "1744184031363",
       "userId": "dfhkjh",
       "password": "dfgjedg456",
       "name": "홍길동",
       "phone": "010-0000-0000",
       "email": "fhjsd@dfjh.com"
+    },
+    {
+      "id": "1744245345366",
+      "userId": "whddls8930",
+      "password": "dlsaud12",
+      "name": "권종인",
+      "phone": "01071788930",
+      "email": "whddlswhdaud@naver.com"
+    },
+    {
+      "id": "1744245352903",
+      "userId": "",
+      "password": "",
+      "name": "",
+      "phone": "",
+      "email": ""
+    },
+    {
+      "id": "1744245354814",
+      "userId": "",
+      "password": "",
+      "name": "",
+      "phone": "",
+      "email": ""
     }
   ],
   "periodicExpense": [
     {
-      "id": 1,
+      "id": "1",
       "date": "2025-04-01",
       "type": "expense",
       "category": "공과금",
@@ -89,16 +125,43 @@
     }
   ],
   "IncomeCategory": [
-    { "id": 1, "name": "월급" },
-    { "id": 2, "name": "용돈" },
-    { "id": 3, "name": "이자" },
-    { "id": 4, "name": "기타" }
+    {
+      "id": "1",
+      "name": "월급"
+    },
+    {
+      "id": "2",
+      "name": "용돈"
+    },
+    {
+      "id": "3",
+      "name": "이자"
+    },
+    {
+      "id": "4",
+      "name": "기타"
+    }
   ],
   "expenseCategory": [
-    { "id": 1, "name": "식비" },
-    { "id": 2, "name": "교통비" },
-    { "id": 3, "name": "유흥" },
-    { "id": 4, "name": "공과금" },
-    { "id": 5, "name": "기타" }
+    {
+      "id": "1",
+      "name": "식비"
+    },
+    {
+      "id": "2",
+      "name": "교통비"
+    },
+    {
+      "id": "3",
+      "name": "유흥"
+    },
+    {
+      "id": "4",
+      "name": "공과금"
+    },
+    {
+      "id": "5",
+      "name": "기타"
+    }
   ]
 }
