@@ -30,6 +30,13 @@
   z-index: 1;
 }
 
+.add-btn:hover,
+.logout-btn:hover {
+  background-color: #e9ecef;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
 /* 레이아웃 */
 
 .home-container {
@@ -44,6 +51,7 @@
   overflow: hidden;
 }
 
+/* 사이드 바 */
 .sidebar {
   width: 200px;
   background-color: white;
@@ -63,6 +71,22 @@
   flex-direction: column;
   gap: 1rem;
   overflow-y: auto;
+}
+
+.sidebar-btn {
+  width: calc(100% - 50px);
+  box-sizing: border-box;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  text-align: left;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.sidebar-btn:hover {
+  background-color: #e9ecef;
 }
 
 /* 박스 레이아웃 */
@@ -107,6 +131,15 @@
 }
 
 /* 수입/지출 */
+
+.income-expense-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+}
 
 .income-expense-wrapper {
   display: flex;
@@ -205,4 +238,10 @@
 }
 ::deep(.dp__main) {
   margin-top: 0;
+}
+
+.box:hover {
+  background-color: #e9ecef;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
 }
