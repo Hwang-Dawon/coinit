@@ -1,4 +1,3 @@
-// src/stores/budget.js
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 
