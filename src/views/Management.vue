@@ -1,16 +1,13 @@
 <template>
   <div class="management">
     <h2>총 예산</h2>
-
-    <!-- 잔액 요약 카드 -->
     <div class="summary-card">
       <label for="manualBalanceInput">직접 입력한 총 금액:</label>
-      <input id="manualBalanceInput" type="number" v-model.number="manualBalanceInput" placeholder="₩ 금액 입력" />
-      <button class="btn btn-add" @click="setManualBalance">등록</button>
-      <p>✔️ 등록된 총 금액: ₩{{ manualBalance.toLocaleString() }}</p>
+      <input id="manualBalanceInput" type="number" v-model.number="budgetStore.manualBalance" placeholder="₩ 금액 입력" />
+      <button class="btn btn-add" @click="saveBudget">저장</button>
+      <p>✔️ 등록된 총 금액: ₩{{ budgetStore.manualBalance.toLocaleString() }}</p>
     </div>
 
-    <!-- 고정 지출 내역 -->
     <h3>📌 고정 지출 내역</h3>
     <table class="budget-table">
       <thead>
@@ -29,18 +26,17 @@
       <button v-if="showEditHousingMenu" class="btn btn-delete" @click="deleteHousing">삭제</button>
     </div>
 
-    <!-- 실제 월별 수입. -->
     <h3>실제 월별 수입</h3>
     <table class="budget-table">
       <thead><tr><th>항목</th><th>금액</th></tr></thead>
       <tbody>
-        <tr v-for="(item, index) in actualIncome" :key="'income' + index">
+        <tr v-for="(item, index) in budgetStore.actualIncome" :key="'income' + index">
           <td><input v-model="item.name" /></td>
           <td><input type="number" v-model.number="item.amount" /></td>
         </tr>
         <tr class="total-row">
           <td><strong>총 수입</strong></td>
-          <td><strong>₩{{ actualIncomeTotal.toLocaleString() }}</strong></td>
+          <td><strong>₩{{ budgetStore.actualIncomeTotal.toLocaleString() }}</strong></td>
         </tr>
       </tbody>
     </table>
@@ -50,18 +46,17 @@
       <button v-if="showEditIncomeMenu" class="btn btn-delete" @click="deleteIncome">삭제</button>
     </div>
 
-    <!-- 실제 월별 지출 -->
     <h3>실제 월별 지출</h3>
     <table class="budget-table">
       <thead><tr><th>항목</th><th>금액</th></tr></thead>
       <tbody>
-        <tr v-for="(item, index) in actualSpending" :key="'spend' + index">
+        <tr v-for="(item, index) in budgetStore.actualSpending" :key="'spend' + index">
           <td><input v-model="item.name" /></td>
           <td><input type="number" v-model.number="item.amount" /></td>
         </tr>
         <tr class="total-row">
           <td><strong>총 지출</strong></td>
-          <td><strong>₩{{ actualSpendingTotal.toLocaleString() }}</strong></td>
+          <td><strong>₩{{ budgetStore.actualSpendingTotal.toLocaleString() }}</strong></td>
         </tr>
       </tbody>
     </table>
@@ -71,7 +66,6 @@
       <button v-if="showEditSpendingMenu" class="btn btn-delete" @click="deleteSpending">삭제</button>
     </div>
 
-    <!-- 일별 재정 상태 -->
     <h3>📅 일별 재정 상태</h3>
     <table class="budget-table">
       <thead><tr><th>날짜</th><th>항목</th><th>금액</th></tr></thead>
@@ -81,7 +75,7 @@
             <template v-if="deleteMode"><input type="checkbox" v-model="item.selected" /></template>
             <input type="date" v-model="item.date" />
           </td>
-          <td><input v-model="item.desc" /></td>
+          <td><input v-model="item.description" /></td>
           <td><input type="number" v-model.number="item.amount" /></td>
         </tr>
       </tbody>
@@ -89,6 +83,7 @@
     <div class="button-group">
       <button class="btn btn-edit" @click="toggleEditMenu">수정</button>
       <button v-if="showEditMenu" class="btn btn-add" @click="addItem">추가</button>
+      <button v-if="showEditMenu" class="btn btn-add" @click="saveEditedTransactions">저장</button>
       <button v-if="showEditMenu" class="btn btn-delete" @click="toggleDeleteMode">{{ deleteMode ? '삭제 취소' : '삭제' }}</button>
       <button v-if="deleteMode && transactions.some(t => t.selected)" class="btn btn-delete" @click="deleteSelectedItems">선택 항목 삭제</button>
     </div>
@@ -96,103 +91,93 @@
 </template>
 
 <script setup>
-import axios from 'axios'
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue';
 import { useBudgetStore } from '@/stores/budget';
-
-const manualBalanceInput = ref(0)
-const manualBalance = ref(0)
-const actualIncome = ref([])
-const actualSpending = ref([])
-const housing = ref([])
-
-const transactions = ref([])
-const deleteMode = ref(false)
-
-const API_URL = 'http://localhost:3001/management'
-const TX_URL = 'http://localhost:3001/transactions'
-
-const fetchBudget = async () => {
-  const res = await axios.get(API_URL)
-  const data = res.data[0]
-  if (data) {
-    manualBalance.value = data.manualBalance
-    actualIncome.value = data.actualIncome
-    actualSpending.value = data.actualSpending
-    housing.value = data.housing
-
-    budgetStore.setBudgetData(actualIncome.value, actualSpending.value);
-
-  }
-}
-const fetchTransactions = async () => {
-  const res = await axios.get(TX_URL)
-  transactions.value = res.data.map((tx) => ({ ...tx, selected: false }))
-}
-onMounted(() => {
-  fetchBudget()
-  fetchTransactions()
-})
+import axios from 'axios';
 
 const budgetStore = useBudgetStore();
+const housing = ref([]);
+const transactions = ref([]);
+const deleteMode = ref(false);
+
+const showEditIncomeMenu = ref(false);
+const showEditSpendingMenu = ref(false);
+const showEditHousingMenu = ref(false);
+const showEditMenu = ref(false);
+
+const TX_URL = 'http://localhost:3001/transactions';
+const API_URL = 'http://localhost:3001/management';
+
+onMounted(async () => {
+  await budgetStore.fetchBudget();
+  await fetchTransactions();
+});
+
+const fetchTransactions = async () => {
+  const res = await axios.get(TX_URL);
+  transactions.value = res.data.map(tx => ({ ...tx, selected: false }));
+};
+
+const addItem = async () => {
+  const newTx = {
+    id: Date.now(),
+    date: new Date().toISOString().slice(0, 10),
+    description: '',
+    amount: 0,
+    type: 'expense',
+    category: '기타',
+    memo: '',
+    selected: false
+  };
+  await axios.post(TX_URL, newTx);
+  await fetchTransactions();
+};
+
+const saveEditedTransactions = async () => {
+  for (const tx of transactions.value) {
+    await axios.put(`${TX_URL}/${tx.id}`, tx);
+  }
+  alert('거래 내역 저장 완료!');
+  await fetchTransactions();
+};
+
+const deleteSelectedItems = async () => {
+  const confirmed = confirm('선택한 항목을 삭제하시겠습니까?');
+  if (!confirmed) return;
+  const toDelete = transactions.value.filter(t => t.selected);
+  for (const tx of toDelete) {
+    await axios.delete(`${TX_URL}/${tx.id}`);
+  }
+  await fetchTransactions();
+  deleteMode.value = false;
+};
+
+const toggleEditMenu = () => (showEditMenu.value = !showEditMenu.value);
+const toggleDeleteMode = () => (deleteMode.value = !deleteMode.value);
+const toggleIncomeMenu = () => (showEditIncomeMenu.value = !showEditIncomeMenu.value);
+const toggleSpendingMenu = () => (showEditSpendingMenu.value = !showEditSpendingMenu.value);
+const toggleHousingMenu = () => (showEditHousingMenu.value = !showEditHousingMenu.value);
+
+const addIncome = () => budgetStore.actualIncome.push({ name: '', amount: 0 });
+const deleteIncome = () => budgetStore.actualIncome.pop();
+
+const addSpending = () => budgetStore.actualSpending.push({ name: '', amount: 0 });
+const deleteSpending = () => budgetStore.actualSpending.pop();
+
+const addHousing = () => housing.value.push({ name: '', actual: 0 });
+const deleteHousing = () => housing.value.pop();
 
 const saveBudget = async () => {
   const payload = {
     id: 1,
-    manualBalance: manualBalance.value,
-    actualIncome: actualIncome.value,
-    actualSpending: actualSpending.value,
+    manualBalance: budgetStore.manualBalance,
+    actualIncome: budgetStore.actualIncome,
+    actualSpending: budgetStore.actualSpending,
     housing: housing.value
-
-  }
+  };
   await axios.put(`${API_URL}/1`, payload);
-
-  budgetStore.setBudgetData(actualIncome.value, actualSpending.value);
-
-  alert('저장 완료!');
-}
-
-const addItem = () => {
-  transactions.value.push({ id: Date.now(), date: new Date().toISOString().slice(0, 10), desc: '', amount: 0, selected: false })
-}
-const toggleDeleteMode = () => {
-  deleteMode.value = !deleteMode.value
-}
-const deleteSelectedItems = async () => {
-  const confirmed = confirm('선택한 항목을 삭제하시겠습니까?')
-  if (!confirmed) return
-  const toDelete = transactions.value.filter(t => t.selected)
-  for (const tx of toDelete) {
-    await axios.delete(`${TX_URL}/${tx.id}`)
-  }
-  await fetchTransactions()
-  deleteMode.value = false
-}
-
-const setManualBalance = () => {
-  manualBalance.value = manualBalanceInput.value
-  saveBudget()
-}
-const actualIncomeTotal = computed(() => actualIncome.value.reduce((sum, item) => sum + item.amount, 0))
-const actualSpendingTotal = computed(() => actualSpending.value.reduce((sum, item) => sum + item.amount, 0))
-
-const showEditIncomeMenu = ref(false)
-const toggleIncomeMenu = () => (showEditIncomeMenu.value = !showEditIncomeMenu.value)
-const addIncome = () => actualIncome.value.push({ name: '', amount: 0 })
-const deleteIncome = () => actualIncome.value.pop()
-
-const showEditSpendingMenu = ref(false)
-const toggleSpendingMenu = () => (showEditSpendingMenu.value = !showEditSpendingMenu.value)
-const addSpending = () => actualSpending.value.push({ name: '', amount: 0 })
-const deleteSpending = () => actualSpending.value.pop()
-
-const showEditHousingMenu = ref(false)
-const toggleHousingMenu = () => (showEditHousingMenu.value = !showEditHousingMenu.value)
-const addHousing = () => housing.value.push({ name: '', actual: 0 })
-const deleteHousing = () => housing.value.pop()
-
-const showEditMenu = ref(false)
-const toggleEditMenu = () => (showEditMenu.value = !showEditMenu.value)
+  alert('예산 저장 완료!');
+};
 </script>
 
 <style scoped>
