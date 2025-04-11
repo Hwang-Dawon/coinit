@@ -66,7 +66,6 @@
       <button v-if="showEditSpendingMenu" class="btn btn-delete" @click="deleteSpending">삭제</button>
     </div>
 
-    <!-- 일별 재정 상태 -->
     <h3>📅 일별 재정 상태</h3>
     <table class="budget-table">
       <thead><tr><th>날짜</th><th>항목</th><th>금액</th></tr></thead>
